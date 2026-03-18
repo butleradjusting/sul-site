@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUL — Snooze U Lose | Official Swag Store</title>
-    <meta name="description" content="SUL Official Swag Store. Streetwear meets comfort. Premium heavyweight sweatsuits, hoodies, tees and joggers. Don't sleep on style.">
-    <meta property="og:title" content="SUL — Snooze U Lose | Official Swag Store">
-    <meta property="og:description" content="Bold streetwear meets everyday comfort. Premium heavyweight sweatsuits for those who move different.">
+    <title>SUL — Snooze U Lose | Premium Streetwear</title>
+    <meta name="description" content="SUL — Snooze U Lose. Premium streetwear meets everyday comfort. Heavyweight sweatsuits, hoodies, bombers, and joggers. Miami-based clothing brand. Don't sleep on style.">
+    <meta property="og:title" content="SUL — Snooze U Lose | Premium Streetwear">
+    <meta property="og:description" content="Premium streetwear meets everyday comfort. Heavyweight sweatsuits, hoodies, and bombers for those who move different. Miami, FL.">
     <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -314,7 +314,42 @@
             position: absolute;
             bottom: 20px;
             left: 20px;
+            right: 20px;
             z-index: 2;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .video-buy {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-radius: var(--radius-pill);
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.4s var(--ease-spring);
+            white-space: nowrap;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .video-buy:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+        }
+        .video-buy:active { transform: scale(0.97); }
+        .video-price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 4px;
         }
         .video-card::after {
             content: '';
@@ -632,10 +667,10 @@
 
             </a>
             <ul class="nav-links">
-                <li><a href="#videos">The drip</a></li>
+                <li><a href="#videos">Collection</a></li>
                 <li><a href="#newsletter">Join</a></li>
             </ul>
-            <a href="#videos" class="nav-cta">See the drip</a>
+            <a href="#videos" class="nav-cta">Shop now</a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
             </button>
@@ -645,7 +680,7 @@
     <!-- MOBILE MENU -->
     <div class="mobile-menu" id="mobileMenu">
         <nav>
-            <a href="#videos" class="ml">The drip</a>
+            <a href="#videos" class="ml">Collection</a>
             <a href="#newsletter" class="ml">Join the drop</a>
         </nav>
     </div>
@@ -672,11 +707,11 @@
     <!-- HERO (hidden) -->
     <section class="hero" id="hero" style="display:none;">
         <div class="hero-text">
-            <div class="eyebrow reveal">Official Swag Store</div>
+            <div class="eyebrow reveal">Premium Streetwear</div>
             <h1 class="reveal rd1">Don't sleep<br>on <span class="acc">style.</span></h1>
             <p class="hero-desc reveal rd2">Premium streetwear meets everyday comfort. Heavyweight sweatsuits, hoodies, bombers, and joggers for those who move different.</p>
             <div class="hero-buttons reveal rd3">
-                <a href="#videos" class="btn btn-primary">See the drip <span class="arr">&rarr;</span></a>
+                <a href="#videos" class="btn btn-primary">Shop collection <span class="arr">&rarr;</span></a>
                 <a href="#newsletter" class="btn btn-ghost">Join the drop</a>
             </div>
         </div>
@@ -689,12 +724,12 @@
     <!-- MARQUEE (hidden) -->
     <div class="marquee" style="display:none;">
         <div class="marquee-track">
-            <span class="marquee-item">Official swag store</span>
+            <span class="marquee-item">Premium streetwear</span>
             <span class="marquee-item">New drop coming soon</span>
             <span class="marquee-item">Snooze U Lose</span>
             <span class="marquee-item">Free shipping over $75</span>
             <span class="marquee-item">Premium heavyweight cotton</span>
-            <span class="marquee-item">Official swag store</span>
+            <span class="marquee-item">Premium streetwear</span>
             <span class="marquee-item">New drop coming soon</span>
             <span class="marquee-item">Snooze U Lose</span>
             <span class="marquee-item">Free shipping over $75</span>
@@ -707,7 +742,6 @@
         <div class="container">
             <div class="video-header">
                 <div class="eyebrow reveal">In motion</div>
-                <img src="site-photos/sul-logo.png" alt="SUL Snooze U Lose" class="reveal rd1" style="height:120px;width:auto;">
             </div>
             <div class="video-grid">
                 <div class="video-card video-card-main reveal">
@@ -715,7 +749,11 @@
                         <source src="site-photos/video-hoodie-black.mp4" type="video/mp4">
                     </video>
                     <div class="video-label">
-                        <span class="eyebrow">Blackout hoodie</span>
+                        <div>
+                            <span class="eyebrow">Blackout hoodie</span>
+                            <div class="video-price">$75</div>
+                        </div>
+                        <a href="STRIPE_LINK_HOODIE" target="_blank" rel="noopener" class="video-buy">Shop now &rarr;</a>
                     </div>
                 </div>
                 <div class="video-card reveal rd1">
@@ -723,7 +761,11 @@
                         <source src="site-photos/video-bomber.mp4" type="video/mp4">
                     </video>
                     <div class="video-label">
-                        <span class="eyebrow">Bomber jacket</span>
+                        <div>
+                            <span class="eyebrow">Bomber jacket</span>
+                            <div class="video-price">$95</div>
+                        </div>
+                        <a href="STRIPE_LINK_BOMBER" target="_blank" rel="noopener" class="video-buy">Shop now &rarr;</a>
                     </div>
                 </div>
                 <div class="video-card reveal rd2">
@@ -731,7 +773,10 @@
                         <source src="site-photos/video-promo.mp4" type="video/mp4">
                     </video>
                     <div class="video-label">
-                        <span class="eyebrow">Sweatsuit sets</span>
+                        <div>
+                            <span class="eyebrow">View collection</span>
+                        </div>
+                        <a href="STRIPE_LINK_SWEATSUIT" target="_blank" rel="noopener" class="video-buy">Browse &rarr;</a>
                     </div>
                 </div>
             </div>
