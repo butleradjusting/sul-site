@@ -187,7 +187,7 @@
     <header class="nav">
         <div class="nav-inner">
             <a href="index.html" class="nav-logo">
-                <img src="site-photos/sul-logo.png" alt="SUL logo">
+                <img src="site-photos/sul-logo-modern-white.png" alt="SUL logo">
             </a>
             <a href="collections.html" class="nav-back">&larr; Collections</a>
             <a href="https://buy.stripe.com/test_14A9AVdAgcoY5Sx8E91kA01" target="_blank" rel="noopener" class="nav-cta">Buy now</a>
@@ -205,9 +205,6 @@
                     <div class="media-thumbs">
                         <div class="media-thumb active" onclick="showImage('site-photos/product-bomber-flatlay.png')">
                             <img src="site-photos/product-bomber-flatlay.png" alt="Bomber jacket flat lay">
-                        </div>
-                        <div class="media-thumb" onclick="showVideo()">
-                            <img src="site-photos/product-bomber-display.jpg" alt="Bomber jacket video">
                         </div>
                         <div class="media-thumb" onclick="showImage('site-photos/product-bomber-display.jpg')">
                             <img src="site-photos/product-bomber-display.jpg" alt="Bomber jacket store display">
@@ -289,7 +286,7 @@
 
         function showVideo() {
             const main = document.getElementById('mediaMain');
-            main.innerHTML = '<video autoplay muted loop playsinline><source src="site-photos/video-bomber.mp4" type="video/mp4"></video>';
+            main.innerHTML = '<video autoplay muted loop playsinline><source src="site-photos/grok-video-bomber.mp4" type="video/mp4"></video>';
             document.querySelectorAll('.media-thumb').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.media-thumb')[0].classList.add('active');
         }
