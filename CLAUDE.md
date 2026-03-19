@@ -21,13 +21,13 @@
 
 ## Products
 - **Matching Sweatsuit (White/Maroon)** — Flagship product. Hoodie + joggers, white colorway with maroon "SNOOZE U LOSE" block lettering. Premium heavyweight cotton, relaxed/oversized fit. $120
-- **Blackout Hoodie (Black)** — All-black hoodie with white SUL sleeve print. $75
-- **Bomber Jacket (Black/Gold)** — Black satin bomber with gold SUL embroidery. $95
+- **Blackout Hoodie (Black)** — All-black hoodie with white SUL sleeve print. $85. Product page: `blackout-hoodie.html`
+- **Bomber Jacket (Black/Gold)** — Black satin bomber with gold SUL embroidery. $125. Product page: `bomber-jacket.html`
 - **Graphic Hoodie (White/Maroon)** — White hoodie with maroon graphic print. $65
 - **Joggers (White/Maroon)** — White joggers with maroon SUL branding. $55
-- **Full Kit (Hoodie + Joggers + Tee)** — Bundle deal. $145
-- **Lion Sweater** — Dedicated product page: `lion-sweater.html`
-- **New Era Trucker Hat (Black)** — Black mesh trucker cap with 3D embroidered SUL logo, New Era collab. Adjustable snapback. Dedicated product page: `new-era-hat.html`
+- **Full Kit (Hoodie + Joggers + Tee)** — Bundle deal. $160. Product page: `full-kit.html`
+- **Lion Sweater** — Heavyweight knit with embroidered lion crest. $95. Product page: `lion-sweater.html`
+- **New Era Trucker Hat (Black)** — Black mesh trucker cap with 3D embroidered SUL logo, New Era collab. Adjustable snapback. $45. Product page: `new-era-hat.html`
 
 ## Project Structure
 ```

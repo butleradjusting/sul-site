@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUL Lion Sweater — Snooze U Lose</title>
-    <meta name="description" content="SUL Lion Sweater. Black knit crewneck with embroidered SUL lion logo. Premium streetwear from Snooze U Lose. Miami, FL.">
-    <meta property="og:title" content="SUL Lion Sweater — Snooze U Lose">
-    <meta property="og:description" content="Black knit crewneck with embroidered SUL lion logo. Premium streetwear from Miami.">
+    <title>SUL Full Kit — Snooze U Lose</title>
+    <meta name="description" content="SUL Full Kit bundle. Blackout hoodie, matching joggers, and essential tee in premium heavyweight cotton. Complete SUL set. Snooze U Lose.">
+    <meta property="og:title" content="SUL Full Kit — Snooze U Lose">
+    <meta property="og:description" content="Complete SUL set: Blackout hoodie, joggers, and tee in premium heavyweight cotton. Get the full look for less.">
     <meta property="og:type" content="product">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,6 +58,8 @@
             color: var(--accent-soft); padding: 5px 14px; border-radius: var(--radius-pill);
             background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.15);
         }
+
+        /* NAV */
         .nav {
             position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
             z-index: 100; width: max-content; max-width: calc(100% - 32px);
@@ -87,19 +89,29 @@
             transition: all 0.4s var(--ease-spring);
         }
         .nav-cta:hover { background: var(--accent-hover); transform: scale(1.03); }
-        .product-page { min-height: 100dvh; padding: 100px 0 80px; }
+
+        /* PRODUCT LAYOUT */
+        .product-page {
+            min-height: 100dvh; padding: 100px 0 80px;
+        }
         .product-grid {
             display: grid; grid-template-columns: 1.1fr 1fr;
             gap: 80px; align-items: start;
         }
+
+        /* MEDIA SECTION */
         .product-media { position: sticky; top: 100px; }
         .media-main {
             position: relative; border-radius: var(--radius-xl); overflow: hidden;
             background: var(--bg-raised); border: 1px solid var(--border);
             aspect-ratio: 3/4;
         }
-        .media-main video, .media-main img { width: 100%; height: 100%; object-fit: cover; }
-        .media-thumbs { display: flex; gap: 12px; margin-top: 12px; }
+        .media-main video, .media-main img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .media-thumbs {
+            display: flex; gap: 12px; margin-top: 12px;
+        }
         .media-thumb {
             flex: 1; aspect-ratio: 1; border-radius: var(--radius-md); overflow: hidden;
             border: 2px solid transparent; cursor: pointer;
@@ -108,6 +120,8 @@
         .media-thumb.active { border-color: var(--accent); opacity: 1; }
         .media-thumb:hover { opacity: 0.8; }
         .media-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* PRODUCT INFO */
         .product-info { padding-top: 20px; }
         .product-info .eyebrow { margin-bottom: 20px; }
         .product-title {
@@ -115,16 +129,22 @@
             font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
             letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 16px;
         }
-        .product-price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 32px; }
+        .product-price-row {
+            display: flex; align-items: baseline; gap: 12px; margin-bottom: 32px;
+        }
         .product-price {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em;
         }
-        .product-price-note { font-size: 0.8rem; color: var(--text-muted); }
+        .product-price-note {
+            font-size: 0.8rem; color: var(--text-muted);
+        }
         .product-desc {
             font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8;
             margin-bottom: 36px; max-width: 48ch;
         }
+
+        /* SIZE SELECTOR */
         .size-label {
             font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
             text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px;
@@ -140,6 +160,8 @@
         .size-btn.selected {
             border-color: var(--accent); color: var(--accent); background: rgba(16,185,129,0.06);
         }
+
+        /* BUY BUTTON */
         .buy-btn {
             display: flex; align-items: center; justify-content: center; gap: 10px;
             width: 100%; padding: 18px 32px; border-radius: var(--radius-pill);
@@ -152,13 +174,46 @@
             box-shadow: 0 12px 40px rgba(16, 185, 129, 0.3);
         }
         .buy-btn:active { transform: scale(0.98); }
+
+        /* DETAILS */
         .product-details { margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--border); }
         .detail-row {
             display: flex; justify-content: space-between; padding: 16px 0;
-            border-bottom: 1px solid var(--border); font-size: 0.9rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
         }
         .detail-label { color: var(--text-muted); }
         .detail-value { font-weight: 500; text-align: right; }
+
+        /* WHAT'S INCLUDED SECTION */
+        .whats-included {
+            margin-top: 36px;
+            padding-top: 36px;
+            border-top: 1px solid var(--border);
+        }
+        .whats-included-link {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+        .whats-included-link:hover {
+            color: var(--accent-soft);
+        }
+        .whats-included-link span:last-child {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .whats-included-savings {
+            margin-top: 16px;
+            font-size: 0.82rem;
+            color: var(--accent-soft);
+        }
+
+        /* REVEAL */
         .reveal {
             opacity: 0; transform: translateY(28px); filter: blur(3px);
             transition: all 0.8s var(--ease-spring);
@@ -168,6 +223,8 @@
         .rd2 { transition-delay: .2s; }
         .rd3 { transition-delay: .3s; }
         .rd4 { transition-delay: .4s; }
+
+        /* RESPONSIVE */
         @media (max-width: 900px) {
             .nav { top: 10px; padding: 8px 14px; width: calc(100% - 24px); }
             .product-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -183,7 +240,7 @@
                 <img src="site-photos/sul-logo.png" alt="SUL logo">
             </a>
             <a href="collections.html" class="nav-back">&larr; Collections</a>
-            <a href="https://buy.stripe.com/test_6oU5kFao42Oo2Gl1bH1kA02" target="_blank" rel="noopener" class="nav-cta">Buy now</a>
+            <a href="https://buy.stripe.com/test_cNi7sN53K74E3KpcUp1kA04" target="_blank" rel="noopener" class="nav-cta">Buy now</a>
         </div>
     </header>
 
@@ -193,27 +250,27 @@
 
                 <div class="product-media reveal">
                     <div class="media-main" id="mediaMain">
-                        <img src="site-photos/Lion Sweater Product Front.png" alt="SUL Lion Sweater front view">
+                        <img src="site-photos/product-hoodie-flatlay.png" alt="SUL Full Kit bundle layout with hoodie, joggers, and tee">
                     </div>
                     <div class="media-thumbs">
-                        <div class="media-thumb active" onclick="showImage('site-photos/Lion Sweater Product Front.png')">
-                            <img src="site-photos/Lion Sweater Product Front.png" alt="Lion Sweater front">
+                        <div class="media-thumb active" onclick="showImage('site-photos/product-hoodie-flatlay.png')">
+                            <img src="site-photos/product-hoodie-flatlay.png" alt="Full Kit flat lay">
                         </div>
-                        <div class="media-thumb" onclick="showImage('site-photos/product-sweater-lion.png')">
-                            <img src="site-photos/product-sweater-lion.png" alt="Sweater flat lay">
+                        <div class="media-thumb" onclick="showImage('site-photos/product-hoodie-black.jpg')">
+                            <img src="site-photos/product-hoodie-black.jpg" alt="Full Kit detail view">
                         </div>
                     </div>
                 </div>
 
                 <div class="product-info">
-                    <div class="eyebrow reveal">Premium Knitwear</div>
-                    <h1 class="product-title reveal rd1">SUL Lion Sweater</h1>
+                    <div class="eyebrow reveal">Bundle & Save</div>
+                    <h1 class="product-title reveal rd1">SUL Full Kit — Hoodie + Joggers + Tee</h1>
                     <div class="product-price-row reveal rd2">
-                        <span class="product-price">$95</span>
+                        <span class="product-price">$160</span>
                         <span class="product-price-note">Free shipping over $85</span>
                     </div>
                     <p class="product-desc reveal rd2">
-                        Black heavyweight knit crewneck with the signature SUL lion embroidered on front. Outlined SUL lettering with the lion crest sitting above the U. Ribbed collar, cuffs, and hem. A premium layering piece that represents the brand at its core.
+                        The complete SUL set. Blackout hoodie with bold SUL sleeve print, matching joggers, and essential SUL tee. All premium heavyweight cotton in black. Get the full look for less than buying each piece separately.
                     </p>
 
                     <div class="reveal rd3">
@@ -227,39 +284,49 @@
                         </div>
                     </div>
 
-                    <a href="https://buy.stripe.com/test_6oU5kFao42Oo2Gl1bH1kA02" target="_blank" rel="noopener" class="buy-btn reveal rd4">
-                        Add to bag &mdash; $95
+                    <a href="https://buy.stripe.com/test_cNi7sN53K74E3KpcUp1kA04" target="_blank" rel="noopener" class="buy-btn reveal rd4">
+                        Add to bag &mdash; $160
                     </a>
 
                     <div class="product-details reveal rd4">
                         <div class="detail-row">
                             <span class="detail-label">Material</span>
-                            <span class="detail-value">Heavyweight knit cotton blend</span>
+                            <span class="detail-value">Heavyweight cotton fleece</span>
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Fit</span>
-                            <span class="detail-value">Relaxed / Oversized</span>
+                            <span class="detail-value">Oversized / Relaxed</span>
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Color</span>
-                            <span class="detail-value">Black / White embroidery</span>
+                            <span class="detail-value">Black / White print</span>
                         </div>
                         <div class="detail-row">
-                            <span class="detail-label">Features</span>
-                            <span class="detail-value">Embroidered lion crest, ribbed trim</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Neckline</span>
-                            <span class="detail-value">Crewneck / Ribbed collar</span>
+                            <span class="detail-label">Includes</span>
+                            <span class="detail-value">Blackout Hoodie + Joggers + Tee</span>
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Shipping</span>
-                            <span class="detail-value">Free over $85 / 3-5 business days</span>
+                            <span class="detail-value">Free / 3-5 business days</span>
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Returns</span>
                             <span class="detail-value">30-day exchange policy</span>
                         </div>
+                    </div>
+
+                    <div class="whats-included reveal rd4">
+                        <div class="size-label" style="margin-bottom:16px;">What's included</div>
+                        <a href="blackout-hoodie.html" class="whats-included-link" style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);font-size:0.9rem;color:var(--text-secondary);transition:color 0.3s;" onmouseover="this.style.color='var(--accent-soft)'" onmouseout="this.style.color='var(--text-secondary)'">
+                            <span>SUL Blackout Hoodie</span><span style="font-weight:500;color:var(--text-primary);">$85 →</span>
+                        </a>
+                        <a href="#" class="whats-included-link" style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);font-size:0.9rem;color:var(--text-secondary);transition:color 0.3s;" onmouseover="this.style.color='var(--accent-soft)'" onmouseout="this.style.color='var(--text-secondary)'">
+                            <span>SUL Joggers</span><span style="font-weight:500;color:var(--text-primary);">$55 →</span>
+                        </a>
+                        <a href="#" class="whats-included-link" style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);font-size:0.9rem;color:var(--text-secondary);transition:color 0.3s;" onmouseover="this.style.color='var(--accent-soft)'" onmouseout="this.style.color='var(--text-secondary)'">
+                            <span>SUL Essential Tee</span><span style="font-weight:500;color:var(--text-primary);">$35 →</span>
+                        </a>
+                        <p class="whats-included-savings">Save $15 with the Full Kit vs buying separately</p>
                     </div>
                 </div>
 
@@ -268,11 +335,13 @@
     </section>
 
     <script>
+        // Scroll reveals
         const obs = new IntersectionObserver((entries) => {
             entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); obs.unobserve(e.target); } });
         }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
         document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
+        // Size selector
         document.querySelectorAll('.size-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
@@ -280,6 +349,7 @@
             });
         });
 
+        // Media switcher
         function showImage(src) {
             const main = document.getElementById('mediaMain');
             main.innerHTML = '<img src="' + src + '" alt="Product image" style="object-fit:cover;">';
