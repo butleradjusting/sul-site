@@ -42,7 +42,7 @@ SUL/
 ├── CLAUDE.md               # This file — project context
 ├── CNAME                   # Custom domain config (snoozeulose.com)
 ├── README.md               # Repo readme
-├── swag-store-directory.md # Swag store reference notes
+├── swag-store-directory.md # Store reference notes
 ├── old/                    # Archived versions
 │   └── index-full.html
 ├── site-photos/            # Brand photography, product shots & video assets
