@@ -284,7 +284,7 @@
         .video-grid {
             display: grid;
             grid-template-columns: 1.4fr 1fr 1fr;
-            gap: 20px;
+            gap: 10px;
             min-height: 480px;
         }
         .video-card {
@@ -633,8 +633,6 @@
             </a>
             <ul class="nav-links">
                 <li><a href="collections.html">Collections</a></li>
-                <li><a href="#videos">The drip</a></li>
-                <li><a href="#newsletter">Join</a></li>
             </ul>
             <a href="collections.html" class="nav-cta">Shop now</a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
@@ -647,8 +645,6 @@
     <div class="mobile-menu" id="mobileMenu">
         <nav>
             <a href="collections.html" class="ml">Collections</a>
-            <a href="#videos" class="ml">The drip</a>
-            <a href="#newsletter" class="ml">Join the drop</a>
             <a href="index.html" class="ml">Home</a>
         </nav>
     </div>
@@ -679,8 +675,7 @@
             <h1 class="reveal rd1">Don't sleep<br>on <span class="acc">style.</span></h1>
             <p class="hero-desc reveal rd2">Premium streetwear meets everyday comfort. Heavyweight sweatsuits, hoodies, bombers, and joggers for those who move different.</p>
             <div class="hero-buttons reveal rd3">
-                <a href="#videos" class="btn btn-primary">See the drip <span class="arr">&rarr;</span></a>
-                <a href="#newsletter" class="btn btn-ghost">Join the drop</a>
+                <a href="collections.html" class="btn btn-primary">Shop now <span class="arr">&rarr;</span></a>
             </div>
         </div>
         <div class="hero-img">
@@ -710,7 +705,6 @@
         <div class="container">
             <div class="video-header">
                 <div class="eyebrow reveal">In motion</div>
-                <img src="site-photos/sul-logo.png" alt="SUL Snooze U Lose" class="reveal rd1" style="height:120px;width:auto;">
             </div>
             <div class="video-grid">
                 <div class="video-card video-card-main reveal">
@@ -731,10 +725,11 @@
                 </div>
                 <div class="video-card reveal rd2">
                     <video autoplay muted loop playsinline>
-                        <source src="site-photos/video-promo.mp4" type="video/mp4">
+                        <source src="site-photos/grok-video-promo.mp4" type="video/mp4">
                     </video>
-                    <div class="video-label">
-                        <span class="eyebrow">Sweatsuit sets</span>
+                    <div class="video-label" style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+                        <span class="eyebrow">View collection</span>
+                        <a href="collections.html" class="btn btn-sm btn-ghost" style="margin-left:12px;">Browse <span class="arr">&rarr;</span></a>
                     </div>
                 </div>
             </div>

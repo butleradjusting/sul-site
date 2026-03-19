@@ -20,29 +20,53 @@
 - **Logo:** Lion head with "SUL" text — embroidered look, black & white on black background
 
 ## Products
-- Matching sweatsuits (hoodie + joggers) — flagship product
-- White colorway with maroon "SNOOZE U LOSE" block lettering
-- Premium heavyweight cotton
-- Relaxed/oversized fit
+- **Matching Sweatsuit (White/Maroon)** — Flagship product. Hoodie + joggers, white colorway with maroon "SNOOZE U LOSE" block lettering. Premium heavyweight cotton, relaxed/oversized fit. $120
+- **Blackout Hoodie (Black)** — All-black hoodie with white SUL sleeve print. $75
+- **Bomber Jacket (Black/Gold)** — Black satin bomber with gold SUL embroidery. $95
+- **Graphic Hoodie (White/Maroon)** — White hoodie with maroon graphic print. $65
+- **Joggers (White/Maroon)** — White joggers with maroon SUL branding. $55
+- **Full Kit (Hoodie + Joggers + Tee)** — Bundle deal. $145
+- **Lion Sweater** — Dedicated product page: `lion-sweater.html`
+- **New Era Trucker Hat (Black)** — Black mesh trucker cap with 3D embroidered SUL logo, New Era collab. Adjustable snapback. Dedicated product page: `new-era-hat.html`
 
 ## Project Structure
 ```
 SUL/
-├── index.html          # Main website (single-page, responsive)
-├── CLAUDE.md           # This file — project context
-├── site-photos/        # Brand photography, product shots & video assets
-│   ├── lookbook-outdoor.jpg       # Nature/park photoshoot in white sweatsuit
-│   ├── lookbook-city.jpg          # Brickell Ave, Miami city photoshoot
-│   ├── sul-logo.jpg               # SUL lion logo (black background, embroidered style)
-│   ├── product-hoodie-black.jpg   # Black hoodie + SUL cap on mannequin, store display
-│   ├── product-bomber-display.jpg # Black satin bomber jacket with gold embroidery, store display
-│   ├── video-hoodie-black.mp4     # Product video — black hoodie
-│   ├── video-bomber.mp4           # Product video — bomber jacket
-│   └── video-promo.mp4            # Brand promo video
-└── skills/             # Frontend design skills (from taste-skill repo)
-    ├── taste-skill.md      # Core design quality rules — ALWAYS read before editing site
-    ├── redesign-skill.md   # For upgrading/auditing existing design
-    ├── soft-skill.md       # Premium "expensive" look & feel rules
+├── index.html              # Main landing page (hero, marquee, about, shop grid, lookbook, values, newsletter, footer)
+├── collections.html        # Shop/collections browse page — links to individual product pages
+├── blackout-hoodie.html    # Product detail page — Blackout Hoodie
+├── bomber-jacket.html      # Product detail page — Bomber Jacket
+├── lion-sweater.html       # Product detail page — Lion Sweater
+├── new-era-hat.html        # Product detail page — New Era Trucker Hat
+├── index-full.html         # Legacy/backup full landing page
+├── CLAUDE.md               # This file — project context
+├── CNAME                   # Custom domain config (snoozeulose.com)
+├── README.md               # Repo readme
+├── swag-store-directory.md # Swag store reference notes
+├── old/                    # Archived versions
+│   └── index-full.html
+├── site-photos/            # Brand photography, product shots & video assets
+│   ├── sul-logo.png                # SUL lion logo (PNG, used in nav)
+│   ├── sul-logo.jpg                # SUL lion logo (JPG alternate)
+│   ├── product-hoodie-black.jpg    # Black hoodie + SUL cap on mannequin, store display
+│   ├── product-bomber-display.jpg  # Black satin bomber jacket with gold embroidery, store display
+│   ├── product-hat-front.png       # New Era hat front view — 3D embroidered SUL logo
+│   ├── product-hat-side.png        # New Era hat side view — New Era flag, mesh back
+│   ├── SUL New Era Hat Front.png   # Original hat front photo (source file)
+│   ├── SUL New Era Hat Side.jpg    # Original hat side photo (source file)
+│   ├── SUL Bomber Product Image.png # Bomber jacket product image
+│   ├── lookbook-outdoor.jpg        # Nature/park photoshoot in white sweatsuit
+│   ├── lookbook-city.jpg           # Brickell Ave, Miami city photoshoot
+│   ├── image-Photoroom.png         # Photoroom-edited product image
+│   ├── image.jpg                   # Misc product image
+│   ├── video-hoodie-black.mp4      # Product video — black hoodie
+│   ├── video-bomber.mp4            # Product video — bomber jacket
+│   ├── video-promo.mp4             # Brand promo video
+│   └── WhatsApp Image *.jpeg       # Raw WhatsApp photos (various, unsorted)
+└── skills/                 # Frontend design skills — ALWAYS read before editing site
+    ├── taste-skill.md      # Core design quality rules: layout, typography, color, motion, spacing
+    ├── redesign-skill.md   # For upgrading/auditing existing design — audit-first approach
+    ├── soft-skill.md       # Premium "expensive" look & feel: whitespace, depth, smooth animations
     └── output-skill.md     # Anti-laziness rules — forces complete code output
 ```
 
@@ -56,27 +80,39 @@ When editing `index.html` or creating any new frontend code for SUL, ALWAYS read
 These skills override default AI design patterns to produce modern, premium interfaces instead of generic templates.
 
 ## Website Details
-- Single-page HTML site with sections: Hero, Marquee, About, Shop Collection, Lookbook, Brand Values, Newsletter, Footer
+- **Domain:** snoozeulose.com (GitHub Pages via CNAME)
+- **Architecture:** Multi-page static HTML site — landing page + collections page + individual product detail pages
+- **Landing page (index.html):** Hero, Marquee, About, Shop Collection grid (6 products with category filters + cart), Lookbook (hidden), Brand Values (hidden), Newsletter, Footer
+- **Collections page (collections.html):** Browse/shop grid linking to product detail pages
+- **Product pages:** Each product has its own detail page with image gallery, thumbnails, size selector, add-to-cart, and product specs
 - Dark theme with maroon + gold accents
 - Mobile responsive with hamburger menu
 - Scroll reveal animations
+- Cart functionality with slide-out drawer
 - Newsletter signup form
 - Social links: Instagram, TikTok, X
 
 ## Image Naming Convention
-Photos in `site-photos/` should be named descriptively:
+Photos in `site-photos/` should be named descriptively using the `product-` prefix for product shots:
+- `product-hat-front.png` — Hat front view (main product image)
+- `product-hat-side.png` — Hat side/back view (secondary thumbnail)
+- `product-hoodie-black.jpg` — Black hoodie on mannequin
+- `product-bomber-display.jpg` — Bomber jacket display
 - `lookbook-outdoor.jpg` — Nature/park setting photoshoot
 - `lookbook-city.jpg` — Urban/city street photoshoot
-- `sul-logo.jpg` — Brand logo
-- Future images: `product-[name].jpg`, `lookbook-[location].jpg`, `campaign-[season].jpg`
+- `sul-logo.png` / `sul-logo.jpg` — Brand logo
+- Pattern: `product-[item]-[view].ext`, `lookbook-[location].ext`, `campaign-[season].ext`
 
 ## Current Sales Channels
-- In-person only (pop-ups, markets, local retail)
-- Goal: Launch e-commerce online
+- In-person (pop-ups, markets, local retail)
+- Website live at snoozeulose.com (GitHub Pages) — product showcase with cart UI
+- Goal: Full e-commerce checkout integration
 
 ## Next Steps
-- Add actual product images to site-photos/ folder
-- Set up e-commerce (Wix or Shopify)
+- Sort and rename WhatsApp images in site-photos/
+- Add product images for lion sweater and graphic hoodie
+- Integrate payment/checkout (Shopify or similar)
 - Build social media content calendar
 - Create pitch deck for retail partnerships
 - SEO optimization
+- Unhide Lookbook and Brand Values sections when content is ready
