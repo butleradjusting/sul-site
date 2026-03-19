@@ -277,9 +277,8 @@
         @keyframes slide { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* ===== VIDEO SHOWCASE ===== */
-        .video-showcase { padding: 100px 0 80px; min-height: 100dvh; display: flex; align-items: center; width: 100%; }
-        .video-showcase .container { width: 100%; }
-        .video-header { margin-bottom: 28px; }
+        .video-showcase { padding: 140px 0 0; }
+        .video-header { margin-bottom: 56px; }
         .video-header .section-title { font-size: clamp(2rem, 3.5vw, 2.8rem); margin-top: 16px; }
         .video-grid {
             display: grid;
@@ -307,9 +306,7 @@
             object-fit: cover;
             display: block;
         }
-        .video-card { min-height: 400px; }
         .video-card-main { min-height: 480px; }
-        .video-card video { position: absolute; inset: 0; }
         .video-label {
             position: absolute;
             bottom: 20px;
@@ -325,8 +322,8 @@
         }
         @media (max-width: 900px) {
             .video-grid { grid-template-columns: 1fr; }
-            .video-card-main { min-height: 480px; }
-            .video-card { min-height: 480px; }
+            .video-card-main { min-height: 360px; }
+            .video-card { min-height: 280px; }
         }
 
         /* ===== SHOP — PRODUCT GRID ===== */
@@ -628,15 +625,19 @@
     <header class="nav" id="nav">
         <div class="nav-inner">
             <a href="#" class="nav-logo">
-                <img src="site-photos/sul-logo.png" alt="SUL logo" style="height:36px;">
-
+                <img src="site-photos/sul-logo.jpg" alt="SUL logo">
+                SUL<span class="d">.</span>
             </a>
             <ul class="nav-links">
-                <li><a href="collections.html">Collections</a></li>
-                <li><a href="#videos">The drip</a></li>
-                <li><a href="#newsletter">Join</a></li>
+                <li><a href="#shop">Shop</a></li>
+                <li><a href="#lookbook">Lookbook</a></li>
+                <li><a href="#about">About</a></li>
             </ul>
-            <a href="collections.html" class="nav-cta">Shop now</a>
+            <button class="nav-cart" id="cartToggle" aria-label="Open cart">
+                <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+                <span class="badge" id="cartBadge">0</span>
+            </button>
+            <a href="#shop" class="nav-cta">Shop now</a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
             </button>
@@ -646,16 +647,16 @@
     <!-- MOBILE MENU -->
     <div class="mobile-menu" id="mobileMenu">
         <nav>
-            <a href="collections.html" class="ml">Collections</a>
-            <a href="#videos" class="ml">The drip</a>
+            <a href="#shop" class="ml">Shop</a>
+            <a href="#lookbook" class="ml">Lookbook</a>
+            <a href="#about" class="ml">About</a>
             <a href="#newsletter" class="ml">Join the drop</a>
-            <a href="index.html" class="ml">Home</a>
         </nav>
     </div>
 
-    <!-- CART DRAWER (hidden) -->
-    <div class="cart-overlay" id="cartOverlay" style="display:none;"></div>
-    <aside class="cart-drawer" id="cartDrawer" style="display:none;">
+    <!-- CART DRAWER -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer">
         <div class="cart-head">
             <h3>Your bag</h3>
             <button class="cart-close" id="cartClose">&times;</button>
@@ -672,15 +673,15 @@
         </div>
     </aside>
 
-    <!-- HERO (hidden) -->
-    <section class="hero" id="hero" style="display:none;">
+    <!-- HERO -->
+    <section class="hero" id="hero">
         <div class="hero-text">
             <div class="eyebrow reveal">Official Swag Store</div>
             <h1 class="reveal rd1">Don't sleep<br>on <span class="acc">style.</span></h1>
-            <p class="hero-desc reveal rd2">Premium streetwear meets everyday comfort. Heavyweight sweatsuits, hoodies, bombers, and joggers for those who move different.</p>
+            <p class="hero-desc reveal rd2">Premium streetwear meets everyday comfort. Heavyweight sweatsuits, hoodies, and joggers for those who move different.</p>
             <div class="hero-buttons reveal rd3">
-                <a href="#videos" class="btn btn-primary">See the drip <span class="arr">&rarr;</span></a>
-                <a href="#newsletter" class="btn btn-ghost">Join the drop</a>
+                <a href="#shop" class="btn btn-primary">Shop collection <span class="arr">&rarr;</span></a>
+                <a href="#about" class="btn btn-ghost">Our story</a>
             </div>
         </div>
         <div class="hero-img">
@@ -689,8 +690,8 @@
         <div class="hero-scroll"><span>Scroll</span><div class="ln"></div></div>
     </section>
 
-    <!-- MARQUEE (hidden) -->
-    <div class="marquee" style="display:none;">
+    <!-- MARQUEE -->
+    <div class="marquee">
         <div class="marquee-track">
             <span class="marquee-item">Official swag store</span>
             <span class="marquee-item">New drop coming soon</span>
@@ -710,7 +711,7 @@
         <div class="container">
             <div class="video-header">
                 <div class="eyebrow reveal">In motion</div>
-                <img src="site-photos/sul-logo.png" alt="SUL Snooze U Lose" class="reveal rd1" style="height:120px;width:auto;">
+                <h2 class="section-title reveal rd1">See the drip</h2>
             </div>
             <div class="video-grid">
                 <div class="video-card video-card-main reveal">
@@ -734,15 +735,15 @@
                         <source src="site-photos/video-promo.mp4" type="video/mp4">
                     </video>
                     <div class="video-label">
-                        <span class="eyebrow">Sweatsuit sets</span>
+                        <span class="eyebrow">Promo</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SHOP (hidden for now — see index-full.html for full store) -->
-    <section class="shop" id="shop" style="display:none;">
+    <!-- SHOP -->
+    <section class="shop" id="shop">
         <div class="container">
             <div class="shop-header">
                 <div>
@@ -887,8 +888,8 @@
         </div>
     </section>
 
-    <!-- LOOKBOOK (hidden for now) -->
-    <section class="featured" id="lookbook" style="display:none;">
+    <!-- LOOKBOOK -->
+    <section class="featured" id="lookbook">
         <div class="container">
             <div class="featured-header">
                 <div class="eyebrow reveal">Lookbook</div>
@@ -922,8 +923,8 @@
         </div>
     </section>
 
-    <!-- VALUES (hidden for now) -->
-    <section class="values" id="about" style="display:none;">
+    <!-- VALUES -->
+    <section class="values" id="about">
         <div class="container">
             <div class="values-header">
                 <div class="eyebrow reveal">Our vibe</div>
@@ -946,8 +947,8 @@
         </div>
     </section>
 
-    <!-- NEWSLETTER (hidden) -->
-    <section class="newsletter" id="newsletter" style="display:none;">
+    <!-- NEWSLETTER -->
+    <section class="newsletter" id="newsletter">
         <div class="container">
             <div class="newsletter-inner">
                 <div class="eyebrow reveal">Stay in the loop</div>
@@ -962,8 +963,8 @@
         </div>
     </section>
 
-    <!-- FOOTER (hidden) -->
-    <footer class="footer" style="display:none;">
+    <!-- FOOTER -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-top">
                 <div class="footer-brand">
@@ -1001,25 +1002,115 @@
     </footer>
 
     <script>
+        // === CART STATE ===
+        let cart = [];
+        const cartDrawer = document.getElementById('cartDrawer');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const cartBody = document.getElementById('cartBody');
+        const cartEmpty = document.getElementById('cartEmpty');
+        const cartBadge = document.getElementById('cartBadge');
+        const cartTotalEl = document.getElementById('cartTotal');
+
+        function openCart() { cartDrawer.classList.add('open'); cartOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+        function closeCart() { cartDrawer.classList.remove('open'); cartOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+        document.getElementById('cartToggle').addEventListener('click', openCart);
+        document.getElementById('cartClose').addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+
+        function renderCart() {
+            const total = cart.reduce((s, i) => s + i.price, 0);
+            cartTotalEl.textContent = '$' + total;
+            cartBadge.textContent = cart.length;
+            cart.length > 0 ? cartBadge.classList.add('show') : cartBadge.classList.remove('show');
+            if (cart.length === 0) { cartEmpty.style.display = 'block'; return; }
+            cartEmpty.style.display = 'none';
+            const items = cart.map((item, i) => `
+                <div class="cart-item">
+                    <div class="cart-item-thumb"><div style="width:100%;height:100%;background:var(--bg-surface);display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:var(--text-muted);">SUL</div></div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-meta">Size: ${item.size || 'M'}</div>
+                        <div class="cart-item-price">$${item.price}</div>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeItem(${i})">Remove</button>
+                </div>
+            `).join('');
+            cartBody.innerHTML = '<div id="cartEmpty" style="display:none" class="cart-empty">Your bag is empty.</div>' + items;
+        }
+
+        function addToCart(name, price) {
+            cart.push({ name, price, size: 'M' });
+            renderCart();
+            openCart();
+        }
+
+        function removeItem(idx) {
+            cart.splice(idx, 1);
+            renderCart();
+        }
+
+        // Quick-add buttons
+        document.querySelectorAll('.quick-add').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.product-card');
+                const name = card.dataset.name;
+                const price = parseInt(card.dataset.price);
+                addToCart(name, price);
+            });
+        });
+
+        // Size dots
+        document.querySelectorAll('.size-dot').forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dot.parentElement.querySelectorAll('.size-dot').forEach(d => d.style.borderColor = '');
+                dot.style.borderColor = 'var(--accent)';
+                dot.style.color = 'var(--accent)';
+            });
+        });
+
+        // Filters
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const f = btn.dataset.filter;
+                document.querySelectorAll('.product-card').forEach(card => {
+                    if (f === 'all' || card.dataset.cat === f) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
         // === MOBILE MENU ===
         const navToggle = document.getElementById('navToggle');
         const mobileMenu = document.getElementById('mobileMenu');
-        if (navToggle && mobileMenu) {
-            navToggle.addEventListener('click', () => {
-                navToggle.classList.toggle('open');
-                mobileMenu.classList.toggle('open');
-                document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-            });
-            document.querySelectorAll('.ml').forEach(a => {
-                a.addEventListener('click', () => { navToggle.classList.remove('open'); mobileMenu.classList.remove('open'); document.body.style.overflow = ''; });
-            });
-        }
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('open');
+            mobileMenu.classList.toggle('open');
+            document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+        });
+        document.querySelectorAll('.ml').forEach(a => {
+            a.addEventListener('click', () => { navToggle.classList.remove('open'); mobileMenu.classList.remove('open'); document.body.style.overflow = ''; });
+        });
 
         // === SCROLL REVEALS ===
         const obs = new IntersectionObserver((entries) => {
             entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); obs.unobserve(e.target); } });
         }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
         document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        // === NEWSLETTER ===
+        function handleSub(e) {
+            e.preventDefault();
+            document.getElementById('subMsg').style.display = 'block';
+            e.target.reset();
+            setTimeout(() => { document.getElementById('subMsg').style.display = 'none'; }, 4000);
+        }
 
         // === SMOOTH SCROLL ===
         document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -1028,6 +1119,12 @@
                 const t = document.querySelector(this.getAttribute('href'));
                 if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
+        });
+
+        // === CHECKOUT PLACEHOLDER ===
+        document.getElementById('cartCheckout').addEventListener('click', () => {
+            if (cart.length === 0) return;
+            alert('Checkout coming soon. Follow @SUL on Instagram for drop updates.');
         });
     </script>
 </body>
