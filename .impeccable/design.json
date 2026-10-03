@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-03T05:15:12.332676+00:00",
+  "title": "Design System: SUL — Snooze U Lose",
+  "extensions": {
+    "colorMeta": {
+      "royal-blue": {
+        "role": "primary",
+        "displayName": "Royal Blue",
+        "canonical": "#204cad",
+        "tonalRamp": [
+          "oklch(15% 0.16300 263.07)",
+          "oklch(26% 0.16300 263.07)",
+          "oklch(38% 0.16300 263.07)",
+          "oklch(49% 0.16300 263.07)",
+          "oklch(61% 0.16300 263.07)",
+          "oklch(72% 0.16300 263.07)",
+          "oklch(84% 0.16300 263.07)",
+          "oklch(95% 0.16300 263.07)"
+        ],
+        "tonalRampStatus": "Synthesized same-hue OKLCH panel aid; not an implemented UI scale.",
+        "source": "--wine"
+      },
+      "deep-blue": {
+        "role": "primary",
+        "displayName": "Deep Blue",
+        "canonical": "#183877",
+        "tonalRamp": [
+          "oklch(15% 0.11459 262.08)",
+          "oklch(26% 0.11459 262.08)",
+          "oklch(38% 0.11459 262.08)",
+          "oklch(49% 0.11459 262.08)",
+          "oklch(61% 0.11459 262.08)",
+          "oklch(72% 0.11459 262.08)",
+          "oklch(84% 0.11459 262.08)",
+          "oklch(95% 0.11459 262.08)"
+        ],
+        "tonalRampStatus": "Synthesized same-hue OKLCH panel aid; not an implemented UI scale.",
+        "source": "--wine-deep"
+      },
+      "chalk": {
+        "role": "neutral",
+        "displayName": "Chalk",
+        "canonical": "#eeeef0",
+        "tonalRamp": [
+          "oklch(15% 0.00267 286.35)",
+          "oklch(26% 0.00267 286.35)",
+          "oklch(38% 0.00267 286.35)",
+          "oklch(49% 0.00267 286.35)",
+          "oklch(61% 0.00267 286.35)",
+          "oklch(72% 0.00267 286.35)",
+          "oklch(84% 0.00267 286.35)",
+          "oklch(95% 0.00267 286.35)"
+        ],
+        "tonalRampStatus": "Synthesized same-hue OKLCH panel aid; not an implemented UI scale.",
+        "source": "--chalk"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#111315",
+        "tonalRamp": [
+          "oklch(15% 0.00518 248.11)",
+          "oklch(26% 0.00518 248.11)",
+          "oklch(38% 0.00518 248.11)",
+          "oklch(49% 0.00518 248.11)",
+          "oklch(61% 0.00518 248.11)",
+          "oklch(72% 0.00518 248.11)",
+          "oklch(84% 0.00518 248.11)",
+          "oklch(95% 0.00518 248.11)"
+        ],
+        "tonalRampStatus": "Synthesized same-hue OKLCH panel aid; not an implemented UI scale.",
+        "source": "--ink"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#626670",
+        "tonalRamp": [
+          "oklch(15% 0.01655 268.35)",
+          "oklch(26% 0.01655 268.35)",
+          "oklch(38% 0.01655 268.35)",
+          "oklch(49% 0.01655 268.35)",
+          "oklch(61% 0.01655 268.35)",
+          "oklch(72% 0.01655 268.35)",
+          "oklch(84% 0.01655 268.35)",
+          "oklch(95% 0.01655 268.35)"
+        ],
+        "tonalRampStatus": "Synthesized same-hue OKLCH panel aid; not an implemented UI scale.",
+        "source": "--muted"
+      },
+      "concrete": {
+        "role": "neutral",
+        "displayName": "Concrete",
+        "canonical": "#dcdde0",
+        "tonalRamp": [
+          "oklch(15% 0.00422 271.37)",
+          "oklch(26% 0.00422 271.37)",
+          "oklch(38% 0.00422 271.37)",
+          "oklch(49% 0.00422 271.37)",
+          "oklch(61% 0.00422 271.37)",
+          "oklch(72% 0.00422 271.37)",
+          "oklch(84% 0.00422 271.37)",
+          "oklch(95% 0.00422 271.37)"
+        ],
+        "tonalRampStatus": "Synthesized same-hue OKLCH panel aid; not an implemented UI scale.",
+        "source": "--concrete"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "canonical": "#b9bdc5",
+        "tonalRamp": [
+          "oklch(15% 0.01210 264.50)",
+          "oklch(26% 0.01210 264.50)",
+          "oklch(38% 0.01210 264.50)",
+          "oklch(49% 0.01210 264.50)",
+          "oklch(61% 0.01210 264.50)",
+          "oklch(72% 0.01210 264.50)",
+          "oklch(84% 0.01210 264.50)",
+          "oklch(95% 0.01210 264.50)"
+        ],
+        "tonalRampStatus": "Synthesized same-hue OKLCH panel aid; not an implemented UI scale.",
+        "source": "--line"
+      },
+      "blue-mist": {
+        "role": "primary",
+        "displayName": "Blue Mist",
+        "canonical": "#a4b9e8",
+        "tonalRamp": [
+          "oklch(15% 0.07117 265.98)",
+          "oklch(26% 0.07117 265.98)",
+          "oklch(38% 0.07117 265.98)",
+          "oklch(49% 0.07117 265.98)",
+          "oklch(61% 0.07117 265.98)",
+          "oklch(72% 0.07117 265.98)",
+          "oklch(84% 0.07117 265.98)",
+          "oklch(95% 0.07117 265.98)"
+        ],
+        "tonalRampStatus": "Synthesized same-hue OKLCH panel aid; not an implemented UI scale.",
+        "source": "Repeated literal in assets/style.css"
+      },
+      "blue-text": {
+        "role": "primary",
+        "displayName": "Blue Text",
+        "canonical": "#ccd6ef",
+        "tonalRamp": [
+          "oklch(15% 0.03621 268.27)",
+          "oklch(26% 0.03621 268.27)",
+          "oklch(38% 0.03621 268.27)",
+          "oklch(49% 0.03621 268.27)",
+          "oklch(61% 0.03621 268.27)",
+          "oklch(72% 0.03621 268.27)",
+          "oklch(84% 0.03621 268.27)",
+          "oklch(95% 0.03621 268.27)"
+        ],
+        "tonalRampStatus": "Synthesized same-hue OKLCH panel aid; not an implemented UI scale.",
+        "source": "Repeated literal in assets/style.css"
+      },
+      "silver-text": {
+        "role": "neutral",
+        "displayName": "Silver Text",
+        "canonical": "#c1c5ce",
+        "tonalRamp": [
+          "oklch(15% 0.01331 266.68)",
+          "oklch(26% 0.01331 266.68)",
+          "oklch(38% 0.01331 266.68)",
+          "oklch(49% 0.01331 266.68)",
+          "oklch(61% 0.01331 266.68)",
+          "oklch(72% 0.01331 266.68)",
+          "oklch(84% 0.01331 266.68)",
+          "oklch(95% 0.01331 266.68)"
+        ],
+        "tonalRampStatus": "Synthesized same-hue OKLCH panel aid; not an implemented UI scale.",
+        "source": "Repeated literal in assets/style.css"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Condensed Display",
+        "purpose": "Global page-heading basis; uppercase and tightly tracked.",
+        "source": "h1 and the shared h1/h2/display rule in assets/style.css",
+        "fontAsset": "assets/fonts/barlow-condensed-800.ttf"
+      },
+      "headline": {
+        "displayName": "Condensed Headline",
+        "purpose": "Global section-heading basis; individual contexts use observed overrides.",
+        "source": "h2 and the shared h1/h2/display rule in assets/style.css"
+      },
+      "title": {
+        "displayName": "Manrope Title",
+        "purpose": "Global h3 basis; product cards use the compact control scale.",
+        "source": "h3 in assets/style.css"
+      },
+      "body": {
+        "displayName": "Manrope Body",
+        "purpose": "Default readable prose; compact mobile body override is recorded with the breakpoint.",
+        "source": "body in assets/style.css"
+      },
+      "control-label": {
+        "displayName": "Manrope Control Label",
+        "purpose": "Navigation, image-view choices, product-card names, and informational tags.",
+        "source": "Repeated 12px / 600 declarations in assets/style.css"
+      },
+      "action-label": {
+        "displayName": "Manrope Action Label",
+        "purpose": "Shared solid-button label.",
+        "source": ".button in assets/style.css"
+      }
+    },
+    "shadows": [],
+    "depth": {
+      "philosophy": "Flat tonal surfaces and image overlap; no box-shadow declarations.",
+      "backdrop": {
+        "color": "#131613a6",
+        "filter": "blur(4px)",
+        "source": "dialog::backdrop"
+      },
+      "layers": [
+        {
+          "name": "navigation",
+          "value": 10,
+          "source": "--layer-nav"
+        },
+        {
+          "name": "dialog",
+          "value": 30,
+          "source": "--layer-dialog"
+        },
+        {
+          "name": "feedback-and-skip-link",
+          "value": 40,
+          "source": ".toast and .skip-link"
+        }
+      ]
+    },
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(.19,1,.22,1)",
+        "purpose": "Shared motion curve.",
+        "source": "--ease"
+      },
+      {
+        "name": "control-state",
+        "value": ".25s",
+        "purpose": "Button, size-choice, filter, and image-view responses."
+      },
+      {
+        "name": "image-and-link-state",
+        "value": ".3s",
+        "purpose": "Image opacity, navigation underline, study arrows, and text-link spacing."
+      },
+      {
+        "name": "photo-scale",
+        "value": ".7s",
+        "purpose": "Product and printed-set image hover scale."
+      },
+      {
+        "name": "hero-settle",
+        "value": "1.2s",
+        "purpose": "Initial photo moves from scale(1.06) / opacity .65 to scale(1) / opacity 1."
+      },
+      {
+        "name": "copy-in",
+        "value": ".75s",
+        "purpose": "Initial heading moves from translateY(16px) / opacity .65 to its resting position."
+      },
+      {
+        "name": "bag-in",
+        "value": ".4s",
+        "purpose": "Bag enters from translateX(100%)."
+      },
+      {
+        "name": "dialog-in",
+        "value": ".35s",
+        "purpose": "Dialog enters from translateY(12px) / opacity .6."
+      },
+      {
+        "name": "hero-feature-response",
+        "value": ".4s",
+        "purpose": "Inset feature link rises by 4px on hover."
+      }
+    ],
+    "motionPreferences": {
+      "query": "prefers-reduced-motion: reduce",
+      "behavior": "Disable all animations and transitions; use automatic scrolling; remove product-image hover transform.",
+      "source": "Reduced-motion rule in assets/style.css"
+    },
+    "breakpoints": [
+      {
+        "name": "intermediate",
+        "value": "1100px",
+        "query": "max-width:1100px",
+        "changes": [
+          "Page gutter 32px",
+          "Hide secondary brand lettering",
+          "Tighten display sizes and major gaps"
+        ]
+      },
+      {
+        "name": "mobile",
+        "value": "767px",
+        "query": "max-width:767px",
+        "changes": [
+          "Page gutter 22px; header 78px; body 13px",
+          "Full-screen menu replaces desktop navigation",
+          "Stack campaign and product-detail layouts",
+          "Two-column merchandise",
+          "Product summary becomes static",
+          "Horizontal product filters and printed-set row"
+        ]
+      },
+      {
+        "name": "ultra-wide",
+        "value": "1800px",
+        "query": "min-width:1800px",
+        "changes": [
+          "Hero copy aligns to the centered shell",
+          "Hero minimum height 850px"
+        ]
+      }
+    ],
+    "metadata": {
+      "authority": "Extracted from the completed local implementation; creative language inferred. Owner aesthetic approval is not asserted.",
+      "sourceFiles": [
+        "assets/style.css",
+        "assets/site.js",
+        "scripts/build.mjs",
+        "PRODUCT.md",
+        ".impeccable/surfaces/index-html.md"
+      ],
+      "artifactPaths": [
+        "index.html",
+        "collections.html",
+        "blackout-hoodie.html",
+        "bomber-jacket.html",
+        "lion-sweater.html",
+        "new-era-hat.html",
+        "full-kit.html",
+        "404.html"
+      ],
+      "previewPolicy": "Component snippets preserve existing styles and use live source variables with literal fallbacks. Interactive selected states are shown statically; the panel requires no framework or site JavaScript. The product-card media frame is intentionally blank.",
+      "notCanonized": [
+        "The remaining “From the studio” small-label eyebrow is a craft-floor defect, not a reusable type role.",
+        "The legacy wine/wine-deep variable names do not define the color character.",
+        "Unused layer-overlay declaration is not a documented depth layer."
+      ],
+      "verification": "JSON and frontmatter structure validated on write; no browser review is claimed by this documentation pass."
+    },
+    "mobileBehaviour": {
+      "source": "assets/style.css",
+      "minimumTouchArea": "44px",
+      "readingCopy": "14px on mobile",
+      "collectionHeading": "clamp(60px,18.5vw,78px)",
+      "campaignHeading": "clamp(64px,20vw,80px)",
+      "quickViewHeader": "Sticky while the dialog scrolls.",
+      "bagFooter": "Separately scrollable, limited to 60dvh, with safe-area bottom padding."
+    }
+  },
+  "components": [
+    {
+      "name": "Ink Action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Shared solid action with fill response, stroke arrow, keyboard focus, and pressed offset.",
+      "html": "<button class=\"ds-button-primary\">Explore the collection<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-button-primary{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:54px;padding:16px 23px;background:var(--ink,#111315);color:var(--chalk,#eeeef0);border:0;font:700 12px/1.6 Manrope,sans-serif;cursor:pointer;transition:background .25s var(--ease,cubic-bezier(.19,1,.22,1)),transform .25s var(--ease,cubic-bezier(.19,1,.22,1))}.ds-button-primary:hover{background:var(--wine,#204cad)}.ds-button-primary:active{transform:translateY(1px)}.ds-button-primary:focus-visible{outline:2px solid currentColor;outline-offset:5px} .ds-button-primary svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}"
+    },
+    {
+      "name": "Light Action",
+      "kind": "button",
+      "refersTo": "button-light",
+      "description": "Shared solid action with fill response, stroke arrow, keyboard focus, and pressed offset.",
+      "html": "<button class=\"ds-button-light\">Explore the collection<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-button-light{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:54px;padding:16px 23px;background:var(--chalk,#eeeef0);color:var(--wine,#204cad);border:0;font:700 12px/1.6 Manrope,sans-serif;cursor:pointer;transition:background .25s var(--ease,cubic-bezier(.19,1,.22,1)),transform .25s var(--ease,cubic-bezier(.19,1,.22,1))}.ds-button-light:hover{background:#d6dae3}.ds-button-light:active{transform:translateY(1px)}.ds-button-light:focus-visible{outline:2px solid currentColor;outline-offset:5px} .ds-button-light svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}"
+    },
+    {
+      "name": "Royal Blue Action",
+      "kind": "button",
+      "refersTo": "button-blue",
+      "description": "Shared solid action with fill response, stroke arrow, keyboard focus, and pressed offset.",
+      "html": "<button class=\"ds-button-blue\">Explore the collection<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-button-blue{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:54px;padding:16px 23px;background:var(--wine,#204cad);color:var(--chalk,#eeeef0);border:0;font:700 12px/1.6 Manrope,sans-serif;cursor:pointer;transition:background .25s var(--ease,cubic-bezier(.19,1,.22,1)),transform .25s var(--ease,cubic-bezier(.19,1,.22,1))}.ds-button-blue:hover{background:var(--wine-deep,#183877)}.ds-button-blue:active{transform:translateY(1px)}.ds-button-blue:focus-visible{outline:2px solid currentColor;outline-offset:5px} .ds-button-blue svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}"
+    },
+    {
+      "name": "Collection Sort",
+      "kind": "input",
+      "refersTo": "sort-select",
+      "description": "The existing native sort field; no invented text-input pattern.",
+      "html": "<label class=\"ds-sort\">Sort by<select class=\"ds-sort-select\"><option>Featured</option><option>Price: low to high</option><option>Price: high to low</option></select></label>",
+      "css": ".ds-sort{display:flex;align-items:center;gap:12px;font:400 12px/1.6 Manrope,sans-serif;color:var(--muted,#626670)}.ds-sort-select{border:0;border-radius:0;background:transparent;color:var(--ink,#111315);font:400 12px/1.6 Manrope,sans-serif;padding:10px 18px 10px 5px;max-width:190px}.ds-sort-select:focus-visible{outline:2px solid currentColor;outline-offset:5px}"
+    },
+    {
+      "name": "Desktop Navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Quiet dark navigation with a thin current-page and hover underline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"#collection\" aria-current=\"page\">Shop all</a><a href=\"#studio\">The studio</a><a href=\"#world\">Our world</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:30px;background:var(--ink,#111315);color:var(--chalk,#eeeef0);padding:0 24px}.ds-nav a{color:inherit;text-decoration:none;position:relative;font:600 12px/44px Manrope,sans-serif}.ds-nav a::after{position:absolute;bottom:7px;left:0;right:0;height:1px;background:currentColor;content:\"\";transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease,cubic-bezier(.19,1,.22,1))}.ds-nav a:hover::after,.ds-nav a[aria-current=page]::after{transform:scaleX(1)}.ds-nav a:focus-visible{outline:2px solid currentColor;outline-offset:5px}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}"
+    },
+    {
+      "name": "Garment Content Tag",
+      "kind": "chip",
+      "refersTo": "product-tag",
+      "description": "The existing informational three-piece-set tag, with no interactive state.",
+      "html": "<span class=\"ds-tag\">Three-piece set</span>",
+      "css": ".ds-tag{display:inline-block;background:var(--chalk,#eeeef0);color:var(--ink,#111315);padding:5px 8px;font:600 12px/1.6 Manrope,sans-serif;letter-spacing:.04em;text-transform:uppercase}"
+    },
+    {
+      "name": "Portrait Product Card",
+      "kind": "card",
+      "refersTo": "product-card",
+      "description": "The actual card proportions, quick-view control, and compact metadata. Its media frame is intentionally empty in this preview; no substitute garment is invented.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-media\"><button class=\"ds-card-add\" aria-label=\"Choose size for Blackout Hoodie\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></button></div><div class=\"ds-card-info\"><div><h3>Blackout Hoodie</h3><p>Black</p></div><span>$85</span></div></article>",
+      "css": ".ds-card{max-width:260px;color:var(--ink,#111315);font:400 12px/1.6 Manrope,sans-serif}.ds-card-media{position:relative;background:var(--concrete,#dcdde0);overflow:hidden;aspect-ratio:2/3}.ds-card-add{position:absolute;right:12px;bottom:12px;width:42px;height:42px;background:var(--chalk,#eeeef0);color:var(--ink,#111315);border:0;display:grid;place-items:center;cursor:pointer;transition:background .25s var(--ease,cubic-bezier(.19,1,.22,1)),color .25s var(--ease,cubic-bezier(.19,1,.22,1)),transform .25s var(--ease,cubic-bezier(.19,1,.22,1))}.ds-card-add:hover{background:var(--wine,#204cad);color:var(--chalk,#eeeef0);transform:rotate(90deg)}.ds-card-add:active{transform:translateY(1px)}.ds-card-add:focus-visible{outline:2px solid currentColor;outline-offset:5px}.ds-card-add svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.ds-card-info{padding-top:17px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.ds-card-info h3{margin:0;font:600 12px/1.6 Manrope,sans-serif}.ds-card-info p{margin:3px 0 0;color:var(--muted,#626670)}.ds-card-info>span{font-weight:600;font-variant-numeric:tabular-nums}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}"
+    },
+    {
+      "name": "Size Choices",
+      "kind": "chip",
+      "refersTo": "size-choice",
+      "description": "Outlined size choices become ink-filled when selected. Buttons show extracted states; preview selection is static.",
+      "html": "<div class=\"ds-sizes\" role=\"group\" aria-label=\"Select your size\"><button aria-pressed=\"false\">S</button><button aria-pressed=\"true\">M</button><button aria-pressed=\"false\">L</button></div>",
+      "css": ".ds-sizes{display:flex;gap:8px;flex-wrap:wrap}.ds-sizes button{border:1px solid var(--line,#b9bdc5);background:transparent;color:var(--ink,#111315);font:400 12px/1.6 Manrope,sans-serif;min-width:48px;min-height:45px;padding:12px 15px;cursor:pointer;transition:background .25s var(--ease,cubic-bezier(.19,1,.22,1)),color .25s var(--ease,cubic-bezier(.19,1,.22,1)),border-color .25s var(--ease,cubic-bezier(.19,1,.22,1))}.ds-sizes button:hover{border-color:var(--wine,#204cad)}.ds-sizes button[aria-pressed=true]{background:var(--ink,#111315);color:var(--chalk,#eeeef0);border-color:var(--ink,#111315)}.ds-sizes button:active{transform:translateY(1px)}.ds-sizes button:focus-visible{outline:2px solid currentColor;outline-offset:5px}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}"
+    },
+    {
+      "name": "Studio / Styled Switch",
+      "kind": "chip",
+      "refersTo": "image-view",
+      "description": "The synchronized product-image style control, with its observed chalk selected segment. Preview selection is static.",
+      "html": "<div class=\"ds-view\" role=\"group\" aria-label=\"Product image style\"><button aria-pressed=\"true\">Studio</button><button aria-pressed=\"false\">Styled</button></div>",
+      "css": ".ds-view{display:inline-flex;align-items:center;gap:0;background:#daddE3;padding:4px}.ds-view button{border:0;min-height:36px;min-width:67px;font:600 12px/1.6 Manrope,sans-serif;padding:9px 13px;color:var(--muted,#626670);background:transparent;cursor:pointer;transition:background .25s var(--ease,cubic-bezier(.19,1,.22,1)),color .25s var(--ease,cubic-bezier(.19,1,.22,1))}.ds-view button[aria-pressed=true]{background:var(--chalk,#eeeef0);color:var(--ink,#111315)}.ds-view button:active{transform:translateY(1px)}.ds-view button:focus-visible{outline:2px solid currentColor;outline-offset:5px}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}"
+    },
+    {
+      "name": "Studio Study Selector",
+      "kind": "custom",
+      "refersTo": "studio-choice",
+      "description": "Royal-blue study rows with a visible selected arrow and quiet unselected lettering. Preview selection is static.",
+      "html": "<div class=\"ds-studio\"><button aria-pressed=\"true\"><span>Chrome &amp; blue</span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></button><button aria-pressed=\"false\"><span>After-hours essentials</span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></button><button aria-pressed=\"false\"><span>Technical collection</span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></button></div>",
+      "css": ".ds-studio{background:var(--wine,#204cad);display:flex;flex-direction:column;padding:45px 32px;max-width:300px}.ds-studio button{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:25px 0;text-align:left;background:transparent;border:0;border-bottom:1px solid #ffffff40;color:#ccd6ef;font:400 13px/1.6 Manrope,sans-serif;cursor:pointer;transition:color .3s var(--ease,cubic-bezier(.19,1,.22,1))}.ds-studio button[aria-pressed=true]{color:var(--chalk,#eeeef0);font-weight:700}.ds-studio button svg{opacity:0;transform:translateX(-7px);transition:opacity .3s var(--ease,cubic-bezier(.19,1,.22,1)),transform .3s var(--ease,cubic-bezier(.19,1,.22,1))}.ds-studio button[aria-pressed=true] svg,.ds-studio button:hover svg{opacity:1;transform:translateX(0)}.ds-studio button:active{transform:translateY(1px)}.ds-studio button:focus-visible{outline:2px solid currentColor;outline-offset:5px}.ds-studio button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The After-Hours Storefront",
+    "overview": "The After-Hours Storefront describes the built relationship between graphite architectural fields, royal blue, cool silver, condensed lettering, and supplied garment photography. SUL’s wordmark, lion crest, and “Don’t Sleep On Style” remain the identity anchors. Large headings carry the attitude; quiet product information makes browsing legible.\n\nThis is the first code-based interpretation of the supplied chrome/blue studies and clothing photographs. The descriptive language is inferred from the implementation, not an assertion of owner aesthetic approval. The system alternates dark campaign fields with light merchandising space, using portrait imagery and generous gutters rather than decorative cards.",
+    "keyCharacteristics": [
+      "Royal blue with graphite and cool silver.",
+      "Condensed uppercase display type beside quiet Manrope details.",
+      "Square controls and unboxed portrait merchandising.",
+      "Flat surfaces, tonal depth, and brief tactile motion."
+    ],
+    "rules": [
+      {
+        "name": "The Garment First Rule",
+        "body": "Use supplied garment imagery as the focal material; keep merchandising furniture quiet.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Use the condensed face for display statements and Manrope for product facts and controls.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Surface Rule",
+        "body": "Use tonal fields, separators, and overlap for depth; the built system has no box shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do retain SUL’s supplied identity assets and actual garment photographs.",
+      "Do use the condensed display hierarchy with restrained Manrope product information.",
+      "Do retain visible selected states, keyboard focus, and reduced-motion behavior.",
+      "Do keep studio previews and test checkout status explicit wherever those states apply."
+    ],
+    "donts": [
+      "Don’t introduce rounded cards or shadows into the existing flat, square component vocabulary.",
+      "Don’t make small promotional eyebrows a reusable heading pattern.",
+      "Don’t treat the studio studies as confirmed sale inventory or imply live checkout."
+    ]
+  }
+}

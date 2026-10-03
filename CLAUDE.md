@@ -1,5 +1,13 @@
 # SUL — Snooze U Lose
 
+## Current Redesign — 2026-10-03
+
+The working folder is `/Users/kb/Documents/ChatGPT/SUL`. GitHub Pages publishes `main` to https://snoozeulose.com. Read `PRODUCT.md` and `DESIGN.md` for current product boundaries and the built visual system. The owner chose a working website directly, without a mockup round, and supplied chrome/blue garment studies, printed shirt/shorts photographs, and a crown hoodie sample. The new visual direction is charcoal, cool silver, and royal blue. The older brand notes below are historical context where they conflict with these current files.
+
+The site remains static HTML/CSS/JavaScript. `scripts/build.mjs` generates the homepage, collections, the five existing product routes, and 404. Edit that template and `assets/catalog.js` rather than modifying generated HTML by hand. `assets/style.css` and `assets/site.js` contain the shared design and interactions. Run `npm run build` after template or catalog changes. Local preview: `npm run dev`, http://127.0.0.1:4173.
+
+The bag persists size and quantity on the current device. All existing payment links are Stripe test links; no live checkout has been added. New designs and printed sets have no confirmed prices or availability and remain explicitly labeled studio previews. The production planning board is not included in the website. The owner authorized publication and requested mobile verification on 2026-10-03.
+
 ## Brand Overview
 - **Brand Name:** SUL (Snooze U Lose)
 - **Owner:** Kev (butleradjusting@gmail.com)

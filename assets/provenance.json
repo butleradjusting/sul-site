@@ -1,0 +1,142 @@
+{
+  "images": {
+    "storefront.webp": {
+      "origin": "Repository supplied asset: site-photos/WhatsApp Image 2026-03-11 at 4.58.43 PM.jpeg",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "bomber-scene.webp": {
+      "origin": "Repository supplied asset: site-photos/product-bomber-display.jpg",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "hoodie.webp": {
+      "origin": "Repository supplied asset: site-photos/product-hoodie-flatlay.png",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "hoodie-scene.webp": {
+      "origin": "Repository supplied asset: site-photos/product-hoodie-black.jpg",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "bomber.webp": {
+      "origin": "Repository supplied asset: site-photos/product-bomber-flatlay.png",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "sweater.webp": {
+      "origin": "Repository supplied asset: site-photos/product-sweater-lion.png",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "sweater-scene.webp": {
+      "origin": "Repository supplied asset: site-photos/product-sweater-collection.png",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "hat.webp": {
+      "origin": "Repository supplied asset: site-photos/product-hat-front.png",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "hat-side.webp": {
+      "origin": "Repository supplied asset: site-photos/product-hat-side.png",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "city.webp": {
+      "origin": "Repository supplied asset: site-photos/lookbook-city.jpg",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "outdoor.webp": {
+      "origin": "Repository supplied asset: site-photos/lookbook-outdoor.jpg",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "tee-scene.webp": {
+      "origin": "Repository supplied asset: site-photos/WhatsApp Image 2026-03-11 at 4.59.31 PM.jpeg",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "brand-scene.webp": {
+      "origin": "Repository supplied asset: site-photos/6b26a102-b438-4803-8403-a701525380b0.jpeg",
+      "transformation": "WebP encoding, quality 86. No creative modification."
+    },
+    "technical-study.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-08-31 at 02.20.07.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "essentials-study.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-08-31 at 02.20.32.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "chrome-study.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-08-31 at 02.20.40.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "money-shirt.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.48.37.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "snooze-shirt.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.48.46.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "time-shirt.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.48.55.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "abstract-shirt.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.07.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "alarm-shirt.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.20.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "alarm-shorts.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.29.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "money-shorts.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.40.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "snooze-shorts.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.48.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "abstract-shorts.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.59.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "time-shorts.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.50.11.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "lion-hoodie-study.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 16.51.55.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "crown-hoodie-sample.webp": {
+      "origin": "User supplied attachment, WhatsApp Image 2026-09-29 at 11.27.23.jpeg, received 2026-10-03",
+      "transformation": "WebP encoding, quality 88. No creative modification."
+    },
+    "sul-wordmark.png": {
+      "origin": "Repository supplied asset: site-photos/sul-logo-modern-white.png",
+      "transformation": "Copied without visual changes."
+    }
+  },
+  "fonts": {
+    "barlow-condensed-600.ttf": {
+      "origin": "https://fonts.gstatic.com/s/barlowcondensed/v13/HTxwL3I-JCGChYJ8VI-L6OO_au7B4873_3E.ttf",
+      "license": "SIL Open Font License; Google Fonts distribution"
+    },
+    "barlow-condensed-800.ttf": {
+      "origin": "https://fonts.gstatic.com/s/barlowcondensed/v13/HTxwL3I-JCGChYJ8VI-L6OO_au7B47b1_3E.ttf",
+      "license": "SIL Open Font License; Google Fonts distribution"
+    },
+    "manrope-400.ttf": {
+      "origin": "https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk79FO_F.ttf",
+      "license": "SIL Open Font License; Google Fonts distribution"
+    },
+    "manrope-600.ttf": {
+      "origin": "https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk4jE-_F.ttf",
+      "license": "SIL Open Font License; Google Fonts distribution"
+    },
+    "manrope-700.ttf": {
+      "origin": "https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk4aE-_F.ttf",
+      "license": "SIL Open Font License; Google Fonts distribution"
+    }
+  }
+}
