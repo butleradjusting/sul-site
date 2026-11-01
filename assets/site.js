@@ -1,11 +1,12 @@
-import { products, imagePath, money } from './catalog.js';
+import { catalog, dropLive, imagePath, money, claimLink } from './catalog.js';
 
-const byId = new Map(products.map((product) => [product.id, product]));
+const byId = new Map(catalog.map((product) => [product.id, product]));
 const escape = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${{
   minus: '<path d="M5 12h14"/>', plus: '<path d="M12 5v14M5 12h14"/>',
   arrow: '<path d="M4 12h15M13 6l6 6-6 6"/>', diagonal: '<path d="M5 19 19 5M5 5h14v14"/>'
 }[name]}</svg>`;
+const tile = (p, attrs = 'aria-hidden="true"') => `<div class="set-tile${p.tile.band ? ' has-band' : ''}" style="--tile:${p.tile.bg};--tile-ink:${p.tile.ink}${p.tile.band ? `;--tile-band:${p.tile.band}` : ''}" ${attrs}><span class="set-count">${p.pieces}</span><span class="set-word">Piece<br>set</span><span class="set-colorway">${escape(p.colorway)}</span></div>`;
 const storageKey = 'sul-bag-v1';
 let bag = [];
 let toastTimeout;
@@ -59,7 +60,8 @@ function renderBag() {
   } else {
     content.innerHTML = bag.map((item, index) => {
       const p = byId.get(item.id);
-      return `<article class="bag-item"><img src="${imagePath(p.image)}" alt="${escape(p.alt)}" width="85" height="128"><div><div class="bag-item-top"><div><h3><a href="${p.id}.html">${escape(p.name)}</a></h3><p>${escape(item.size)} · ${escape(p.color)}</p></div><strong>${money(p.price * item.quantity)}</strong></div><div class="bag-item-controls"><div class="quantity"><button data-quantity="${index}" data-change="-1" aria-label="Decrease quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 1 ? ' disabled' : ''}>${icon('minus')}</button><span aria-label="Quantity">${item.quantity}</span><button data-quantity="${index}" data-change="1" aria-label="Increase quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 99 ? ' disabled' : ''}>${icon('plus')}</button></div><button class="remove-item" data-remove="${index}" aria-label="Remove ${escape(p.name)}, ${escape(item.size)} from bag">Remove</button></div></div></article>`;
+      const thumb = p.image ? `<img src="${imagePath(p.image)}" alt="${escape(p.alt)}" width="85" height="128">` : `<div class="bag-swatch">${tile(p)}</div>`;
+      return `<article class="bag-item">${thumb}<div><div class="bag-item-top"><div><h3><a href="${p.id}.html">${escape(p.name)}</a></h3><p>${escape(item.size)} · ${escape(p.color)}</p></div><strong>${money(p.price * item.quantity)}</strong></div><div class="bag-item-controls"><div class="quantity"><button data-quantity="${index}" data-change="-1" aria-label="Decrease quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 1 ? ' disabled' : ''}>${icon('minus')}</button><span aria-label="Quantity">${item.quantity}</span><button data-quantity="${index}" data-change="1" aria-label="Increase quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 99 ? ' disabled' : ''}>${icon('plus')}</button></div><button class="remove-item" data-remove="${index}" aria-label="Remove ${escape(p.name)}, ${escape(item.size)} from bag">Remove</button></div></div></article>`;
     }).join('');
   }
   document.getElementById('bag-total').textContent = money(bag.reduce((sum, item) => sum + byId.get(item.id).price * item.quantity, 0));
@@ -68,6 +70,10 @@ function renderBag() {
   preview.hidden = true;
   preview.innerHTML = [...new Set(bag.map((item) => item.id))].map((id) => {
     const p = byId.get(id);
+    if (!p.checkout) {
+      const size = bag.find((item) => item.id === id)?.size;
+      return `<a href="${claimLink(p, size)}">${escape(p.name)} — order by email${icon('diagonal')}</a>`;
+    }
     return `<a href="${p.checkout}" target="_blank" rel="noopener noreferrer">${escape(p.name)} — test checkout${icon('diagonal')}</a>`;
   }).join('');
   document.getElementById('bag-note').textContent = 'Payments are in test mode. Your bag is saved on this device.';
@@ -90,10 +96,29 @@ function addProduct(button) {
   error.textContent = '';
   openDialog('bag-dialog');
 }
+function claimSet(button) {
+  const p = byId.get(button.dataset.claim);
+  const region = button.closest('[data-detail]');
+  const size = region.querySelector('[data-size][aria-pressed="true"]')?.dataset.size;
+  const error = region.querySelector('.inline-error');
+  if (!size) {
+    error.textContent = 'Choose a size to claim this set.';
+    region.querySelector('[data-size]').focus();
+    return;
+  }
+  error.textContent = '';
+  toast(`Opening your email app. Send the message to claim the ${p.name} in ${size}.`);
+  window.location.href = claimLink(p, size);
+}
 function quickView(id) {
   const p = byId.get(id);
   if (!p) return;
-  document.getElementById('quick-content').innerHTML = `<div class="quick-body"><img class="quick-image" src="${imagePath(p.image)}" width="832" height="1248" alt="${escape(p.alt)}"><section class="quick-summary" data-detail="${p.id}"><h3>${escape(p.name)}</h3><div class="product-price-row"><strong>${money(p.price)}</strong><span class="color-name">${escape(p.color)}</span></div><p class="product-description">${escape(p.description)}</p>${p.id === 'full-kit' ? '<p class="quick-image-note">Hoodie + joggers + tee. Hoodie shown.</p>' : ''}<fieldset class="size-fieldset"><legend>Select your size</legend><div class="size-options" role="group" aria-label="Size for ${escape(p.name)}">${p.sizes.map((s) => `<button data-size="${escape(s)}" aria-pressed="${p.sizes.length === 1}">${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status"></p></fieldset><button class="button wine product-add" data-add="${p.id}"><span>Add to bag — ${money(p.price)}</span>${icon('plus')}</button><a class="text-link" href="${p.id}.html">View the details${icon('arrow')}</a></section></div>`;
+  const claiming = p.tile && !dropLive;
+  const media = p.image ? `<img class="quick-image" src="${imagePath(p.image)}" width="832" height="1248" alt="${escape(p.alt)}">` : `<div class="quick-tile">${tile(p)}</div>`;
+  const action = claiming
+    ? `<button class="button wine product-add" data-claim="${p.id}"><span>Claim your size</span>${icon('arrow')}</button><p class="quick-claim-note">No payment today. Your claim opens an email to SUL.</p>`
+    : `<button class="button wine product-add" data-add="${p.id}"><span>Add to bag — ${money(p.price)}</span>${icon('plus')}</button>`;
+  document.getElementById('quick-content').innerHTML = `<div class="quick-body">${media}<section class="quick-summary" data-detail="${p.id}"><h3>${escape(p.name)}</h3><div class="product-price-row"><strong>${money(p.price)}</strong><span class="color-name">${escape(p.color)}${p.quantity ? ` · ${p.quantity} sets made` : ''}</span></div><p class="product-description">${escape(p.description)}</p>${p.id === 'full-kit' ? '<p class="quick-image-note">Hoodie + joggers + tee. Hoodie shown.</p>' : ''}<fieldset class="size-fieldset"><legend>Select your size</legend><div class="size-options" role="group" aria-label="Size for ${escape(p.name)}">${p.sizes.map((s) => `<button data-size="${escape(s)}" aria-pressed="${p.sizes.length === 1}">${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status"></p></fieldset>${action}<a class="text-link" href="${p.id}.html">View the details${icon('arrow')}</a></section></div>`;
   openDialog('quick-dialog');
 }
 async function swapImage(image, name, alt) {
@@ -117,7 +142,7 @@ function applyFilter(shop, category) {
   shop.querySelectorAll('[data-filter]').forEach((button) => { button.setAttribute('aria-pressed', String(button.dataset.filter === category)); });
   const count = cards.filter((card) => !card.hidden).length;
   const countNode = shop.querySelector('.collection-count');
-  if (countNode) countNode.textContent = `${count} ${count === 1 ? 'piece' : 'pieces'}`;
+  if (countNode) countNode.textContent = `${count} ${count === 1 ? 'style' : 'styles'}`;
   shop.querySelector('.shop-empty').hidden = count !== 0;
   const cta = shop.querySelector('.collection-cta');
   if (cta) cta.hidden = category !== 'All';
@@ -138,6 +163,7 @@ document.addEventListener('click', (event) => {
     return;
   }
   if (button.dataset.add) { addProduct(button); return; }
+  if (button.dataset.claim) { claimSet(button); return; }
   if (button.hasAttribute('data-quantity')) {
     const index = Number(button.dataset.quantity);
     const item = bag[index];
@@ -167,6 +193,7 @@ document.addEventListener('click', (event) => {
     shop.querySelectorAll('[data-view]').forEach((node) => { node.setAttribute('aria-pressed', String(node === button)); });
     shop.querySelectorAll('.product-card').forEach((card) => {
       const p = byId.get(card.dataset.product);
+      if (!p?.image) return;
       const scene = button.dataset.view === 'scene';
       swapImage(card.querySelector('.card-main-image'), scene ? p.scene : p.image, scene ? p.sceneAlt : p.alt);
       card.querySelector('.hover-image').hidden = scene;
@@ -212,7 +239,7 @@ document.getElementById('sort-products')?.addEventListener('change', (event) => 
   const grid = document.querySelector('.collection-page .product-grid');
   const cards = [...grid.querySelectorAll('.product-card')];
   const value = event.target.value;
-  const original = new Map(products.map((p, index) => [p.id, index]));
+  const original = new Map(catalog.map((p, index) => [p.id, index]));
   cards.sort((a, b) => value === 'price-low' ? Number(a.dataset.price) - Number(b.dataset.price) : value === 'price-high' ? Number(b.dataset.price) - Number(a.dataset.price) : original.get(a.dataset.product) - original.get(b.dataset.product));
   const cta = grid.querySelector('.collection-cta');
   cards.forEach((card) => { grid.insertBefore(card, cta); });

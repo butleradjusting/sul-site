@@ -4,7 +4,7 @@ const fs = require('node:fs');
 
 const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
 (async () => {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true, ...(process.env.SUL_PLAYWRIGHT_CHANNEL ? { channel: process.env.SUL_PLAYWRIGHT_CHANNEL } : {}) });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   const errors = [];
   const failures = [];
@@ -14,7 +14,9 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     await page.goto(`${base}/collections.html`);
     await page.getByRole('button', { name: 'Accessories', exact: true }).click();
     assert.equal(await page.locator('.product-card:visible').count(), 1);
-    assert.equal(await page.locator('#collection-count').innerText(), '1 piece');
+    assert.equal(await page.locator('#collection-count').innerText(), '1 style');
+    await page.getByRole('button', { name: 'Women', exact: true }).click();
+    assert.equal(await page.locator('.product-card:visible').count(), 4);
     await page.getByRole('button', { name: 'All pieces', exact: true }).click();
     await page.selectOption('#sort-products', 'price-low');
     assert.equal(await page.locator('.product-card').first().getAttribute('data-price'), '45');
@@ -39,6 +41,18 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     await page.reload();
     assert.equal(await page.locator('.bag-count').innerText(), '(2)');
 
+    await page.goto(`${base}/olive-set.html`);
+    await page.locator('[data-claim]').click();
+    assert.match(await page.locator('.inline-error').innerText(), /Choose a size/);
+    await page.locator('[data-size="M"]').click();
+    assert.equal(await page.locator('.inline-error').innerText(), '');
+    assert.equal(await page.locator('.related .set-card').count(), 3);
+    await page.goto(`${base}/collections.html`);
+    await page.getByRole('button', { name: 'Claim a size in Blush Pink 3-Piece', exact: true }).click();
+    assert(await page.locator('#quick-dialog [data-claim]').isVisible());
+    assert.match(await page.locator('#quick-dialog .color-name').innerText(), /5 sets made/);
+    await page.keyboard.press('Escape');
+
     await page.goto(`${base}/blackout-hoodie.html`);
     await page.locator('[data-gallery]').nth(1).click();
     await page.waitForFunction(() => document.querySelector('#gallery-image').src.endsWith('hoodie-scene.webp'));
@@ -62,7 +76,7 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     assert(await page.locator('#menu-dialog').isVisible());
     await page.keyboard.press('Escape');
 
-    const paths = ['index.html', 'collections.html', 'blackout-hoodie.html', 'bomber-jacket.html', 'lion-sweater.html', 'new-era-hat.html', 'full-kit.html', '404.html'];
+    const paths = ['index.html', 'collections.html', 'blackout-hoodie.html', 'bomber-jacket.html', 'lion-sweater.html', 'new-era-hat.html', 'full-kit.html', 'olive-set.html', 'navy-cream-set.html', 'black-set.html', 'pink-set.html', '404.html'];
     for (const width of [320, 375, 390, 430, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       for (const path of paths) {
@@ -75,7 +89,7 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     assert.deepEqual(errors, []);
     assert.deepEqual(failures, []);
     fs.mkdirSync('.impeccable/review', { recursive: true });
-    fs.writeFileSync('.impeccable/review/smoke-report.json', JSON.stringify({ passed: true, checks: ['Category filters and counts', 'Price sorting', 'Studio and styled photography', 'Size validation', 'Add to bag', 'Quantity and subtotal', 'Test checkout disclosure', 'Escape and dialog behavior', 'Cross-page persisted bag', 'Remove and empty bag', 'Product gallery and enlarged image', 'Studio board switch', 'Shirt and shorts switch', 'Lookbook switch', 'Mobile menu', '48 route and viewport checks'], javascriptErrors: errors, httpErrors: failures }, null, 2));
-    console.log('Passed: shopping flows, persistence, gallery controls, mobile menu, and 48 route/viewport checks. No JavaScript or HTTP errors.');
+    fs.writeFileSync('.impeccable/review/smoke-report.json', JSON.stringify({ passed: true, checks: ['Category filters and counts', 'Price sorting', 'Studio and styled photography', 'Size validation', 'Add to bag', 'Quantity and subtotal', 'Test checkout disclosure', 'Escape and dialog behavior', 'Cross-page persisted bag', 'Remove and empty bag', 'Product gallery and enlarged image', 'Studio board switch', 'Shirt and shorts switch', 'Lookbook switch', 'Mobile menu', 'Women’s drop filter, claim validation, and quick view', '72 route and viewport checks'], javascriptErrors: errors, httpErrors: failures }, null, 2));
+    console.log('Passed: shopping flows, persistence, gallery controls, mobile menu, women’s drop claims, and 72 route/viewport checks. No JavaScript or HTTP errors.');
   } finally { await browser.close(); }
 })().catch((error) => { console.error(error); process.exitCode = 1; });

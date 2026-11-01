@@ -67,3 +67,50 @@ dialog{color:var(--ink);border:0;padding:0;background:var(--chalk);max-height:ca
   .view-switch button,.sort-label select{min-height:44px}
   .filter-list button,.print-controls button,.campaign-tabs button,.quick-summary .size-options button,.quantity button{min-width:44px;min-height:44px}
 }
+
+/* Women's first drop: colorway swatch tiles stand in for photography until the shipment lands. */
+.set-tile{container-type:inline-size;position:relative;width:100%;height:100%;min-height:100%;background:var(--tile);color:var(--tile-ink);overflow:hidden;display:block;aspect-ratio:2/3}
+.set-tile.has-band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:27%;background:var(--tile-band)}
+.set-count{position:absolute;top:13%;left:6%;font-family:Barlow,sans-serif;font-weight:800;font-size:52cqw;line-height:.86;letter-spacing:-.04em;transition:transform .7s var(--ease)}
+.set-word{position:absolute;top:17%;left:52%;font-family:Barlow,sans-serif;font-weight:600;font-size:11cqw;line-height:.95;text-transform:uppercase;letter-spacing:-.01em;opacity:.85}
+.set-colorway{position:absolute;left:6%;bottom:6%;z-index:1;font-size:max(11px,4.6cqw);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.set-tile.has-band .set-colorway{color:var(--ink)}
+.product-image-link:hover .set-count{transform:translateY(-4%)}
+.product-image-link .set-tile{position:absolute;inset:0;aspect-ratio:auto}
+.set-main{aspect-ratio:2/3}.set-main .set-tile{aspect-ratio:auto;position:absolute;inset:0}
+.hero-swatches{width:84px;height:96px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;flex-shrink:0}.hero-swatches span{display:block}
+.drop-section{padding-top:96px;padding-bottom:96px;border-bottom:1px solid var(--line)}
+.drop-heading{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(30px,5vw,90px);align-items:end;margin-bottom:46px}
+.drop-status{display:block;color:var(--wine);margin-bottom:24px}
+.drop-heading h2{max-width:12ch}
+.drop-copy>p{font-size:13px;line-height:1.8;color:var(--muted);max-width:42ch}
+.drop-facts{display:flex;gap:clamp(28px,4vw,60px);margin:28px 0 26px;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.drop-facts div{display:flex;flex-direction:column-reverse;gap:8px}
+.drop-facts dt{font-size:12px;color:var(--muted)}
+.drop-facts dd{margin:0;font-family:Barlow,sans-serif;font-weight:800;font-size:44px;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.drop-note{color:var(--ink)!important;font-weight:600}
+.drop-footnote{font-size:12px;color:var(--muted);margin-top:26px;max-width:48ch}
+.set-card .product-card-tag{background:var(--ink);color:var(--chalk)}
+.status-label{display:block;color:var(--wine);margin-bottom:16px}
+.set-summary .color-swatch{border:1px solid var(--line)}
+.quick-tile{position:relative;min-height:450px}.quick-tile .set-tile{position:absolute;inset:0;aspect-ratio:auto}
+.quick-claim-note{font-size:12px;line-height:1.7;color:var(--muted);margin:-4px 0 18px}
+.bag-swatch{width:85px;height:128px;position:relative;flex-shrink:0}.bag-swatch .set-tile{position:absolute;inset:0;aspect-ratio:auto}
+.bag-swatch .set-word{display:none}
+@media(max-width:1100px){.drop-heading{grid-template-columns:1fr 1fr;gap:40px}.drop-facts dd{font-size:38px}}
+@media(max-width:767px){
+  .drop-section{padding-top:60px;padding-bottom:62px}
+  .drop-heading{grid-template-columns:1fr;gap:26px;align-items:start;margin-bottom:28px}
+  .drop-heading h2{font-size:60px}
+  .drop-status{margin-bottom:18px}
+  .drop-copy>p{font-size:13px}
+  .drop-facts{gap:26px;margin:22px 0 20px;padding:16px 0}
+  .drop-facts dd{font-size:34px}
+  .drop-footnote{margin-top:22px}
+  .hero-swatches{width:60px;height:70px}
+  .set-main{aspect-ratio:4/5}
+  .set-word{top:18%}
+  .quick-tile{min-height:210px}
+  .status-label{margin-bottom:12px}
+  .related .section-heading{flex-wrap:wrap}
+}

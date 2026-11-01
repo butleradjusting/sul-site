@@ -8,6 +8,12 @@ The site remains static HTML/CSS/JavaScript. `scripts/build.mjs` generates the h
 
 The bag persists size and quantity on the current device. All existing payment links are Stripe test links; no live checkout has been added. New designs and printed sets have no confirmed prices or availability and remain explicitly labeled studio previews. The production planning board is not included in the website. The owner authorized publication and requested mobile verification on 2026-10-03.
 
+## Women’s First Drop — 2026-10-31
+
+The owner’s launch plan (2026-10-31) sells 27 complete women’s outfits in four colorways: Olive 4-piece $149.99 (7 sets), Navy/Cream 3-piece $129.99 (7), All Black 3-piece $129.99 (8), Blush Pink 3-piece $129.99 (5). Each set is a listing in `assets/catalog.js` under `sets`, with its own page (`olive-set.html`, `navy-cream-set.html`, `black-set.html`, `pink-set.html`), a homepage section (`index.html#drop`), and a Women filter on the collections page.
+
+`drop.status` in `assets/catalog.js` controls the state. It is `'coming-soon'` until the shipment is received and inspected: cards and pages say Coming soon, and the action is "Claim your size", which opens a prefilled email to sulcollective@gmail.com (no payment, no backend). Switch it to `'live'` and rebuild for Available now, add-to-bag, and email order links in the bag. No Stripe link exists for the sets. Sizes XS–XL are a working assumption until the manufacturer’s size run is confirmed. No photography of the sets exists yet, so each set renders as a colorway swatch tile; add `image`/`scene` keys to a set once photos are in `assets/images/`. The smoke test accepts `SUL_PLAYWRIGHT_PATH` and `SUL_PLAYWRIGHT_CHANNEL` (for example `chrome`).
+
 ## Brand Overview
 - **Brand Name:** SUL (Snooze U Lose)
 - **Owner:** Kev (butleradjusting@gmail.com)

@@ -36,6 +36,10 @@ The site-photos directory contains original product images, storefront imagery, 
 - Keep preview and live commerce states explicit.
 - Make the design adaptable to incoming assets.
 
+## Women’s First Drop
+
+On 2026-10-31 the owner supplied a launch plan for 27 women’s matching sets in four colorways with quick-sell prices (Olive 4-piece $149.99; Navy/Cream, All Black, and Blush Pink 3-piece $129.99 each) and per-colorway quantities. The website lists each set as a complete outfit, shows the real run size, and stays in a Coming soon state with an email claim until stock is verified. No live checkout exists for the sets; orders are confirmed by email when the drop goes live. Set photography has not been supplied, so sets are shown as colorway swatches.
+
 ## Open Decisions
 
 The owner selected building a working website directly, without a mockup round. On 2026-10-03 the owner supplied 16 additional images: three chrome/blue technical garment boards, ten printed shirt/shorts images, a production planning board, a black/gold lion hoodie image, and a charcoal crown hoodie sample. The production board remains outside the public website. New pieces are shown as studio previews until availability and pricing are confirmed. Owner confirmation of final creative direction, commerce integration, pricing, fulfillment policies, and audience remains open. This initial product record uses explicit user instructions and repository evidence after an optional clarification probe; inferred facts are labeled above.
