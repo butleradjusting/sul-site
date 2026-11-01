@@ -14,6 +14,8 @@ The owner’s launch plan (2026-10-31) sells 27 complete women’s outfits in fo
 
 `drop.status` in `assets/catalog.js` controls the state. It is `'coming-soon'` until the shipment is received and inspected: cards and pages say Coming soon, and the action is "Claim your size", which opens a prefilled email to sulcollective@gmail.com (no payment, no backend). Switch it to `'live'` and rebuild for Available now, add-to-bag, and email order links in the bag. No Stripe link exists for the sets. The owner’s inventory list (2026-10-31) supplies the pieces and the per-size run; each set’s `stock` object holds it, `sizes` is derived from it, and the set page prints “Made per size”. Only the black set has a 2XL. Set photos are crops of the owner’s campaign image (source kept at `site-photos/campaign-womens-collection.webp`, full lineup at `assets/images/womens-drop.webp`); the colorway swatch tile remains as a fallback for any set without an `image`. Piece lists in the catalog are read from that image and marked “as pictured”. The smoke test accepts `SUL_PLAYWRIGHT_PATH` and `SUL_PLAYWRIGHT_CHANNEL` (for example `chrome`).
 
+Every size selector (product pages, set pages, quick view) has a Size guide link beside its label. It opens the shared `#size-dialog`, filled by `openSizeGuide` in `assets/site.js` from each style’s `fit`/`fitNote` in the catalog and the `sizeCharts` there. The fit notes are the owner’s (2026-11-01): sweatshirts relaxed and oversized, the olive fitted set close and stretchy, skirt outfits sized by waist and hip. The charts are standard US body measurements in inches, not garment measurements; replace them once the pieces are measured.
+
 ## Brand Overview
 - **Brand Name:** SUL (Snooze U Lose)
 - **Owner:** Kev (butleradjusting@gmail.com)

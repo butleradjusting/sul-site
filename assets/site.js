@@ -1,4 +1,4 @@
-import { catalog, dropLive, imagePath, money, claimLink } from './catalog.js';
+import { catalog, drop, dropLive, imagePath, money, claimLink, sizeGuideFor, measuringNotes } from './catalog.js';
 
 const byId = new Map(catalog.map((product) => [product.id, product]));
 const escape = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -37,9 +37,9 @@ function saveBag() {
   catch { toast('Your bag is available for this visit. This browser could not save it for later.'); }
   renderBag();
 }
-function openDialog(id) {
+function openDialog(id, stack = false) {
   const dialog = document.getElementById(id);
-  document.querySelectorAll('dialog[open]').forEach((open) => { if (open !== dialog) open.close(); });
+  if (!stack) document.querySelectorAll('dialog[open]').forEach((open) => { if (open !== dialog) open.close(); });
   if (!dialog.open) dialog.showModal();
 }
 document.querySelectorAll('dialog').forEach((dialog) => {
@@ -110,6 +110,16 @@ function claimSet(button) {
   toast(`Opening your email app. Send the message to claim the ${p.name} in ${size}.`);
   window.location.href = claimLink(p, size);
 }
+function openSizeGuide(id) {
+  const p = byId.get(id);
+  if (!p) return;
+  const guide = sizeGuideFor(p);
+  const chart = guide.chart
+    ? `<table class="size-table"><caption class="sr-only">Body measurements in inches for ${escape(p.name)}</caption><thead><tr>${guide.chart.columns.map((c) => `<th scope="col">${escape(c)}</th>`).join('')}</tr></thead><tbody>${guide.chart.rows.map((row) => `<tr>${row.map((cell, i) => i === 0 ? `<th scope="row">${escape(cell)}</th>` : `<td>${escape(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table><p class="size-guide-foot">Body measurements in inches. Between sizes? Go by the fit note above.</p><h4 class="small-label">How to measure</h4><dl class="measure-list">${measuringNotes.filter(([k]) => k !== 'Hips' || guide.chart.columns.includes('Hips')).map(([k, v]) => `<div><dt>${escape(k)}</dt><dd>${escape(v)}</dd></div>`).join('')}</dl>`
+    : '';
+  document.getElementById('size-content').innerHTML = `<p class="small-label size-guide-product">${escape(p.name)}</p><h3>${escape(guide.fit)}.</h3><p class="size-guide-note">${escape(guide.note)}</p>${chart}<p class="size-guide-foot">Still unsure? <a href="mailto:${escape(drop.email)}?subject=${encodeURIComponent(`Sizing: ${p.name}`)}">Email SUL</a> with your measurements and the set you want.</p>`;
+  openDialog('size-dialog', true); // stacks over the quick view so closing the guide returns to the size choice
+}
 function quickView(id) {
   const p = byId.get(id);
   if (!p) return;
@@ -118,7 +128,7 @@ function quickView(id) {
   const action = claiming
     ? `<button class="button wine product-add" data-claim="${p.id}"><span>Claim your size</span>${icon('arrow')}</button><p class="quick-claim-note">No payment today. Your claim opens an email to SUL.</p>`
     : `<button class="button wine product-add" data-add="${p.id}"><span>Add to bag — ${money(p.price)}</span>${icon('plus')}</button>`;
-  document.getElementById('quick-content').innerHTML = `<div class="quick-body">${media}<section class="quick-summary" data-detail="${p.id}"><h3>${escape(p.name)}</h3><div class="product-price-row"><strong>${money(p.price)}</strong><span class="color-name">${escape(p.color)}${p.quantity ? ` · ${p.quantity} sets made` : ''}</span></div><p class="product-description">${escape(p.description)}</p>${p.id === 'full-kit' ? '<p class="quick-image-note">Hoodie + joggers + tee. Hoodie shown.</p>' : ''}<fieldset class="size-fieldset"><legend>Select your size</legend><div class="size-options" role="group" aria-label="Size for ${escape(p.name)}">${p.sizes.map((s) => `<button data-size="${escape(s)}" aria-pressed="${p.sizes.length === 1}">${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status"></p></fieldset>${action}<a class="text-link" href="${p.id}.html">View the details${icon('arrow')}</a></section></div>`;
+  document.getElementById('quick-content').innerHTML = `<div class="quick-body">${media}<section class="quick-summary" data-detail="${p.id}"><h3>${escape(p.name)}</h3><div class="product-price-row"><strong>${money(p.price)}</strong><span class="color-name">${escape(p.color)}${p.quantity ? ` · ${p.quantity} sets made` : ''}</span></div><p class="product-description">${escape(p.description)}</p>${p.id === 'full-kit' ? '<p class="quick-image-note">Hoodie + joggers + tee. Hoodie shown.</p>' : ''}<fieldset class="size-fieldset"><legend class="sr-only">Select your size</legend><div class="size-head"><span>Select your size</span><button type="button" class="size-guide-link" data-size-guide="${p.id}" aria-haspopup="dialog">Size guide</button></div><div class="size-options" role="group" aria-label="Size for ${escape(p.name)}">${p.sizes.map((s) => `<button data-size="${escape(s)}" aria-pressed="${p.sizes.length === 1}">${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status"></p></fieldset>${action}<a class="text-link" href="${p.id}.html">View the details${icon('arrow')}</a></section></div>`;
   openDialog('quick-dialog');
 }
 async function swapImage(image, name, alt) {
@@ -156,6 +166,7 @@ document.addEventListener('click', (event) => {
   if (button.dataset.open) { openDialog(button.dataset.open); return; }
   if (button.hasAttribute('data-close')) { button.closest('dialog').close(); return; }
   if (button.dataset.quick) { quickView(button.dataset.quick); return; }
+  if (button.dataset.sizeGuide) { openSizeGuide(button.dataset.sizeGuide); return; }
   if (button.dataset.size) {
     const region = button.closest('[data-detail]');
     region.querySelectorAll('[data-size]').forEach((node) => { node.setAttribute('aria-pressed', String(node === button)); });
