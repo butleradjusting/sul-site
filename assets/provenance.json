@@ -115,6 +115,26 @@
     "sul-wordmark.png": {
       "origin": "Repository supplied asset: site-photos/sul-logo-modern-white.png",
       "transformation": "Copied without visual changes."
+    },
+    "womens-drop.webp": {
+      "origin": "User supplied attachment, S.U.L women’s collection campaign image (1254×1254 WebP), received 2026-10-31; copy kept at site-photos/campaign-womens-collection.webp",
+      "transformation": "WebP re-encoding, quality 88. No creative modification."
+    },
+    "olive-set.webp": {
+      "origin": "User supplied attachment, S.U.L women’s collection campaign image (1254×1254 WebP), received 2026-10-31; copy kept at site-photos/campaign-womens-collection.webp",
+      "transformation": "Crop to one model (offset 0,200 380×570), WebP encoding, quality 88. No other modification."
+    },
+    "navy-cream-set.webp": {
+      "origin": "User supplied attachment, S.U.L women’s collection campaign image (1254×1254 WebP), received 2026-10-31; copy kept at site-photos/campaign-womens-collection.webp",
+      "transformation": "Crop to one model (offset 290,200 380×570), WebP encoding, quality 88. No other modification."
+    },
+    "black-set.webp": {
+      "origin": "User supplied attachment, S.U.L women’s collection campaign image (1254×1254 WebP), received 2026-10-31; copy kept at site-photos/campaign-womens-collection.webp",
+      "transformation": "Crop to one model (offset 600,200 380×570), WebP encoding, quality 88. No other modification."
+    },
+    "pink-set.webp": {
+      "origin": "User supplied attachment, S.U.L women’s collection campaign image (1254×1254 WebP), received 2026-10-31; copy kept at site-photos/campaign-womens-collection.webp",
+      "transformation": "Crop to one model (offset 874,200 380×570), WebP encoding, quality 88. No other modification."
     }
   },
   "fonts": {

@@ -38,7 +38,7 @@ The site-photos directory contains original product images, storefront imagery, 
 
 ## Women’s First Drop
 
-On 2026-10-31 the owner supplied a launch plan for 27 women’s matching sets in four colorways with quick-sell prices (Olive 4-piece $149.99; Navy/Cream, All Black, and Blush Pink 3-piece $129.99 each) and per-colorway quantities. The website lists each set as a complete outfit, shows the real run size, and stays in a Coming soon state with an email claim until stock is verified. No live checkout exists for the sets; orders are confirmed by email when the drop goes live. Set photography has not been supplied, so sets are shown as colorway swatches.
+On 2026-10-31 the owner supplied a launch plan for 27 women’s matching sets in four colorways with quick-sell prices (Olive 4-piece $149.99; Navy/Cream, All Black, and Blush Pink 3-piece $129.99 each) and per-colorway quantities. The website lists each set as a complete outfit, shows the real run size, and stays in a Coming soon state with an email claim until stock is verified. No live checkout exists for the sets; orders are confirmed by email when the drop goes live. On 2026-10-31 the owner supplied the women’s collection campaign image (four models, one per colorway); set photography on the site is cropped from it, and piece lists are described as pictured.
 
 ## Open Decisions
 

@@ -193,7 +193,7 @@ document.addEventListener('click', (event) => {
     shop.querySelectorAll('[data-view]').forEach((node) => { node.setAttribute('aria-pressed', String(node === button)); });
     shop.querySelectorAll('.product-card').forEach((card) => {
       const p = byId.get(card.dataset.product);
-      if (!p?.image) return;
+      if (!p?.scene || !card.querySelector('.hover-image')) return;
       const scene = button.dataset.view === 'scene';
       swapImage(card.querySelector('.card-main-image'), scene ? p.scene : p.image, scene ? p.sceneAlt : p.alt);
       card.querySelector('.hover-image').hidden = scene;
@@ -202,7 +202,9 @@ document.addEventListener('click', (event) => {
   }
   if (button.dataset.gallery) {
     document.querySelectorAll('[data-gallery]').forEach((node) => { node.setAttribute('aria-pressed', String(node === button)); });
-    swapImage(document.getElementById('gallery-image'), button.dataset.gallery, button.dataset.galleryAlt);
+    const galleryImage = document.getElementById('gallery-image');
+    galleryImage.classList.toggle('fit-contain', button.dataset.galleryFit === 'contain');
+    swapImage(galleryImage, button.dataset.gallery, button.dataset.galleryAlt);
     const enlarge = document.querySelector('.gallery-enlarge');
     enlarge.dataset.enlarge = button.dataset.gallery;
     enlarge.dataset.alt = button.dataset.galleryAlt;
