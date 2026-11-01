@@ -53,52 +53,53 @@ export const products = [
 ];
 
 // Women's first drop. Flip `status` to 'live' once the shipment is received and inspected.
-// Prices, quantities, and colorways come from the owner's launch plan (2026-10-31). Sizes XS–XL are a
-// working assumption until the manufacturer's size run is confirmed. Photos are crops of the owner's
-// campaign image (assets/images/womens-drop.webp); `tile` colors remain as the fallback swatch.
+// Prices and colorways come from the owner's launch plan (2026-10-31); pieces and the per-size run
+// (`stock`) from the owner's inventory list (2026-10-31). `sizes` is derived from sizes with stock.
+// Photos are crops of the owner's campaign image (assets/images/womens-drop.webp); `tile` colors
+// remain as the fallback swatch.
 export const drop = {
   id: 'drop', name: 'Women’s collection', status: 'coming-soon', totalSets: 27,
   email: 'sulcollective@gmail.com', instagram: 'https://www.instagram.com/snoozeulose/'
 };
-const womensSizes = ['XS', 'S', 'M', 'L', 'XL'];
+const sizesWithStock = (stock) => Object.keys(stock).filter((size) => stock[size] > 0);
 export const sets = [
   {
     id: 'olive-set', name: 'Olive 4-Piece', category: 'Women', price: 149.99, quantity: 7, pieces: 4,
-    color: 'Olive', colorway: 'Olive', sizes: womensSizes, tile: { bg: '#4a5337', ink: '#eeeef0' },
+    color: 'Olive', colorway: 'Olive', stock: { XS: 1, S: 1, M: 2, L: 2, XL: 1 }, tile: { bg: '#4a5337', ink: '#eeeef0' },
     image: 'olive-set', scene: 'womens-drop', gallery: ['olive-set', 'womens-drop'],
     alt: 'Model wearing the S.U.L Olive 4-Piece: olive tank and leggings with crown details under a striped knit cardigan',
     sceneAlt: 'The S.U.L women’s collection campaign image showing all four complete sets side by side',
-    description: 'The full look in one order. A striped knit cardigan over an olive tank and leggings with crown details, finished with knit leg warmers. Seven sets made for the first drop.',
-    details: [['Set', 'Cardigan, tank, leggings, leg warmers (as pictured)'], ['Colorway', 'Olive'], ['Run', '7 sets in the first drop'], ['Details', 'Crown details on tank and leggings'], ['Sizes', 'XS to XL']]
+    description: 'The full look in one order. An olive fitted tank and fitted leggings with crown details, a cream and olive cardigan over the top, and cream leg warmers. Seven sets made for the first drop.',
+    details: [['Set', 'Fitted tank, fitted leggings, cream/olive cardigan, cream leg warmers'], ['Colorway', 'Olive'], ['Run', '7 sets in the first drop'], ['Details', 'Crown details on tank and leggings']]
   },
   {
     id: 'navy-cream-set', name: 'Navy / Cream 3-Piece', category: 'Women', price: 129.99, quantity: 7, pieces: 3,
-    color: 'Navy / Cream', colorway: 'Navy / Cream', sizes: womensSizes, tile: { bg: '#1c2a4b', ink: '#eeeef0', band: '#e8e0d0' },
+    color: 'Navy / Cream', colorway: 'Navy / Cream', stock: { XS: 1, S: 1, M: 2, L: 2, XL: 1 }, tile: { bg: '#1c2a4b', ink: '#eeeef0', band: '#e8e0d0' },
     image: 'navy-cream-set', scene: 'womens-drop', gallery: ['navy-cream-set', 'womens-drop'],
     alt: 'Model wearing the S.U.L Navy / Cream 3-Piece: navy crown crewneck with a cream pleated skirt',
     sceneAlt: 'The S.U.L women’s collection campaign image showing all four complete sets side by side',
-    description: 'Deep navy against cream. A navy crewneck with the S.U.L crown across the chest, a cream pleated skirt with a crown at the hem, and knit leg warmers. Seven sets made for the first drop.',
-    details: [['Set', 'Crewneck, pleated skirt, leg warmers (as pictured)'], ['Colorway', 'Navy / Cream'], ['Run', '7 sets in the first drop'], ['Details', 'Crown crest on chest and skirt'], ['Sizes', 'XS to XL']]
+    description: 'Deep navy against cream. A navy sweatshirt with the S.U.L crown across the chest, a cream pleated skirt with built-in shorts and a crown at the hem, and cream leg warmers. Seven sets made for the first drop.',
+    details: [['Set', 'Navy sweatshirt, cream pleated skirt with built-in shorts, cream leg warmers'], ['Colorway', 'Navy / Cream'], ['Run', '7 sets in the first drop'], ['Details', 'Crown crest on chest and skirt']]
   },
   {
     id: 'black-set', name: 'All Black 3-Piece', category: 'Women', price: 129.99, quantity: 8, pieces: 3,
-    color: 'Black', colorway: 'All black', sizes: womensSizes, tile: { bg: '#15171a', ink: '#c1c5ce' },
+    color: 'Black', colorway: 'All black', stock: { XS: 1, S: 1, M: 1, L: 3, XL: 1, '2XL': 1 }, tile: { bg: '#15171a', ink: '#c1c5ce' },
     image: 'black-set', scene: 'womens-drop', gallery: ['black-set', 'womens-drop'],
     alt: 'Model wearing the S.U.L All Black 3-Piece: black crown crewneck with a black pleated skirt',
     sceneAlt: 'The S.U.L women’s collection campaign image showing all four complete sets side by side',
-    description: 'All black, head to toe. A black crewneck with the S.U.L crown across the chest, a black pleated skirt with a crown at the hem, and black knit leg warmers. Eight sets made for the first drop.',
-    details: [['Set', 'Crewneck, pleated skirt, leg warmers (as pictured)'], ['Colorway', 'All black'], ['Run', '8 sets in the first drop'], ['Details', 'Crown crest on chest and skirt'], ['Sizes', 'XS to XL']]
+    description: 'All black, head to toe. A black sweatshirt with the S.U.L crown across the chest, a black pleated skirt with built-in shorts and a crown at the hem, and black leg warmers. Eight sets made for the first drop, the only colorway with a 2XL.',
+    details: [['Set', 'Black sweatshirt, black pleated skirt with built-in shorts, black leg warmers'], ['Colorway', 'All black'], ['Run', '8 sets in the first drop'], ['Details', 'Crown crest on chest and skirt']]
   },
   {
     id: 'pink-set', name: 'Blush Pink 3-Piece', category: 'Women', price: 129.99, quantity: 5, pieces: 3,
-    color: 'Blush pink', colorway: 'Blush pink', sizes: womensSizes, tile: { bg: '#e4b4bf', ink: '#111315' },
+    color: 'Blush pink', colorway: 'Blush pink', stock: { XS: 1, S: 1, M: 1, L: 1, XL: 1 }, tile: { bg: '#e4b4bf', ink: '#111315' },
     image: 'pink-set', scene: 'womens-drop', gallery: ['pink-set', 'womens-drop'],
     alt: 'Model wearing the S.U.L Blush Pink 3-Piece: pink crown crewneck with a pink pleated skirt',
     sceneAlt: 'The S.U.L women’s collection campaign image showing all four complete sets side by side',
-    description: 'The softest colorway in the drop and the smallest run. A blush crewneck with the S.U.L crown across the chest, a matching pleated skirt, and cream knit leg warmers. Five sets made for the first drop.',
-    details: [['Set', 'Crewneck, pleated skirt, leg warmers (as pictured)'], ['Colorway', 'Blush pink'], ['Run', '5 sets in the first drop'], ['Details', 'Crown crest on chest and skirt'], ['Sizes', 'XS to XL']]
+    description: 'The softest colorway in the drop and the smallest run. A blush pink sweatshirt with the S.U.L crown across the chest, a pink pleated skirt with built-in shorts, and cream and pink leg warmers. Five sets made for the first drop, one per size.',
+    details: [['Set', 'Blush pink sweatshirt, pink pleated skirt with built-in shorts, cream/pink leg warmers'], ['Colorway', 'Blush pink'], ['Run', '5 sets in the first drop'], ['Details', 'Crown crest on chest and skirt']]
   }
-];
+].map((set) => ({ ...set, sizes: sizesWithStock(set.stock), details: [...set.details, ['Sizes made', Object.entries(set.stock).filter(([, n]) => n > 0).map(([size, n]) => `${size} ${n}`).join(' · ')]] }));
 export const catalog = [...sets, ...products];
 export const dropLive = drop.status === 'live';
 

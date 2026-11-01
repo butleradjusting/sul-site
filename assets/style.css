@@ -93,6 +93,7 @@ dialog{color:var(--ink);border:0;padding:0;background:var(--chalk);max-height:ca
 .drop-note{color:var(--ink)!important;font-weight:600}
 .set-card .product-card-tag{background:var(--ink);color:var(--chalk)}
 .status-label{display:block;color:var(--wine);margin-bottom:16px}
+.size-run{font-size:12px;color:var(--muted);margin:-10px 0 24px;line-height:1.7}.size-run strong{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
 .set-summary .color-swatch{border:1px solid var(--line)}
 .gallery-main img.fit-contain{object-fit:contain;background:var(--concrete)}
 .quick-claim-note{font-size:12px;line-height:1.7;color:var(--muted);margin:-4px 0 18px}
