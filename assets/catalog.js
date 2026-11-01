@@ -69,7 +69,7 @@ export const drop = {
 const sizesWithStock = (stock) => Object.keys(stock).filter((size) => stock[size] > 0);
 export const sets = [
   {
-    id: 'olive-set', name: 'Olive 4-Piece', category: 'Women', price: 149.99, quantity: 7, pieces: 4,
+    id: 'olive-set', name: 'Olive 4-Piece', category: 'Women', sizeChart: 'olive', price: 149.99, quantity: 7, pieces: 4,
     color: 'Olive', colorway: 'Olive', stock: { XS: 1, S: 1, M: 2, L: 2, XL: 1 }, tile: { bg: '#4a5337', ink: '#eeeef0' },
     image: 'olive-set', scene: 'womens-drop', gallery: ['olive-set', 'womens-drop'],
     alt: 'Model wearing the S.U.L Olive 4-Piece: olive tank and leggings with crown details under a striped knit cardigan',
@@ -79,7 +79,7 @@ export const sets = [
     details: [['Set', 'Fitted tank, fitted leggings, cream/olive cardigan, cream leg warmers'], ['Colorway', 'Olive'], ['Run', '7 sets in the first drop'], ['Details', 'Crown details on tank and leggings']]
   },
   {
-    id: 'navy-cream-set', name: 'Navy / Cream 3-Piece', category: 'Women', price: 129.99, quantity: 7, pieces: 3,
+    id: 'navy-cream-set', name: 'Navy / Cream 3-Piece', category: 'Women', sizeChart: 'skirt', price: 129.99, quantity: 7, pieces: 3,
     color: 'Navy / Cream', colorway: 'Navy / Cream', stock: { XS: 1, S: 1, M: 2, L: 2, XL: 1 }, tile: { bg: '#1c2a4b', ink: '#eeeef0', band: '#e8e0d0' },
     image: 'navy-cream-set', scene: 'womens-drop', gallery: ['navy-cream-set', 'womens-drop'],
     alt: 'Model wearing the S.U.L Navy / Cream 3-Piece: navy crown crewneck with a cream pleated skirt',
@@ -89,7 +89,7 @@ export const sets = [
     details: [['Set', 'Navy sweatshirt, cream pleated skirt with built-in shorts, cream leg warmers'], ['Colorway', 'Navy / Cream'], ['Run', '7 sets in the first drop'], ['Details', 'Crown crest on chest and skirt']]
   },
   {
-    id: 'black-set', name: 'All Black 3-Piece', category: 'Women', price: 129.99, quantity: 8, pieces: 3,
+    id: 'black-set', name: 'All Black 3-Piece', category: 'Women', sizeChart: 'skirt', price: 129.99, quantity: 8, pieces: 3,
     color: 'Black', colorway: 'All black', stock: { XS: 1, S: 1, M: 1, L: 3, XL: 1, '2XL': 1 }, tile: { bg: '#15171a', ink: '#c1c5ce' },
     image: 'black-set', scene: 'womens-drop', gallery: ['black-set', 'womens-drop'],
     alt: 'Model wearing the S.U.L All Black 3-Piece: black crown crewneck with a black pleated skirt',
@@ -99,7 +99,7 @@ export const sets = [
     details: [['Set', 'Black sweatshirt, black pleated skirt with built-in shorts, black leg warmers'], ['Colorway', 'All black'], ['Run', '8 sets in the first drop'], ['Details', 'Crown crest on chest and skirt']]
   },
   {
-    id: 'pink-set', name: 'Blush Pink 3-Piece', category: 'Women', price: 129.99, quantity: 5, pieces: 3,
+    id: 'pink-set', name: 'Blush Pink 3-Piece', category: 'Women', sizeChart: 'skirt', price: 129.99, quantity: 5, pieces: 3,
     color: 'Blush pink', colorway: 'Blush pink', stock: { XS: 1, S: 1, M: 1, L: 1, XL: 1 }, tile: { bg: '#e4b4bf', ink: '#111315' },
     image: 'pink-set', scene: 'womens-drop', gallery: ['pink-set', 'womens-drop'],
     alt: 'Model wearing the S.U.L Blush Pink 3-Piece: pink crown crewneck with a pink pleated skirt',
@@ -112,15 +112,20 @@ export const sets = [
 export const catalog = [...sets, ...products];
 export const dropLive = drop.status === 'live';
 
-// Size guide. Fit notes come from the owner (2026-11-01). The charts are body measurements in inches
-// on standard US sizing, shown only for the sizes a style is made in; replace with garment-specific
-// numbers once the pieces are measured.
+// Size guide. Fit notes and the two women's charts come from the owner (2026-11-01); waist, hips, and
+// bust are body measurements in inches, skirt length is the garment's. The unisex chart for the
+// older pieces is standard US sizing until those garments are measured. Each chart shows only the
+// sizes a style is made in.
 export const sizeCharts = {
-  women: { columns: ['Size', 'US', 'Bust', 'Waist', 'Hips'], rows: {
-    XS: ['0–2', '32–33', '24–25', '34–35'], S: ['4–6', '34–35', '26–27', '36–37'], M: ['8–10', '36–37', '28–29', '38–39'],
-    L: ['12–14', '38½–40', '30½–32', '40½–42'], XL: ['16', '41½–43', '33½–35', '43½–45'], '2XL': ['18–20', '44½–46', '36½–38', '46½–48']
+  olive: { columns: ['Size', 'Bust', 'Waist', 'Hips'], note: 'Body measurements in inches.', rows: {
+    XS: ['30–32', '24–26', '34–36'], S: ['32–34', '26–28', '36–38'], M: ['34–36', '28–30', '38–40'],
+    L: ['36–39', '30–33', '40–43'], XL: ['39–42', '33–36', '43–46'], '2XL': ['42–46', '36–40', '46–50']
   } },
-  unisex: { columns: ['Size', 'Chest', 'Waist'], rows: {
+  skirt: { columns: ['Size', 'Waist', 'Hips', 'Skirt length'], note: 'Waist and hips are body measurements in inches. Skirt length is the skirt itself.', rows: {
+    XS: ['24–26', '34–36', '14'], S: ['26–28', '36–38', '14¼'], M: ['28–30', '38–40', '14½'],
+    L: ['30–33', '40–43', '15'], XL: ['33–36', '43–46', '15½'], '2XL': ['36–40', '46–50', '16']
+  } },
+  unisex: { columns: ['Size', 'Chest', 'Waist'], note: 'Body measurements in inches, standard US sizing.', rows: {
     S: ['35–37', '29–31'], M: ['38–40', '32–34'], L: ['41–43', '35–37'], XL: ['44–46', '38–40'], '2XL': ['47–49', '41–43']
   } }
 };
@@ -130,8 +135,8 @@ export const measuringNotes = [
   ['Hips', 'Around the fullest part, about 8 in below the waist.']
 ];
 export const sizeGuideFor = (p) => {
-  const chart = p.sizes.length <= 1 ? null : sizeCharts[p.category === 'Women' ? 'women' : 'unisex'];
-  return { fit: p.fit, note: p.fitNote, chart: chart && { columns: chart.columns, rows: p.sizes.filter((size) => chart.rows[size]).map((size) => [size, ...chart.rows[size]]) } };
+  const chart = p.sizes.length <= 1 ? null : sizeCharts[p.sizeChart || 'unisex'];
+  return { fit: p.fit, note: p.fitNote, chart: chart && { columns: chart.columns, note: chart.note, rows: p.sizes.filter((size) => chart.rows[size]).map((size) => [size, ...chart.rows[size]]) } };
 };
 
 export const imagePath = (name) => `assets/images/${name}.webp`;
