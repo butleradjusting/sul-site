@@ -1,3 +1,18 @@
+// Shelved on the owner's instruction (2026-11-01): off the site for now, price under review.
+// Move an entry back into `products` and rebuild to relist it.
+export const shelved = [
+  {
+    id: 'bomber-jacket', name: 'Bomber Jacket', price: 125, category: 'Outerwear',
+    color: 'Black / Embroidered', image: 'bomber', scene: 'bomber-scene',
+    alt: 'Black SUL bomber jacket with outlined chest embroidery and shoulder patches',
+    sceneAlt: 'SUL bomber jacket styled in a warmly lit storefront',
+    gallery: ['bomber', 'bomber-scene'], sizes: ['S', 'M', 'L', 'XL', '2XL'],
+    fit: 'Regular fit, true to size', fitNote: 'The bomber runs true to size with a regular fit through the body and sleeve.',
+    description: 'The piece that pulls the whole look together. A black satin bomber with SUL chest embroidery, custom patches, and ribbed finishing. Zip it up. Step out.',
+    details: [['Material', 'Satin shell / Polyester lining'], ['Fit', 'Regular / True to size'], ['Details', 'Full zip, embroidered patches, interior pocket'], ['Finishing', 'Ribbed collar and cuffs']],
+    checkout: 'https://buy.stripe.com/test_14A9AVdAgcoY5Sx8E91kA01'
+  }
+];
 export const products = [
   {
     id: 'blackout-hoodie', name: 'Blackout Hoodie', price: 85, category: 'Tops',
@@ -9,17 +24,6 @@ export const products = [
     description: 'All black. All SUL. A heavyweight hoodie with bold white sleeve lettering, a relaxed silhouette, and a kangaroo pocket. An everyday piece with a presence of its own.',
     details: [['Material', 'Heavyweight cotton fleece'], ['Fit', 'Oversized / Relaxed'], ['Details', 'Kangaroo pocket, ribbed cuffs'], ['Color', 'Black / White sleeve print']],
     checkout: 'https://buy.stripe.com/test_fZu9AV1RyfBa6WB5rX1kA00'
-  },
-  {
-    id: 'bomber-jacket', name: 'Bomber Jacket', price: 125, category: 'Outerwear',
-    color: 'Black / Embroidered', image: 'bomber', scene: 'bomber-scene',
-    alt: 'Black SUL bomber jacket with outlined chest embroidery and shoulder patches',
-    sceneAlt: 'SUL bomber jacket styled in a warmly lit storefront',
-    gallery: ['bomber', 'bomber-scene'], sizes: ['S', 'M', 'L', 'XL', '2XL'],
-    fit: 'Regular fit, true to size', fitNote: 'The bomber runs true to size with a regular fit through the body and sleeve.',
-    description: 'The piece that pulls the whole look together. A black satin bomber with SUL chest embroidery, custom patches, and ribbed finishing. Zip it up. Step out.',
-    details: [['Material', 'Satin shell / Polyester lining'], ['Fit', 'Regular / True to size'], ['Details', 'Full zip, embroidered patches, interior pocket'], ['Finishing', 'Ribbed collar and cuffs']],
-    checkout: 'https://buy.stripe.com/test_14A9AVdAgcoY5Sx8E91kA01'
   },
   {
     id: 'lion-sweater', name: 'Lion Sweater', price: 95, category: 'Tops',

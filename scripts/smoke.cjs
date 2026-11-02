@@ -91,7 +91,7 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     assert(await page.locator('#menu-dialog').isVisible());
     await page.keyboard.press('Escape');
 
-    const paths = ['index.html', 'collections.html', 'blackout-hoodie.html', 'bomber-jacket.html', 'lion-sweater.html', 'new-era-hat.html', 'full-kit.html', 'olive-set.html', 'navy-cream-set.html', 'black-set.html', 'pink-set.html', '404.html'];
+    const paths = ['index.html', 'collections.html', 'blackout-hoodie.html', 'lion-sweater.html', 'new-era-hat.html', 'full-kit.html', 'olive-set.html', 'navy-cream-set.html', 'black-set.html', 'pink-set.html', '404.html'];
     for (const width of [320, 375, 390, 430, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       for (const path of paths) {
