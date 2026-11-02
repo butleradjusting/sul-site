@@ -1,6 +1,8 @@
 import { products, imagePath, money } from './catalog.js';
+import { womensOutfits } from './womens.js';
 
-const byId = new Map(products.map((product) => [product.id, product]));
+const byId = new Map([...products, ...womensOutfits].map((product) => [product.id, product]));
+const pageFor = (p) => p.page || `${p.id}.html`;
 const escape = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${{
   minus: '<path d="M5 12h14"/>', plus: '<path d="M12 5v14M5 12h14"/>',
@@ -59,7 +61,7 @@ function renderBag() {
   } else {
     content.innerHTML = bag.map((item, index) => {
       const p = byId.get(item.id);
-      return `<article class="bag-item"><img src="${imagePath(p.image)}" alt="${escape(p.alt)}" width="85" height="128"><div><div class="bag-item-top"><div><h3><a href="${p.id}.html">${escape(p.name)}</a></h3><p>${escape(item.size)} · ${escape(p.color)}</p></div><strong>${money(p.price * item.quantity)}</strong></div><div class="bag-item-controls"><div class="quantity"><button data-quantity="${index}" data-change="-1" aria-label="Decrease quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 1 ? ' disabled' : ''}>${icon('minus')}</button><span aria-label="Quantity">${item.quantity}</span><button data-quantity="${index}" data-change="1" aria-label="Increase quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 99 ? ' disabled' : ''}>${icon('plus')}</button></div><button class="remove-item" data-remove="${index}" aria-label="Remove ${escape(p.name)}, ${escape(item.size)} from bag">Remove</button></div></div></article>`;
+      return `<article class="bag-item"><img src="${imagePath(p.image)}" alt="${escape(p.alt)}" width="85" height="128"><div><div class="bag-item-top"><div><h3><a href="${pageFor(p)}">${escape(p.name)}</a></h3><p>${escape(item.size)} · ${escape(p.color)}</p></div><strong>${money(p.price * item.quantity)}</strong></div><div class="bag-item-controls"><div class="quantity"><button data-quantity="${index}" data-change="-1" aria-label="Decrease quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 1 ? ' disabled' : ''}>${icon('minus')}</button><span aria-label="Quantity">${item.quantity}</span><button data-quantity="${index}" data-change="1" aria-label="Increase quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 99 ? ' disabled' : ''}>${icon('plus')}</button></div><button class="remove-item" data-remove="${index}" aria-label="Remove ${escape(p.name)}, ${escape(item.size)} from bag">Remove</button></div></div></article>`;
     }).join('');
   }
   document.getElementById('bag-total').textContent = money(bag.reduce((sum, item) => sum + byId.get(item.id).price * item.quantity, 0));
@@ -68,6 +70,7 @@ function renderBag() {
   preview.hidden = true;
   preview.innerHTML = [...new Set(bag.map((item) => item.id))].map((id) => {
     const p = byId.get(id);
+    if (!p.checkout) return `<span class="preview-pending">${escape(p.name)} — checkout link not connected yet</span>`;
     return `<a href="${p.checkout}" target="_blank" rel="noopener noreferrer">${escape(p.name)} — test checkout${icon('diagonal')}</a>`;
   }).join('');
   document.getElementById('bag-note').textContent = 'Payments are in test mode. Your bag is saved on this device.';
@@ -82,7 +85,10 @@ function addProduct(button) {
     region.querySelector('[data-size]').focus();
     return;
   }
+  const stock = region.dataset.live === 'true' && p.inventory ? p.inventory[size] : null;
+  if (stock !== null && stock <= 0) { error.textContent = `Sold out in ${size}. Choose another size.`; return; }
   const existing = bag.find((item) => item.id === p.id && item.size === size);
+  if (stock !== null && existing && existing.quantity >= stock) { error.textContent = `Your bag already has the last ${stock === 1 ? 'one' : stock} in ${size}.`; return; }
   if (existing && existing.quantity === 99) { error.textContent = 'Your bag already has 99 of this piece in this size.'; return; }
   if (existing) existing.quantity += 1;
   else bag.push({ id: p.id, size, quantity: 1 });
@@ -93,7 +99,7 @@ function addProduct(button) {
 function quickView(id) {
   const p = byId.get(id);
   if (!p) return;
-  document.getElementById('quick-content').innerHTML = `<div class="quick-body"><img class="quick-image" src="${imagePath(p.image)}" width="832" height="1248" alt="${escape(p.alt)}"><section class="quick-summary" data-detail="${p.id}"><h3>${escape(p.name)}</h3><div class="product-price-row"><strong>${money(p.price)}</strong><span class="color-name">${escape(p.color)}</span></div><p class="product-description">${escape(p.description)}</p>${p.id === 'full-kit' ? '<p class="quick-image-note">Hoodie + joggers + tee. Hoodie shown.</p>' : ''}<fieldset class="size-fieldset"><legend>Select your size</legend><div class="size-options" role="group" aria-label="Size for ${escape(p.name)}">${p.sizes.map((s) => `<button data-size="${escape(s)}" aria-pressed="${p.sizes.length === 1}">${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status"></p></fieldset><button class="button wine product-add" data-add="${p.id}"><span>Add to bag — ${money(p.price)}</span>${icon('plus')}</button><a class="text-link" href="${p.id}.html">View the details${icon('arrow')}</a></section></div>`;
+  document.getElementById('quick-content').innerHTML = `<div class="quick-body"><img class="quick-image" src="${imagePath(p.image)}" width="832" height="1248" alt="${escape(p.alt)}"><section class="quick-summary" data-detail="${p.id}"><h3>${escape(p.name)}</h3><div class="product-price-row"><strong>${money(p.price)}</strong><span class="color-name">${escape(p.color)}</span></div><p class="product-description">${escape(p.description)}</p>${p.id === 'full-kit' ? '<p class="quick-image-note">Hoodie + joggers + tee. Hoodie shown.</p>' : ''}<fieldset class="size-fieldset"><legend>Select your size</legend><div class="size-options" role="group" aria-label="Size for ${escape(p.name)}">${p.sizes.map((s) => `<button data-size="${escape(s)}" aria-pressed="${p.sizes.length === 1}">${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status"></p></fieldset><button class="button wine product-add" data-add="${p.id}"><span>Add to bag — ${money(p.price)}</span>${icon('plus')}</button><a class="text-link" href="${pageFor(p)}">View the details${icon('arrow')}</a></section></div>`;
   openDialog('quick-dialog');
 }
 async function swapImage(image, name, alt) {
@@ -110,6 +116,36 @@ async function swapImage(image, name, alt) {
     image.alt = alt;
   } catch { toast('This image could not load. Please try again.'); }
   finally { if (image.dataset.request === request) image.classList.remove('image-loading'); }
+}
+const stockMessage = (count, size) => count > 3 ? `${size} is in stock.` : count > 0 ? `Only ${count} left in ${size}.` : `Sold out in ${size}.`;
+function currentInventory(region) {
+  const look = region.querySelector('.look-option[aria-pressed="true"]');
+  try { return look ? JSON.parse(look.dataset.lookInventory || '{}') : null; } catch { return null; }
+}
+function selectLook(button) {
+  const page = button.closest('main');
+  const region = page.querySelector('[data-detail]');
+  const live = region.dataset.live === 'true';
+  page.querySelectorAll('[data-look]').forEach((node) => { node.setAttribute('aria-pressed', String(node.dataset.look === button.dataset.look)); });
+  swapImage(document.getElementById('gallery-image'), button.dataset.lookImage, button.dataset.lookAlt);
+  const enlarge = page.querySelector('.gallery-enlarge');
+  enlarge.dataset.enlarge = button.dataset.lookImage;
+  enlarge.dataset.alt = button.dataset.lookAlt;
+  document.getElementById('look-price').textContent = button.dataset.lookPriceText;
+  document.getElementById('look-description').textContent = button.dataset.lookDescription;
+  region.dataset.detail = button.dataset.lookId;
+  const add = region.querySelector('[data-add]');
+  if (add) { add.dataset.add = button.dataset.lookId; add.querySelector('span').textContent = `Add to bag — ${button.dataset.lookPriceText}`; }
+  const inventory = currentInventory(region) || {};
+  region.querySelectorAll('[data-size]').forEach((node) => {
+    node.setAttribute('aria-pressed', 'false');
+    const out = live && inventory[node.dataset.size] === 0;
+    node.disabled = out;
+    node.classList.toggle('sold-out', out);
+  });
+  region.querySelector('.inline-error').textContent = '';
+  const stock = region.querySelector('.size-stock');
+  if (stock) stock.textContent = live ? 'Choose a size to see availability.' : 'Sizes XS – XL. Stock by size opens at launch.';
 }
 function applyFilter(shop, category) {
   const cards = [...shop.querySelectorAll('.product-card')];
@@ -131,10 +167,14 @@ document.addEventListener('click', (event) => {
   if (button.dataset.open) { openDialog(button.dataset.open); return; }
   if (button.hasAttribute('data-close')) { button.closest('dialog').close(); return; }
   if (button.dataset.quick) { quickView(button.dataset.quick); return; }
+  if (button.dataset.look) { selectLook(button); return; }
   if (button.dataset.size) {
     const region = button.closest('[data-detail]');
     region.querySelectorAll('[data-size]').forEach((node) => { node.setAttribute('aria-pressed', String(node === button)); });
     region.querySelector('.inline-error').textContent = '';
+    const stockNode = region.querySelector('.size-stock');
+    const inventory = region.dataset.live === 'true' ? currentInventory(region) : null;
+    if (stockNode && inventory) stockNode.textContent = stockMessage(Number(inventory[button.dataset.size] ?? 0), button.dataset.size);
     return;
   }
   if (button.dataset.add) { addProduct(button); return; }

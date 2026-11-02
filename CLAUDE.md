@@ -8,6 +8,12 @@ The site remains static HTML/CSS/JavaScript. `scripts/build.mjs` generates the h
 
 The bag persists size and quantity on the current device. All existing payment links are Stripe test links; no live checkout has been added. New designs and printed sets have no confirmed prices or availability and remain explicitly labeled studio previews. The production planning board is not included in the website. The owner authorized publication and requested mobile verification on 2026-10-03.
 
+## Women's Collection — 2026-11-01 (Coming Soon)
+
+The owner requested a S.U.L. Women's Collection on 2026-11-01: four colorways (Olive Luxe, Navy & Cream, Midnight Black, Blush Pink), four looks each, 16 complete outfits. Everything lives in `assets/womens.js`; `scripts/build.mjs` generates `womens.html` (hub) and `womens-<colorway>.html` (four product pages) plus placeholder SVG studio cards in `assets/images/womens/`. The homepage section `#womens` and the Women's menu link are built from the same data.
+
+`womensStatus` in `assets/womens.js` is `'coming-soon'`: pages show launch pricing, the size guide, and a disabled Coming soon action. Switch it to `'live'` only after the owner confirms prices, per-size inventory counts, and a Stripe Payment Link per outfit (`checkout['<look-key>']` on each colorway). Prices ($110–$135), the size chart, and descriptions are drafts awaiting owner sign-off; no garment photography has been supplied, so the SVG cards are explicit placeholders. `WOMENS-COLLECTION.md` is the owner handoff. Preview screenshots are generated into the session scratchpad, not the repo. Build with `SUL_WOMENS_STATUS=live npm run build` to preview the live state without editing the catalog.
+
 ## Brand Overview
 - **Brand Name:** SUL (Snooze U Lose)
 - **Owner:** Kev (butleradjusting@gmail.com)

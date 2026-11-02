@@ -4,7 +4,7 @@ const fs = require('node:fs');
 
 const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
 (async () => {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true, channel: process.env.SUL_PLAYWRIGHT_CHANNEL || undefined });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   const errors = [];
   const failures = [];
@@ -62,7 +62,33 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     assert(await page.locator('#menu-dialog').isVisible());
     await page.keyboard.press('Escape');
 
-    const paths = ['index.html', 'collections.html', 'blackout-hoodie.html', 'bomber-jacket.html', 'lion-sweater.html', 'new-era-hat.html', 'full-kit.html', '404.html'];
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(`${base}/index.html`);
+    assert.equal(await page.locator('.desktop-nav a[href="womens.html"]').count(), 1, 'Women’s link in the main menu');
+    await page.locator('.womens-cta').click();
+    await page.waitForURL(/womens\.html$/);
+    assert.equal(await page.locator('.colorway-grid .colorway-card').count(), 4);
+    assert.equal(await page.locator('.looks-list li').count(), 4);
+    assert.equal(await page.locator('.size-table tbody tr').count(), 5);
+    await page.goto(`${base}/womens-olive-luxe.html`);
+    const comingSoon = (await page.locator('.coming-soon-action').count()) === 1;
+    await page.locator('.look-option[data-look="knit-set"]').click();
+    await page.waitForFunction(() => document.querySelector('#gallery-image').src.endsWith('olive-luxe-knit-set.svg'));
+    assert.equal(await page.locator('#look-price').innerText(), '$135');
+    assert.equal(await page.locator('.gallery-thumbs [data-look="knit-set"]').getAttribute('aria-pressed'), 'true');
+    assert.equal(await page.locator('[data-detail]').getAttribute('data-detail'), 'womens-olive-luxe-knit-set');
+    await page.locator('[data-size="M"]').click();
+    assert.equal(await page.locator('[data-size="M"]').getAttribute('aria-pressed'), 'true');
+    if (comingSoon) {
+      assert(await page.locator('.coming-soon-action').isDisabled(), 'Coming soon action stays disabled');
+      assert.equal(await page.locator('[data-add]').count(), 0, 'No add-to-bag action while coming soon');
+      assert.match(await page.locator('#size-stock').innerText(), /opens at launch/);
+    }
+    await page.locator('.gallery-enlarge').click();
+    await page.waitForFunction(() => document.querySelector('#enlarged-image').src.endsWith('olive-luxe-knit-set.svg'));
+    await page.keyboard.press('Escape');
+
+    const paths = ['index.html', 'collections.html', 'blackout-hoodie.html', 'bomber-jacket.html', 'lion-sweater.html', 'new-era-hat.html', 'full-kit.html', 'womens.html', 'womens-olive-luxe.html', 'womens-navy-cream.html', 'womens-midnight-black.html', 'womens-blush-pink.html', '404.html'];
     for (const width of [320, 375, 390, 430, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       for (const path of paths) {
@@ -75,7 +101,7 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     assert.deepEqual(errors, []);
     assert.deepEqual(failures, []);
     fs.mkdirSync('.impeccable/review', { recursive: true });
-    fs.writeFileSync('.impeccable/review/smoke-report.json', JSON.stringify({ passed: true, checks: ['Category filters and counts', 'Price sorting', 'Studio and styled photography', 'Size validation', 'Add to bag', 'Quantity and subtotal', 'Test checkout disclosure', 'Escape and dialog behavior', 'Cross-page persisted bag', 'Remove and empty bag', 'Product gallery and enlarged image', 'Studio board switch', 'Shirt and shorts switch', 'Lookbook switch', 'Mobile menu', '48 route and viewport checks'], javascriptErrors: errors, httpErrors: failures }, null, 2));
-    console.log('Passed: shopping flows, persistence, gallery controls, mobile menu, and 48 route/viewport checks. No JavaScript or HTTP errors.');
+    fs.writeFileSync('.impeccable/review/smoke-report.json', JSON.stringify({ passed: true, checks: ['Category filters and counts', 'Price sorting', 'Studio and styled photography', 'Size validation', 'Add to bag', 'Quantity and subtotal', 'Test checkout disclosure', 'Escape and dialog behavior', 'Cross-page persisted bag', 'Remove and empty bag', 'Product gallery and enlarged image', 'Studio board switch', 'Shirt and shorts switch', 'Lookbook switch', 'Mobile menu', 'Women’s collection menu, hub, look selector, size guide, and coming-soon state', '78 route and viewport checks'], javascriptErrors: errors, httpErrors: failures }, null, 2));
+    console.log('Passed: shopping flows, persistence, gallery controls, mobile menu, women’s collection, and 78 route/viewport checks. No JavaScript or HTTP errors.');
   } finally { await browser.close(); }
 })().catch((error) => { console.error(error); process.exitCode = 1; });
