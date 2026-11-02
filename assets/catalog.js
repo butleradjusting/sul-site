@@ -52,5 +52,5 @@ export const products = [
   }
 ];
 
-export const imagePath = (name) => `assets/images/${name}.webp`;
+export const imagePath = (name) => (name.includes('.') ? `assets/images/${name}` : `assets/images/${name}.webp`);
 export const money = (amount) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);

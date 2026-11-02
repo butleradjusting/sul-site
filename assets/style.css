@@ -67,3 +67,95 @@ dialog{color:var(--ink);border:0;padding:0;background:var(--chalk);max-height:ca
   .view-switch button,.sort-label select{min-height:44px}
   .filter-list button,.print-controls button,.campaign-tabs button,.quick-summary .size-options button,.quantity button{min-width:44px;min-height:44px}
 }
+
+/* Women's collection: first drop. Flat fields, square controls, the same two voices. */
+.status-flag{display:inline-flex;align-items:center;gap:7px;background:var(--chalk);color:var(--ink);padding:6px 10px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;line-height:1.4;white-space:nowrap}
+.status-flag svg{width:14px;height:14px}
+.status-flag.inline{background:var(--ink);color:var(--chalk)}
+.status-flag.on-media{position:absolute;top:16px;left:16px;z-index:1}
+.colorway-media .status-flag{position:absolute;top:12px;left:12px}
+.womens-eyebrow{display:flex;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.eyebrow-rule{width:34px;height:1px;background:var(--line)}
+.button:disabled,.button:disabled:hover{background:#d5d7df;color:#4f545e;cursor:default;transform:none}
+.coming-soon-action svg{opacity:.7}
+.preview-pending{display:block;padding:12px 0;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+
+.womens-intro{display:grid;grid-template-columns:1fr 1fr;background:var(--concrete);color:var(--ink)}
+.womens-intro-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:96px 60px 96px var(--page)}
+.womens-intro h2{margin-top:26px;font-size:clamp(56px,6vw,92px);max-width:11ch}
+.womens-lede{margin-top:30px;font-size:16px;font-weight:600;max-width:34ch}
+.womens-body{margin-top:14px;font-size:13px;line-height:1.85;color:var(--muted);max-width:50ch}
+.womens-count{margin-top:32px;font-family:Barlow,sans-serif;font-weight:600;font-size:26px;text-transform:uppercase;letter-spacing:-.01em;line-height:1.1;max-width:24ch}
+.womens-swatches{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:0 26px}
+.womens-swatches a{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;min-height:44px;border-bottom:1px solid transparent;transition:border-color .25s var(--ease)}
+.womens-swatches a:hover{border-color:var(--ink)}
+.womens-swatches .color-swatch{border:1px solid #00000024}
+.womens-sign{margin-top:30px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.womens-cta{margin-top:24px;min-width:300px}
+.womens-intro-tiles{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:64px var(--page) 108px 0;align-content:center}
+.womens-tile{position:relative;display:block;aspect-ratio:3/4;background:var(--tile,var(--ink));overflow:hidden}
+.womens-tile img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.womens-tile:hover img{transform:scale(1.03)}
+.womens-tile:nth-child(even){transform:translateY(44px)}
+
+.womens-hero{display:grid;grid-template-columns:1.15fr 1fr;gap:48px;align-items:end}
+.womens-hero h1{margin-top:22px}
+.womens-hero-aside .collection-intro{margin-top:0}
+.womens-status-note{margin-top:16px;font-size:12px;color:var(--muted);line-height:1.7}
+.browse-title{font-size:clamp(28px,3vw,40px)}
+.collection-page .colorway-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.colorway-card{min-width:0;position:relative}
+.colorway-media{display:block;position:relative;aspect-ratio:2/3;background:var(--concrete);overflow:hidden}
+.colorway-media img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.colorway-media:hover img{transform:scale(1.035)}
+.looks-section{background:var(--ink);color:var(--chalk);padding:92px 0 96px}
+.looks-section .section-heading>p{color:#c1c5ce}
+.looks-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--light-line)}
+.looks-list li{display:flex;flex-direction:column;gap:12px;padding:30px 28px 34px 0;margin-right:28px;border-right:1px solid var(--light-line)}
+.looks-list li:last-child{border-right:0;margin-right:0}
+.look-number{font-family:Barlow,sans-serif;font-size:54px;font-weight:800;line-height:1;color:#a4b9e8}
+.looks-list h3{font-size:16px}
+.look-pieces{font-size:12px;color:#c1c5ce;line-height:1.7}
+.look-fit{font-size:12px;color:#c1c5ce}
+.looks-list .look-price{margin-top:auto;padding-top:14px;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+.looks-note{margin-top:28px;font-size:12px;color:#c1c5ce}
+.size-guide{display:grid;grid-template-columns:1fr 1.4fr;gap:64px;padding-top:90px;padding-bottom:96px;border-top:1px solid var(--line)}
+.size-guide h2{font-size:clamp(44px,4.6vw,72px)}
+.size-guide-copy p{margin-top:24px;font-size:13px;line-height:1.85;color:var(--muted);max-width:40ch}
+.size-guide-copy .size-guide-note{font-size:12px;margin-top:14px}
+.size-table-wrap{overflow-x:auto;align-self:end}
+.size-table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.size-table th,.size-table td{padding:16px 12px;text-align:left;border-bottom:1px solid var(--line)}
+.size-table thead th{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-bottom-color:var(--ink)}
+.size-table tbody th{font-weight:700}
+.womens-close{display:grid;grid-template-columns:1.35fr 1fr;gap:60px;padding-top:90px;padding-bottom:100px;border-top:1px solid var(--line)}
+.womens-close h2{font-size:clamp(56px,6vw,88px)}
+.womens-close-copy{align-self:end;max-width:40ch}
+.womens-close-copy p{font-size:13px;line-height:1.85;color:var(--muted);margin-bottom:22px}
+.collection-aside{margin-top:22px}
+
+.womens-product .product-summary .womens-eyebrow{margin-bottom:18px}
+.womens-product .gallery-main{background:var(--tile,var(--concrete))}
+.womens-product .gallery-thumbs button{width:62px}
+.look-fieldset{border:0;margin:0 0 22px;padding:0}
+.look-fieldset legend{font-size:12px;font-weight:600;margin-bottom:13px}
+.look-options{display:grid;border-top:1px solid var(--line)}
+.look-option{display:grid;grid-template-columns:38px 1fr auto;gap:16px;align-items:center;text-align:left;padding:14px 0 14px 12px;border-bottom:1px solid var(--line);border-left:2px solid transparent;transition:border-color .25s var(--ease),background .25s var(--ease)}
+.look-option:hover{background:#e4e6eb}
+.look-option[aria-pressed=true]{border-left-color:var(--ink)}
+.look-option .look-number{font-size:24px;color:var(--muted)}
+.look-option[aria-pressed=true] .look-number{color:var(--wine)}
+.look-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.look-name{font-size:13px;font-weight:600}
+.look-option .look-pieces{color:var(--muted)}
+.look-option .look-price{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.look-description{font-size:13px;line-height:1.85;color:var(--muted);max-width:44ch;margin-bottom:28px;min-height:3.7em}
+.size-guide-link{margin-left:14px;font-weight:600;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.size-stock{font-size:12px;color:var(--muted);line-height:1.7}
+.size-options button.sold-out{color:#8a8f99;text-decoration:line-through;border-style:dashed}
+.size-options button:disabled{cursor:not-allowed}
+.size-options button:disabled:hover{border-color:var(--line)}
+.related-colorways{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+@media(max-width:1100px){.womens-intro-copy{padding:70px 40px 70px var(--page)}.womens-intro h2{font-size:clamp(52px,6vw,76px)}.womens-intro-tiles{padding:48px var(--page) 92px 0;gap:14px}.looks-list{grid-template-columns:1fr 1fr;row-gap:0}.looks-list li{border-top:1px solid var(--light-line)}.looks-list li:nth-child(2){border-right:0;margin-right:0}.looks-list li:nth-child(-n+2){border-top:0}.size-guide{gap:40px}}
+@media(max-width:767px){.womens-intro{grid-template-columns:1fr}.womens-intro-copy{padding:52px var(--page) 40px;display:block}.womens-intro h2{font-size:clamp(50px,14.5vw,70px);margin-top:20px}.womens-lede{font-size:15px;margin-top:22px}.womens-body{font-size:13px}.womens-count{font-size:21px;margin-top:26px}.womens-swatches{gap:0 20px}.womens-sign{margin-top:22px}.womens-cta{width:100%;min-width:0;margin-top:20px}.womens-intro-tiles{padding:0 var(--page) 64px;gap:12px}.womens-tile:nth-child(even){transform:translateY(24px)}.status-flag{padding:5px 8px}.womens-hero{grid-template-columns:1fr;gap:18px}.womens-hero h1{margin-top:16px;font-size:clamp(60px,18.5vw,78px)}.collection-page .colorway-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.browse-title{font-size:26px}.looks-section{padding:56px 0 60px}.looks-list li{padding:22px 14px 24px 0;margin-right:14px}.look-number{font-size:44px}.looks-list h3{font-size:14px}.size-guide{grid-template-columns:1fr;gap:26px;padding-top:56px;padding-bottom:60px}.size-guide h2{font-size:52px}.size-guide-copy p{font-size:13px}.size-table th,.size-table td{padding:13px 8px;font-size:12px}.womens-close{grid-template-columns:1fr;gap:24px;padding-top:56px;padding-bottom:64px}.womens-close h2{font-size:58px}.womens-close-copy p{font-size:13px}.look-option{grid-template-columns:30px 1fr auto;gap:12px;padding:12px 0 12px 10px}.look-option .look-number{font-size:20px}.look-description{font-size:13px;min-height:0;margin-bottom:22px}.related-colorways{grid-template-columns:repeat(2,minmax(0,1fr))}.related-colorways .colorway-card:last-child{display:none}.womens-product .related .section-heading{flex-wrap:wrap}.womens-product .related .section-heading .text-link{white-space:normal}.womens-product .gallery-thumbs button{width:50px}}

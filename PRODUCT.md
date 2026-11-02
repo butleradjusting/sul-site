@@ -28,6 +28,10 @@ Preserve SUL, Snooze U Lose, the existing modern wordmark and lion crest, and th
 
 The site-photos directory contains original product images, storefront imagery, outdoor and city lookbook photographs, logos, and promotional clips. Asset authorship and whether particular clips are generated are not established. Use existing photographs as supplied brand material, without inventing locations, collaborations, testimonials, customer counts, or stock status. CLAUDE.md and the current product pages supply the incumbent product facts.
 
+## Women's Collection (2026-11-01)
+
+The owner requested a women's collection: four colorways, 16 complete two-piece outfits, with product pages, size charts, descriptions, prices, size-specific inventory, and mobile checkout, all held as Coming Soon until inventory is confirmed. The build renders the collection from `assets/womens.js`. Prices, the size chart, fabric details, and inventory counts are owner-pending drafts; the garment imagery is generated placeholder cards because no photography has been supplied. Mobile checkout continues to rely on Stripe Payment Links, which remain test links until the owner connects live ones.
+
 ## Product Principles
 
 - Show the actual garments and the actual brand material.
