@@ -182,7 +182,7 @@ Solid, square actions pair concise Manrope labels with inline stroke icons. Ink,
 
 ### Tags and Selection Controls
 
-The three-piece-set tag reports garment content; it is not a heading eyebrow. Filters and printed-set choices use underline selection. Size choices use an outline at rest and an ink fill when selected. The Studio / Styled switch uses a chalk selected segment within a cooler container. Selected state is represented with `aria-pressed`, and the actual image is swapped after loading.
+The three-piece-set tag reports garment content; it is not a heading eyebrow. Filters and printed-set choices use underline selection. Size choices use an outline at rest and an ink fill when selected. The size label row carries an underlined, muted “Size guide” text button at its right edge; it opens a 560px dialog (full width on mobile) with the fit statement set as a Barlow display line, a ruled measurement table with tabular numerals, and a ruled how-to-measure list, stacked over the quick view when opened from it. The Studio / Styled switch uses a chalk selected segment within a cooler container. Selected state is represented with `aria-pressed`, and the actual image is swapped after loading.
 
 ### Cards and Media
 

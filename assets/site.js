@@ -1,13 +1,12 @@
-import { products, imagePath, money } from './catalog.js';
-import { womensOutfits } from './womens.js';
+import { catalog, drop, dropLive, imagePath, money, claimLink, sizeGuideFor, measuringNotes } from './catalog.js';
 
-const byId = new Map([...products, ...womensOutfits].map((product) => [product.id, product]));
-const pageFor = (p) => p.page || `${p.id}.html`;
+const byId = new Map(catalog.map((product) => [product.id, product]));
 const escape = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${{
   minus: '<path d="M5 12h14"/>', plus: '<path d="M12 5v14M5 12h14"/>',
   arrow: '<path d="M4 12h15M13 6l6 6-6 6"/>', diagonal: '<path d="M5 19 19 5M5 5h14v14"/>'
 }[name]}</svg>`;
+const tile = (p, attrs = 'aria-hidden="true"') => `<div class="set-tile${p.tile.band ? ' has-band' : ''}" style="--tile:${p.tile.bg};--tile-ink:${p.tile.ink}${p.tile.band ? `;--tile-band:${p.tile.band}` : ''}" ${attrs}><span class="set-count">${p.pieces}</span><span class="set-word">Piece<br>set</span><span class="set-colorway">${escape(p.colorway)}</span></div>`;
 const storageKey = 'sul-bag-v1';
 let bag = [];
 let toastTimeout;
@@ -38,9 +37,9 @@ function saveBag() {
   catch { toast('Your bag is available for this visit. This browser could not save it for later.'); }
   renderBag();
 }
-function openDialog(id) {
+function openDialog(id, stack = false) {
   const dialog = document.getElementById(id);
-  document.querySelectorAll('dialog[open]').forEach((open) => { if (open !== dialog) open.close(); });
+  if (!stack) document.querySelectorAll('dialog[open]').forEach((open) => { if (open !== dialog) open.close(); });
   if (!dialog.open) dialog.showModal();
 }
 document.querySelectorAll('dialog').forEach((dialog) => {
@@ -61,7 +60,8 @@ function renderBag() {
   } else {
     content.innerHTML = bag.map((item, index) => {
       const p = byId.get(item.id);
-      return `<article class="bag-item"><img src="${imagePath(p.image)}" alt="${escape(p.alt)}" width="85" height="128"><div><div class="bag-item-top"><div><h3><a href="${pageFor(p)}">${escape(p.name)}</a></h3><p>${escape(item.size)} · ${escape(p.color)}</p></div><strong>${money(p.price * item.quantity)}</strong></div><div class="bag-item-controls"><div class="quantity"><button data-quantity="${index}" data-change="-1" aria-label="Decrease quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 1 ? ' disabled' : ''}>${icon('minus')}</button><span aria-label="Quantity">${item.quantity}</span><button data-quantity="${index}" data-change="1" aria-label="Increase quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 99 ? ' disabled' : ''}>${icon('plus')}</button></div><button class="remove-item" data-remove="${index}" aria-label="Remove ${escape(p.name)}, ${escape(item.size)} from bag">Remove</button></div></div></article>`;
+      const thumb = p.image ? `<img src="${imagePath(p.image)}" alt="${escape(p.alt)}" width="85" height="128">` : `<div class="bag-swatch">${tile(p)}</div>`;
+      return `<article class="bag-item">${thumb}<div><div class="bag-item-top"><div><h3><a href="${p.id}.html">${escape(p.name)}</a></h3><p>${escape(item.size)} · ${escape(p.color)}</p></div><strong>${money(p.price * item.quantity)}</strong></div><div class="bag-item-controls"><div class="quantity"><button data-quantity="${index}" data-change="-1" aria-label="Decrease quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 1 ? ' disabled' : ''}>${icon('minus')}</button><span aria-label="Quantity">${item.quantity}</span><button data-quantity="${index}" data-change="1" aria-label="Increase quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 99 ? ' disabled' : ''}>${icon('plus')}</button></div><button class="remove-item" data-remove="${index}" aria-label="Remove ${escape(p.name)}, ${escape(item.size)} from bag">Remove</button></div></div></article>`;
     }).join('');
   }
   document.getElementById('bag-total').textContent = money(bag.reduce((sum, item) => sum + byId.get(item.id).price * item.quantity, 0));
@@ -70,7 +70,10 @@ function renderBag() {
   preview.hidden = true;
   preview.innerHTML = [...new Set(bag.map((item) => item.id))].map((id) => {
     const p = byId.get(id);
-    if (!p.checkout) return `<span class="preview-pending">${escape(p.name)} — checkout link not connected yet</span>`;
+    if (!p.checkout) {
+      const size = bag.find((item) => item.id === id)?.size;
+      return `<a href="${claimLink(p, size)}">${escape(p.name)} — order by email${icon('diagonal')}</a>`;
+    }
     return `<a href="${p.checkout}" target="_blank" rel="noopener noreferrer">${escape(p.name)} — test checkout${icon('diagonal')}</a>`;
   }).join('');
   document.getElementById('bag-note').textContent = 'Payments are in test mode. Your bag is saved on this device.';
@@ -85,10 +88,7 @@ function addProduct(button) {
     region.querySelector('[data-size]').focus();
     return;
   }
-  const stock = region.dataset.live === 'true' && p.inventory ? p.inventory[size] : null;
-  if (stock !== null && stock <= 0) { error.textContent = `Sold out in ${size}. Choose another size.`; return; }
   const existing = bag.find((item) => item.id === p.id && item.size === size);
-  if (stock !== null && existing && existing.quantity >= stock) { error.textContent = `Your bag already has the last ${stock === 1 ? 'one' : stock} in ${size}.`; return; }
   if (existing && existing.quantity === 99) { error.textContent = 'Your bag already has 99 of this piece in this size.'; return; }
   if (existing) existing.quantity += 1;
   else bag.push({ id: p.id, size, quantity: 1 });
@@ -96,10 +96,39 @@ function addProduct(button) {
   error.textContent = '';
   openDialog('bag-dialog');
 }
+function claimSet(button) {
+  const p = byId.get(button.dataset.claim);
+  const region = button.closest('[data-detail]');
+  const size = region.querySelector('[data-size][aria-pressed="true"]')?.dataset.size;
+  const error = region.querySelector('.inline-error');
+  if (!size) {
+    error.textContent = 'Choose a size to claim this set.';
+    region.querySelector('[data-size]').focus();
+    return;
+  }
+  error.textContent = '';
+  toast(`Opening your email app. Send the message to claim the ${p.name} in ${size}.`);
+  window.location.href = claimLink(p, size);
+}
+function openSizeGuide(id) {
+  const p = byId.get(id);
+  if (!p) return;
+  const guide = sizeGuideFor(p);
+  const chart = guide.chart
+    ? `<table class="size-table"><caption class="sr-only">Body measurements in inches for ${escape(p.name)}</caption><thead><tr>${guide.chart.columns.map((c) => `<th scope="col">${escape(c)}</th>`).join('')}</tr></thead><tbody>${guide.chart.rows.map((row) => `<tr>${row.map((cell, i) => i === 0 ? `<th scope="row">${escape(cell)}</th>` : `<td>${escape(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table><p class="size-guide-foot">${escape(guide.chart.note)} Between sizes? Go by the fit note above.</p><h4 class="small-label">How to measure</h4><dl class="measure-list">${measuringNotes.filter(([k]) => k.split(' / ').some((part) => guide.chart.columns.some((c) => c.toLowerCase() === part.toLowerCase()))).map(([k, v]) => `<div><dt>${escape(k)}</dt><dd>${escape(v)}</dd></div>`).join('')}</dl>`
+    : '';
+  document.getElementById('size-content').innerHTML = `<p class="small-label size-guide-product">${escape(p.name)}</p><h3>${escape(guide.fit)}.</h3><p class="size-guide-note">${escape(guide.note)}</p>${chart}<p class="size-guide-foot">Still unsure? <a href="mailto:${escape(drop.email)}?subject=${encodeURIComponent(`Sizing: ${p.name}`)}">Email SUL</a> with your measurements and the set you want.</p>`;
+  openDialog('size-dialog', true); // stacks over the quick view so closing the guide returns to the size choice
+}
 function quickView(id) {
   const p = byId.get(id);
   if (!p) return;
-  document.getElementById('quick-content').innerHTML = `<div class="quick-body"><img class="quick-image" src="${imagePath(p.image)}" width="832" height="1248" alt="${escape(p.alt)}"><section class="quick-summary" data-detail="${p.id}"><h3>${escape(p.name)}</h3><div class="product-price-row"><strong>${money(p.price)}</strong><span class="color-name">${escape(p.color)}</span></div><p class="product-description">${escape(p.description)}</p>${p.id === 'full-kit' ? '<p class="quick-image-note">Hoodie + joggers + tee. Hoodie shown.</p>' : ''}<fieldset class="size-fieldset"><legend>Select your size</legend><div class="size-options" role="group" aria-label="Size for ${escape(p.name)}">${p.sizes.map((s) => `<button data-size="${escape(s)}" aria-pressed="${p.sizes.length === 1}">${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status"></p></fieldset><button class="button wine product-add" data-add="${p.id}"><span>Add to bag — ${money(p.price)}</span>${icon('plus')}</button><a class="text-link" href="${pageFor(p)}">View the details${icon('arrow')}</a></section></div>`;
+  const claiming = p.tile && !dropLive;
+  const media = p.image ? `<img class="quick-image" src="${imagePath(p.image)}" width="832" height="1248" alt="${escape(p.alt)}">` : `<div class="quick-tile">${tile(p)}</div>`;
+  const action = claiming
+    ? `<button class="button wine product-add" data-claim="${p.id}"><span>Claim your size</span>${icon('arrow')}</button><p class="quick-claim-note">No payment today. Your claim opens an email to SUL.</p>`
+    : `<button class="button wine product-add" data-add="${p.id}"><span>Add to bag — ${money(p.price)}</span>${icon('plus')}</button>`;
+  document.getElementById('quick-content').innerHTML = `<div class="quick-body">${media}<section class="quick-summary" data-detail="${p.id}"><h3>${escape(p.name)}</h3><div class="product-price-row"><strong>${money(p.price)}</strong><span class="color-name">${escape(p.color)}${p.quantity ? ` · ${p.quantity} sets made` : ''}</span></div><p class="product-description">${escape(p.description)}</p>${p.id === 'full-kit' ? '<p class="quick-image-note">Hoodie + joggers + tee. Hoodie shown.</p>' : ''}<fieldset class="size-fieldset"><legend class="sr-only">Select your size</legend><div class="size-head"><span>Select your size</span><button type="button" class="size-guide-link" data-size-guide="${p.id}" aria-haspopup="dialog">Size guide</button></div><div class="size-options" role="group" aria-label="Size for ${escape(p.name)}">${p.sizes.map((s) => `<button data-size="${escape(s)}" aria-pressed="${p.sizes.length === 1}">${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status"></p></fieldset>${action}<a class="text-link" href="${p.id}.html">View the details${icon('arrow')}</a></section></div>`;
   openDialog('quick-dialog');
 }
 async function swapImage(image, name, alt) {
@@ -117,43 +146,13 @@ async function swapImage(image, name, alt) {
   } catch { toast('This image could not load. Please try again.'); }
   finally { if (image.dataset.request === request) image.classList.remove('image-loading'); }
 }
-const stockMessage = (count, size) => count > 3 ? `${size} is in stock.` : count > 0 ? `Only ${count} left in ${size}.` : `Sold out in ${size}.`;
-function currentInventory(region) {
-  const look = region.querySelector('.look-option[aria-pressed="true"]');
-  try { return look ? JSON.parse(look.dataset.lookInventory || '{}') : null; } catch { return null; }
-}
-function selectLook(button) {
-  const page = button.closest('main');
-  const region = page.querySelector('[data-detail]');
-  const live = region.dataset.live === 'true';
-  page.querySelectorAll('[data-look]').forEach((node) => { node.setAttribute('aria-pressed', String(node.dataset.look === button.dataset.look)); });
-  swapImage(document.getElementById('gallery-image'), button.dataset.lookImage, button.dataset.lookAlt);
-  const enlarge = page.querySelector('.gallery-enlarge');
-  enlarge.dataset.enlarge = button.dataset.lookImage;
-  enlarge.dataset.alt = button.dataset.lookAlt;
-  document.getElementById('look-price').textContent = button.dataset.lookPriceText;
-  document.getElementById('look-description').textContent = button.dataset.lookDescription;
-  region.dataset.detail = button.dataset.lookId;
-  const add = region.querySelector('[data-add]');
-  if (add) { add.dataset.add = button.dataset.lookId; add.querySelector('span').textContent = `Add to bag — ${button.dataset.lookPriceText}`; }
-  const inventory = currentInventory(region) || {};
-  region.querySelectorAll('[data-size]').forEach((node) => {
-    node.setAttribute('aria-pressed', 'false');
-    const out = live && inventory[node.dataset.size] === 0;
-    node.disabled = out;
-    node.classList.toggle('sold-out', out);
-  });
-  region.querySelector('.inline-error').textContent = '';
-  const stock = region.querySelector('.size-stock');
-  if (stock) stock.textContent = live ? 'Choose a size to see availability.' : 'Sizes XS – XL. Stock by size opens at launch.';
-}
 function applyFilter(shop, category) {
   const cards = [...shop.querySelectorAll('.product-card')];
   cards.forEach((card) => { card.hidden = category !== 'All' && card.dataset.category !== category; });
   shop.querySelectorAll('[data-filter]').forEach((button) => { button.setAttribute('aria-pressed', String(button.dataset.filter === category)); });
   const count = cards.filter((card) => !card.hidden).length;
   const countNode = shop.querySelector('.collection-count');
-  if (countNode) countNode.textContent = `${count} ${count === 1 ? 'piece' : 'pieces'}`;
+  if (countNode) countNode.textContent = `${count} ${count === 1 ? 'style' : 'styles'}`;
   shop.querySelector('.shop-empty').hidden = count !== 0;
   const cta = shop.querySelector('.collection-cta');
   if (cta) cta.hidden = category !== 'All';
@@ -167,17 +166,15 @@ document.addEventListener('click', (event) => {
   if (button.dataset.open) { openDialog(button.dataset.open); return; }
   if (button.hasAttribute('data-close')) { button.closest('dialog').close(); return; }
   if (button.dataset.quick) { quickView(button.dataset.quick); return; }
-  if (button.dataset.look) { selectLook(button); return; }
+  if (button.dataset.sizeGuide) { openSizeGuide(button.dataset.sizeGuide); return; }
   if (button.dataset.size) {
     const region = button.closest('[data-detail]');
     region.querySelectorAll('[data-size]').forEach((node) => { node.setAttribute('aria-pressed', String(node === button)); });
     region.querySelector('.inline-error').textContent = '';
-    const stockNode = region.querySelector('.size-stock');
-    const inventory = region.dataset.live === 'true' ? currentInventory(region) : null;
-    if (stockNode && inventory) stockNode.textContent = stockMessage(Number(inventory[button.dataset.size] ?? 0), button.dataset.size);
     return;
   }
   if (button.dataset.add) { addProduct(button); return; }
+  if (button.dataset.claim) { claimSet(button); return; }
   if (button.hasAttribute('data-quantity')) {
     const index = Number(button.dataset.quantity);
     const item = bag[index];
@@ -207,6 +204,7 @@ document.addEventListener('click', (event) => {
     shop.querySelectorAll('[data-view]').forEach((node) => { node.setAttribute('aria-pressed', String(node === button)); });
     shop.querySelectorAll('.product-card').forEach((card) => {
       const p = byId.get(card.dataset.product);
+      if (!p?.scene || !card.querySelector('.hover-image')) return;
       const scene = button.dataset.view === 'scene';
       swapImage(card.querySelector('.card-main-image'), scene ? p.scene : p.image, scene ? p.sceneAlt : p.alt);
       card.querySelector('.hover-image').hidden = scene;
@@ -215,7 +213,9 @@ document.addEventListener('click', (event) => {
   }
   if (button.dataset.gallery) {
     document.querySelectorAll('[data-gallery]').forEach((node) => { node.setAttribute('aria-pressed', String(node === button)); });
-    swapImage(document.getElementById('gallery-image'), button.dataset.gallery, button.dataset.galleryAlt);
+    const galleryImage = document.getElementById('gallery-image');
+    galleryImage.classList.toggle('fit-contain', button.dataset.galleryFit === 'contain');
+    swapImage(galleryImage, button.dataset.gallery, button.dataset.galleryAlt);
     const enlarge = document.querySelector('.gallery-enlarge');
     enlarge.dataset.enlarge = button.dataset.gallery;
     enlarge.dataset.alt = button.dataset.galleryAlt;
@@ -252,7 +252,7 @@ document.getElementById('sort-products')?.addEventListener('change', (event) => 
   const grid = document.querySelector('.collection-page .product-grid');
   const cards = [...grid.querySelectorAll('.product-card')];
   const value = event.target.value;
-  const original = new Map(products.map((p, index) => [p.id, index]));
+  const original = new Map(catalog.map((p, index) => [p.id, index]));
   cards.sort((a, b) => value === 'price-low' ? Number(a.dataset.price) - Number(b.dataset.price) : value === 'price-high' ? Number(b.dataset.price) - Number(a.dataset.price) : original.get(a.dataset.product) - original.get(b.dataset.product));
   const cta = grid.querySelector('.collection-cta');
   cards.forEach((card) => { grid.insertBefore(card, cta); });
