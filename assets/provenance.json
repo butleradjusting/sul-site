@@ -171,6 +171,10 @@
     "*-shirt-studio.webp, *-shorts-studio.webp": {
       "origin": "Higgsfield nano_banana_2, from the owner's sample photos of each printed shirt and shorts.",
       "transformation": "Factory table replaced with a charcoal surface. Some garment edges cut off in the sample photos were filled in by the model. Labeled as AI on the page."
+    },
+    "*-set-studio.webp, womens-lineup.webp": {
+      "origin": "Higgsfield nano_banana_2 edits of the owner's campaign image, sources in site-photos/share-generated/.",
+      "transformation": "Background and lighting replaced and neighboring models removed. Labeled as AI-edited on the page. Prints compared by eye against the campaign image. Cropped and encoded by scripts/share/build_share_assets.cjs."
     }
   },
   "fonts": {

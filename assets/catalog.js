@@ -65,7 +65,8 @@ export const products = [
 // Women's first drop. Live since 2026-11-05 at the owner's instruction (was 'coming-soon').
 // Prices and colorways come from the owner's launch plan (2026-10-31); pieces and the per-size run
 // (`stock`) from the owner's inventory list (2026-10-31). `sizes` is derived from sizes with stock.
-// Photos are crops of the owner's campaign image (assets/images/womens-drop.webp); `tile` colors
+// `image` is a Higgsfield edit of the owner's campaign image (background and lighting only, labeled on the page);
+// `campaignCrop` is the original crop of assets/images/womens-drop.webp; `tile` colors
 // remain as the fallback swatch.
 export const drop = {
   id: 'drop', name: 'Women’s collection', status: 'live', totalSets: 27,
@@ -84,7 +85,7 @@ export const sets = [
   {
     id: 'olive-set', name: 'Olive 4-Piece', category: 'Women', sizeChart: 'olive', price: 149.99, quantity: 7, pieces: 4,
     color: 'Olive', colorway: 'Olive', stock: { XS: 1, S: 1, M: 2, L: 2, XL: 1 }, tile: { bg: '#4a5337', ink: '#eeeef0' },
-    image: 'olive-set', scene: 'womens-drop', gallery: ['olive-set', 'womens-drop'],
+    image: 'olive-set-studio', campaignCrop: 'olive-set', scene: 'womens-lineup', gallery: ['olive-set-studio', 'womens-lineup'],
     // AI concept images made from the owner's mannequin sample photos (Higgsfield, 2026-11-02). Always labeled on the page.
     renders: [
       { image: 'olive-render-front', alt: 'AI concept image of a model wearing the Olive 4-Piece: striped olive and cream knit cardigan tied at the waist, olive top and leggings with crown details, and cream leg warmers' },
@@ -92,7 +93,7 @@ export const sets = [
       { image: 'olive-render-detail', alt: 'AI concept detail of the Olive 4-Piece from the waist down, showing the crown on the leggings and the crown on the cream leg warmers' }
     ],
     alt: 'Model wearing the S.U.L Olive 4-Piece: olive tank and leggings with crown details under a striped knit cardigan',
-    sceneAlt: 'The S.U.L women’s collection campaign image showing all four complete sets side by side',
+    sceneAlt: 'AI-edited image of all four complete S.U.L women’s sets side by side on a royal blue background',
     fit: 'Close, stretchy fit', fitNote: 'The olive fitted set is designed for a close, stretchy fit.',
     description: 'The full look in one order. An olive fitted tank and fitted leggings with crown details, a cream and olive cardigan over the top, and cream leg warmers. Seven sets made for the first drop.',
     details: [['Set', 'Fitted tank, fitted leggings, cream/olive cardigan, cream leg warmers'], ['Colorway', 'Olive'], ['Details', 'Crown details on tank and leggings']]
@@ -100,9 +101,9 @@ export const sets = [
   {
     id: 'navy-cream-set', name: 'Navy / Cream 3-Piece', category: 'Women', sizeChart: 'skirt', price: 129.99, quantity: 7, pieces: 3,
     color: 'Navy / Cream', colorway: 'Navy / Cream', stock: { XS: 1, S: 1, M: 2, L: 2, XL: 1 }, tile: { bg: '#1c2a4b', ink: '#eeeef0', band: '#e8e0d0' },
-    image: 'navy-cream-set', scene: 'womens-drop', gallery: ['navy-cream-set', 'womens-drop'],
+    image: 'navy-cream-set-studio', campaignCrop: 'navy-cream-set', scene: 'womens-lineup', gallery: ['navy-cream-set-studio', 'womens-lineup'],
     alt: 'Model wearing the S.U.L Navy / Cream 3-Piece: navy crown crewneck with a cream pleated skirt',
-    sceneAlt: 'The S.U.L women’s collection campaign image showing all four complete sets side by side',
+    sceneAlt: 'AI-edited image of all four complete S.U.L women’s sets side by side on a royal blue background',
     fit: 'Relaxed top, sized by waist and hip', fitNote: 'The sweatshirt is designed for a relaxed, oversized fit. For the skirt outfits, choose your size primarily based on your waist and hip measurements.',
     description: 'Deep navy against cream. A navy sweatshirt with the S.U.L crown across the chest, a cream pleated skirt with built-in shorts and a crown at the hem, and cream leg warmers. Seven sets made for the first drop.',
     details: [['Set', 'Navy sweatshirt, cream pleated skirt with built-in shorts, cream leg warmers'], ['Colorway', 'Navy / Cream'], ['Details', 'Crown crest on chest and skirt']]
@@ -110,9 +111,9 @@ export const sets = [
   {
     id: 'black-set', name: 'All Black 3-Piece', category: 'Women', sizeChart: 'skirt', price: 129.99, quantity: 8, pieces: 3,
     color: 'Black', colorway: 'All black', stock: { XS: 1, S: 1, M: 1, L: 3, XL: 1, '2XL': 1 }, tile: { bg: '#15171a', ink: '#c1c5ce' },
-    image: 'black-set', scene: 'womens-drop', gallery: ['black-set', 'womens-drop'],
+    image: 'black-set-studio', campaignCrop: 'black-set', scene: 'womens-lineup', gallery: ['black-set-studio', 'womens-lineup'],
     alt: 'Model wearing the S.U.L All Black 3-Piece: black crown crewneck with a black pleated skirt',
-    sceneAlt: 'The S.U.L women’s collection campaign image showing all four complete sets side by side',
+    sceneAlt: 'AI-edited image of all four complete S.U.L women’s sets side by side on a royal blue background',
     fit: 'Relaxed top, sized by waist and hip', fitNote: 'The sweatshirt is designed for a relaxed, oversized fit. For the skirt outfits, choose your size primarily based on your waist and hip measurements.',
     description: 'All black, head to toe. A black sweatshirt with the S.U.L crown across the chest, a black pleated skirt with built-in shorts and a crown at the hem, and black leg warmers. Eight sets made for the first drop, the only colorway with a 2XL.',
     details: [['Set', 'Black sweatshirt, black pleated skirt with built-in shorts, black leg warmers'], ['Colorway', 'All black'], ['Details', 'Crown crest on chest and skirt']]
@@ -120,9 +121,9 @@ export const sets = [
   {
     id: 'pink-set', name: 'Blush Pink 3-Piece', category: 'Women', sizeChart: 'skirt', price: 129.99, quantity: 5, pieces: 3,
     color: 'Blush pink', colorway: 'Blush pink', stock: { XS: 1, S: 1, M: 1, L: 1, XL: 1 }, tile: { bg: '#e4b4bf', ink: '#111315' },
-    image: 'pink-set', scene: 'womens-drop', gallery: ['pink-set', 'womens-drop'],
+    image: 'pink-set-studio', campaignCrop: 'pink-set', scene: 'womens-lineup', gallery: ['pink-set-studio', 'womens-lineup'],
     alt: 'Model wearing the S.U.L Blush Pink 3-Piece: pink crown crewneck with a pink pleated skirt',
-    sceneAlt: 'The S.U.L women’s collection campaign image showing all four complete sets side by side',
+    sceneAlt: 'AI-edited image of all four complete S.U.L women’s sets side by side on a royal blue background',
     fit: 'Relaxed top, sized by waist and hip', fitNote: 'The sweatshirt is designed for a relaxed, oversized fit. For the skirt outfits, choose your size primarily based on your waist and hip measurements.',
     description: 'The softest colorway in the drop and the smallest run. A blush pink sweatshirt with the S.U.L crown across the chest, a pink pleated skirt with built-in shorts, and cream and pink leg warmers. Five sets made for the first drop, one per size.',
     details: [['Set', 'Blush pink sweatshirt, pink pleated skirt with built-in shorts, cream/pink leg warmers'], ['Colorway', 'Blush pink'], ['Details', 'Crown crest on chest and skirt']]

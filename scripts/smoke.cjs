@@ -56,9 +56,9 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     await page.keyboard.press('Escape');
 
     await page.goto(`${base}/olive-set.html`);
-    assert((await page.locator('#gallery-image').getAttribute('src')).endsWith('olive-render-front.webp'));
-    assert.match(await page.locator('#gallery-note').innerText(), /AI concept image/);
-    assert.equal(await page.locator('[data-gallery]').count(), 5);
+    assert((await page.locator('#gallery-image').getAttribute('src')).endsWith('olive-set-studio.webp'));
+    assert.match(await page.locator('#gallery-note').innerText(), /AI-edited/);
+    assert.equal(await page.locator('[data-gallery]').count(), 6);
     assert(await page.locator('#gallery-tag').isVisible());
     await page.getByRole('button', { name: 'Set view', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('#gallery-image').src.endsWith('olive-set.webp'));
