@@ -42,7 +42,28 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     await page.reload();
     assert.equal(await page.locator('.bag-count').innerText(), '(2)');
 
+    await page.goto(`${base}/pink-set.html`);
+    await page.locator('[data-size="XS"]').click();
+    await page.locator('[data-add]').first().click();
+    assert.equal(await page.locator('.bag-item:has-text("Blush Pink")').count(), 1);
+    assert(await page.locator('.bag-item:has-text("Blush Pink") [data-change="1"]').isDisabled());
+    assert.match(await page.locator('.bag-limit').innerText(), /Only 1 made in XS/);
+    await page.keyboard.press('Escape');
+    await page.locator('[data-add]').first().click();
+    assert.match(await page.locator('.product-summary .inline-error').innerText(), /Only 1 made in XS/);
+    await page.getByRole('button', { name: /Open shopping bag/ }).click();
+    await page.locator('.bag-item:has-text("Blush Pink") [data-remove]').click();
+    await page.keyboard.press('Escape');
+
     await page.goto(`${base}/olive-set.html`);
+    assert((await page.locator('#gallery-image').getAttribute('src')).endsWith('olive-render-front.webp'));
+    assert.match(await page.locator('#gallery-note').innerText(), /AI concept image/);
+    assert.equal(await page.locator('[data-gallery]').count(), 5);
+    assert(await page.locator('#gallery-tag').isVisible());
+    await page.getByRole('button', { name: 'Set view', exact: true }).click();
+    await page.waitForFunction(() => document.querySelector('#gallery-image').src.endsWith('olive-set.webp'));
+    assert.match(await page.locator('#gallery-note').innerText(), /campaign image/);
+    assert(!(await page.locator('#gallery-tag').isVisible()));
     assert.match(await page.locator('.status-label').innerText(), /Available now/i);
     await page.locator('[data-add]').click();
     assert.match(await page.locator('.inline-error').innerText(), /Choose a size/);

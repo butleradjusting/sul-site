@@ -4,7 +4,7 @@
 
 The working folder is `/Users/kb/Documents/ChatGPT/SUL`. GitHub Pages publishes `main` to https://snoozeulose.com. Read `PRODUCT.md` and `DESIGN.md` for current product boundaries and the built visual system. The owner chose a working website directly, without a mockup round, and supplied chrome/blue garment studies, printed shirt/shorts photographs, and a crown hoodie sample. The new visual direction is charcoal, cool silver, and royal blue. The older brand notes below are historical context where they conflict with these current files.
 
-The site remains static HTML/CSS/JavaScript. `scripts/build.mjs` generates the homepage, collections, the five existing product routes, and 404. Edit that template and `assets/catalog.js` rather than modifying generated HTML by hand. `assets/style.css` and `assets/site.js` contain the shared design and interactions. Run `npm run build` after template or catalog changes. Local preview: `npm run dev`, http://127.0.0.1:4173.
+The site remains static HTML/CSS/JavaScript. `scripts/build.mjs` generates the homepage, collections, the product routes, and 404. Edit that template and `assets/catalog.js` rather than modifying generated HTML by hand. `assets/style.css` and `assets/site.js` contain the shared design and interactions. Run `npm install` once, then `npm run build` after template, catalog, or `src/` changes. Local preview: `npm run dev`, http://127.0.0.1:4173.
 
 The bag persists size and quantity on the current device. All existing payment links are Stripe test links; no live checkout has been added. New designs and printed sets have no confirmed prices or availability and remain explicitly labeled studio previews. The production planning board is not included in the website. The owner authorized publication and requested mobile verification on 2026-10-03.
 
@@ -21,6 +21,26 @@ Every size selector (product pages, set pages, quick view) has a Size guide link
 ## Drop Launch and Checkout — 2026-11-05
 
 The owner launched the women’s drop (`drop.status` is `'live'`). Sets show Available now and add to the bag. Checkout in the bag gives one Stripe link per style that has a **live** Payment Link, with sizes and quantities passed as `client_reference_id` (for example `black-set_2XL-1_L-2`), and one prefilled email order to sulcollective@gmail.com for everything else. Test-mode links (`buy.stripe.com/test_…`) are never shown to customers; `isLiveCheckout` in `assets/catalog.js` decides. Set links go in `setCheckout`, older products in their `checkout` field; rebuild after pasting. No live Stripe link has been supplied yet, so every order currently goes by email. Stock is not decremented automatically: set a size to 0 in `stock` and rebuild when it sells out.
+
+## Storefront Polish — 2026-11-05
+
+The bag caps each set at its per-size `stock` (`maxQuantity` in `assets/catalog.js`), so set a size to 0 when it sells out and rebuild; the size then leaves the page and any saved bags. `_config.yml` excludes internal files from the Jekyll build so they are not served on snoozeulose.com; add new internal files to it. The repository itself is public, so anything committed is still readable on GitHub. The Olive set page leads with three AI concept images (`renders` in the catalog, `olive-render-*.webp`), labeled on the page; cards and link previews still use the campaign crop, and sets without `renders` show only the campaign photos. Link previews use `assets/images/og-womens-drop.jpg`. The set photos are small crops of one 1254px campaign image, so the set gallery is capped at 480px on desktop until individual photos exist.
+
+## Design Pass — 2026-11-05
+
+A pass against the Design plugin skills, `ui-ux-pro-max`, and `skills/` changed the storefront without changing the brand. The hero leads with the women’s campaign image (what is for sale), and the drop section no longer repeats it. The site header is sticky and tucks away on scroll down. Phones get a fixed buy bar on product and set pages (`buyBar` in `scripts/build.mjs`, wired at the end of `assets/site.js`), hidden while the page’s own add button or the footer is on screen. Small text moved up one step, targets are 44px, and color literals became tokens in `:root` (`--wine` is now `--blue`; `.button.wine` is now `.button.blue`). Fonts load from Latin-subset WOFF2 files with the TTFs as fallback. Printed-set photos are 900px wide. The Full Kit card uses the mannequin photo so it no longer repeats the Blackout Hoodie photo. The `ui-ux-pro-max` generated design system (webinar pattern, Syne, orange CTA) was rejected because it conflicts with the owner’s brand.
+
+The owner removed the crown hoodie sample photo on 2026-11-05 (“this is horrible remove this photo”), along with the logo crop made from it. Do not put it back. It remains readable in the public repository’s git history.
+
+## 3D Redesign — 2026-11-05
+
+The owner rejected the flat, square look and asked for 3D that is “wow like no other.” `DESIGN.md` is rewritten for it and overrides the Design Pass above where they differ (the header is now a floating pill that tucks only during the homepage flight).
+
+- `src/world.js` is the homepage Three.js scene, bundled to `assets/world.js`. `src/motion.js` (Lenis smooth scroll, card tilt, magnetic buttons, world loader) is bundled to `assets/motion.js`. Both bundles are committed because GitHub Pages does not build. Do not edit them by hand.
+- `html.world` is set by an inline gate in `<head>` on the homepage (WebGL2, no reduced motion, no save-data). `world.js` steps quality down on slow frames and removes the class to fall back to the static layout. `?world` in the URL turns off the frame-rate fallback while testing.
+- `scripts/3d/build_logo.py` (Blender) traces `assets/images/sul-wordmark.png` into `assets/3d/sul-logo.bin` and `sul-logo.svg`. `scripts/3d/capture_poster.cjs` photographs the live logo for `assets/images/sul-chrome-poster.webp`.
+- The wall reads each set from the `[data-ring-item]` attributes the build writes. Glow colors are `glowFor` in `scripts/build.mjs`. Colorway photos are still the 380x570 campaign crops, so individual photos would show immediately.
+- The renderer uses no tone mapping on purpose, so garment photos keep their real color.
 
 ## Brand Overview
 - **Brand Name:** SUL (Snooze U Lose)

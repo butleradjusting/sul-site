@@ -66,51 +66,63 @@
     },
     "money-shirt.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.48.37.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+      "transformation": "WebP encoding, quality 88. No creative modification. Resized to 900px wide, WebP quality 80 (2026-11-05)."
     },
     "snooze-shirt.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.48.46.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+      "transformation": "WebP encoding, quality 88. No creative modification. Resized to 900px wide, WebP quality 80 (2026-11-05)."
     },
     "time-shirt.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.48.55.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+      "transformation": "WebP encoding, quality 88. No creative modification. Resized to 900px wide, WebP quality 80 (2026-11-05)."
     },
     "abstract-shirt.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.07.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+      "transformation": "WebP encoding, quality 88. No creative modification. Resized to 900px wide, WebP quality 80 (2026-11-05)."
     },
     "alarm-shirt.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.20.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+      "transformation": "WebP encoding, quality 88. No creative modification. Resized to 900px wide, WebP quality 80 (2026-11-05)."
     },
     "alarm-shorts.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.29.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+      "transformation": "WebP encoding, quality 88. No creative modification. Resized to 900px wide, WebP quality 80 (2026-11-05)."
     },
     "money-shorts.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.40.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+      "transformation": "WebP encoding, quality 88. No creative modification. Resized to 900px wide, WebP quality 80 (2026-11-05)."
     },
     "snooze-shorts.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.48.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+      "transformation": "WebP encoding, quality 88. No creative modification. Resized to 900px wide, WebP quality 80 (2026-11-05)."
     },
     "abstract-shorts.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.49.59.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+      "transformation": "WebP encoding, quality 88. No creative modification. Resized to 900px wide, WebP quality 80 (2026-11-05)."
     },
     "time-shorts.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 09.50.11.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+      "transformation": "WebP encoding, quality 88. No creative modification. Resized to 900px wide, WebP quality 80 (2026-11-05)."
     },
     "lion-hoodie-study.webp": {
       "origin": "User supplied attachment, WhatsApp Image 2026-09-17 at 16.51.55.jpeg, received 2026-10-03",
       "transformation": "WebP encoding, quality 88. No creative modification."
     },
-    "crown-hoodie-sample.webp": {
-      "origin": "User supplied attachment, WhatsApp Image 2026-09-29 at 11.27.23.jpeg, received 2026-10-03",
-      "transformation": "WebP encoding, quality 88. No creative modification."
+    "olive-render-front.webp": {
+      "origin": "Higgsfield Nano Banana Pro edit of the owner's mannequin sample photos, job 8e0a1fc7, 2026-11-02",
+      "transformation": "AI generated, then resized to 1100px wide, WebP quality 84. Labeled as a concept image on the page."
+    },
+    "olive-render-pose.webp": {
+      "origin": "Higgsfield Nano Banana Pro edit of the owner's mannequin sample photos, job 30f5b754, 2026-11-02",
+      "transformation": "AI generated, then resized to 1100px wide, WebP quality 84. Labeled as a concept image on the page."
+    },
+    "olive-render-detail.webp": {
+      "origin": "Higgsfield Nano Banana Pro edit of the owner's mannequin sample photos, job a50e0db7, 2026-11-02",
+      "transformation": "AI generated, then resized to 1100px wide, WebP quality 84. Labeled as a concept image on the page."
+    },
+    "og-womens-drop.jpg": {
+      "origin": "Owner supplied campaign image, site-photos/campaign-womens-collection.webp",
+      "transformation": "JPEG re-encode, quality 86, for link previews. No other change."
     },
     "sul-wordmark.png": {
       "origin": "Repository supplied asset: site-photos/sul-logo-modern-white.png",
@@ -135,6 +147,18 @@
     "pink-set.webp": {
       "origin": "User supplied attachment, S.U.L women’s collection campaign image (1254×1254 WebP), received 2026-10-31; copy kept at site-photos/campaign-womens-collection.webp",
       "transformation": "Crop to one model (offset 874,200 380×570), WebP encoding, quality 88. No other modification."
+    },
+    "favicon-64.png": {
+      "origin": "sul-wordmark.png (owner supplied)",
+      "transformation": "Wordmark centered on the ink background, 64x64."
+    },
+    "apple-touch-icon.png": {
+      "origin": "sul-wordmark.png (owner supplied)",
+      "transformation": "Wordmark centered on the ink background, 180x180."
+    },
+    "sul-chrome-poster.webp": {
+      "origin": "Screenshot of the live 3D logo in src/world.js, captured by scripts/3d/capture_poster.cjs",
+      "transformation": "WebP, quality 84. First paint and the fallback when the 3D does not run."
     }
   },
   "fonts": {
@@ -157,6 +181,48 @@
     "manrope-700.ttf": {
       "origin": "https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk4aE-_F.ttf",
       "license": "SIL Open Font License; Google Fonts distribution"
+    },
+    "barlow-condensed-600.woff2": {
+      "origin": "barlow-condensed-600.ttf",
+      "transformation": "Latin subset converted to WOFF2 with pyftsubset. The ttf stays as the fallback."
+    },
+    "barlow-condensed-800.woff2": {
+      "origin": "barlow-condensed-800.ttf",
+      "transformation": "Latin subset converted to WOFF2 with pyftsubset. The ttf stays as the fallback."
+    },
+    "manrope-400.woff2": {
+      "origin": "manrope-400.ttf",
+      "transformation": "Latin subset converted to WOFF2 with pyftsubset. The ttf stays as the fallback."
+    },
+    "manrope-600.woff2": {
+      "origin": "manrope-600.ttf",
+      "transformation": "Latin subset converted to WOFF2 with pyftsubset. The ttf stays as the fallback."
+    },
+    "manrope-700.woff2": {
+      "origin": "manrope-700.ttf",
+      "transformation": "Latin subset converted to WOFF2 with pyftsubset. The ttf stays as the fallback."
+    }
+  },
+  "3d": {
+    "sul-logo.bin": {
+      "origin": "assets/images/sul-wordmark.png, the supplied SUL wordmark",
+      "transformation": "Outline traced and inflated into a mesh by scripts/3d/build_logo.py in Blender. The letterforms come from the wordmark."
+    },
+    "sul-logo.svg": {
+      "origin": "assets/images/sul-wordmark.png",
+      "transformation": "Same traced outline as a vector, used for the header and footer marks."
+    }
+  },
+  "libraries": {
+    "three": {
+      "version": "0.187.0",
+      "license": "MIT",
+      "use": "Bundled into assets/world.js"
+    },
+    "lenis": {
+      "version": "1.3.27",
+      "license": "MIT",
+      "use": "Bundled into assets/motion.js"
     }
   }
 }

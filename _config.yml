@@ -1,0 +1,19 @@
+# GitHub Pages builds this repo with Jekyll. Only the storefront should be public on snoozeulose.com.
+exclude:
+  - CLAUDE.md
+  - DESIGN.md
+  - PRODUCT.md
+  - README.md
+  - swag-store-directory.md
+  - SUL-Pricing-Comparison.xlsx
+  - index-full.html
+  - old
+  - site-photos
+  - skills
+  - scripts
+  - package.json
+  - package-lock.json
+  - node_modules
+  - src
+  - assets/provenance.json
+  - "assets/images/*.json"

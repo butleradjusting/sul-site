@@ -1,4 +1,4 @@
-import { catalog, drop, dropLive, imagePath, money, claimLink, sizeGuideFor, measuringNotes, isLiveCheckout, stripeLink, orderEmailLink } from './catalog.js';
+import { catalog, drop, dropLive, imagePath, money, claimLink, sizeGuideFor, measuringNotes, isLiveCheckout, stripeLink, orderEmailLink, maxQuantity } from './catalog.js';
 
 const byId = new Map(catalog.map((product) => [product.id, product]));
 const escape = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -27,7 +27,8 @@ function loadBag() {
       if (!product || !product.sizes.includes(item.size) || !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 99) continue;
       const key = `${item.id}:${item.size}`;
       const existing = clean.get(key);
-      clean.set(key, { id: item.id, size: item.size, quantity: Math.min(99, (existing?.quantity || 0) + item.quantity) });
+      const quantity = Math.min(maxQuantity(product, item.size), (existing?.quantity || 0) + item.quantity);
+      if (quantity > 0) clean.set(key, { id: item.id, size: item.size, quantity });
     }
     return [...clean.values()];
   } catch { return []; }
@@ -56,16 +57,17 @@ function renderBag() {
   document.getElementById('bag-heading-count').textContent = `(${count})`;
   const content = document.getElementById('bag-items');
   if (!bag.length) {
-    content.innerHTML = '<div class="bag-empty"><h3>A little empty.<br>A lot of potential.</h3><p>Find your next piece in the collection. Make it yours.</p><a class="button wine" href="collections.html">Explore the collection' + icon('arrow') + '</a></div>';
+    content.innerHTML = '<div class="bag-empty"><h3>A little empty.<br>A lot of potential.</h3><p>Find your next piece in the collection. Make it yours.</p><a class="button blue" href="collections.html">Explore the collection' + icon('arrow') + '</a></div>';
   } else {
     content.innerHTML = bag.map((item, index) => {
       const p = byId.get(item.id);
       const thumb = p.image ? `<img src="${imagePath(p.image)}" alt="${escape(p.alt)}" width="85" height="128">` : `<div class="bag-swatch">${tile(p)}</div>`;
-      return `<article class="bag-item">${thumb}<div><div class="bag-item-top"><div><h3><a href="${p.id}.html">${escape(p.name)}</a></h3><p>${escape(item.size)} · ${escape(p.color)}</p></div><strong>${money(p.price * item.quantity)}</strong></div><div class="bag-item-controls"><div class="quantity"><button data-quantity="${index}" data-change="-1" aria-label="Decrease quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 1 ? ' disabled' : ''}>${icon('minus')}</button><span aria-label="Quantity">${item.quantity}</span><button data-quantity="${index}" data-change="1" aria-label="Increase quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 99 ? ' disabled' : ''}>${icon('plus')}</button></div><button class="remove-item" data-remove="${index}" aria-label="Remove ${escape(p.name)}, ${escape(item.size)} from bag">Remove</button></div></div></article>`;
+      return `<article class="bag-item">${thumb}<div><div class="bag-item-top"><div><h3><a href="${p.id}.html">${escape(p.name)}</a></h3><p>${escape(item.size)} · ${escape(p.color)}</p>${p.stock && item.quantity >= maxQuantity(p, item.size) ? `<p class="bag-limit">Only ${maxQuantity(p, item.size)} made in ${escape(item.size)}</p>` : ''}</div><strong>${money(p.price * item.quantity)}</strong></div><div class="bag-item-controls"><div class="quantity"><button data-quantity="${index}" data-change="-1" aria-label="Decrease quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity === 1 ? ' disabled' : ''}>${icon('minus')}</button><span aria-label="Quantity">${item.quantity}</span><button data-quantity="${index}" data-change="1" aria-label="Increase quantity of ${escape(p.name)}, ${escape(item.size)}"${item.quantity >= maxQuantity(p, item.size) ? ' disabled' : ''}>${icon('plus')}</button></div><button class="remove-item" data-remove="${index}" aria-label="Remove ${escape(p.name)}, ${escape(item.size)} from bag">Remove</button></div></div></article>`;
     }).join('');
   }
   document.getElementById('bag-total').textContent = money(bag.reduce((sum, item) => sum + byId.get(item.id).price * item.quantity, 0));
   document.getElementById('preview-checkout').disabled = !bag.length;
+  document.getElementById('bag-dialog').classList.toggle('is-empty', !bag.length);
   const preview = document.getElementById('preview-links');
   preview.hidden = true;
   const ids = [...new Set(bag.map((item) => item.id))];
@@ -92,7 +94,11 @@ function addProduct(button) {
     return;
   }
   const existing = bag.find((item) => item.id === p.id && item.size === size);
-  if (existing && existing.quantity === 99) { error.textContent = 'Your bag already has 99 of this piece in this size.'; return; }
+  const max = maxQuantity(p, size);
+  if (existing && existing.quantity >= max) {
+    error.textContent = p.stock ? `Only ${max} made in ${size}, and your bag already has ${max === 1 ? 'it' : 'them all'}.` : 'Your bag already has 99 of this piece in this size.';
+    return;
+  }
   if (existing) existing.quantity += 1;
   else bag.push({ id: p.id, size, quantity: 1 });
   saveBag();
@@ -127,10 +133,10 @@ function quickView(id) {
   const p = byId.get(id);
   if (!p) return;
   const claiming = p.tile && !dropLive;
-  const media = p.image ? `<img class="quick-image" src="${imagePath(p.image)}" width="832" height="1248" alt="${escape(p.alt)}">` : `<div class="quick-tile">${tile(p)}</div>`;
+  const media = p.image ? `<img class="quick-image${p.tile ? ' quick-image--set' : ''}" src="${imagePath(p.image)}" width="832" height="1248" alt="${escape(p.alt)}">` : `<div class="quick-tile">${tile(p)}</div>`;
   const action = claiming
-    ? `<button class="button wine product-add" data-claim="${p.id}"><span>Claim your size</span>${icon('arrow')}</button><p class="quick-claim-note">No payment today. Your claim opens an email to SUL.</p>`
-    : `<button class="button wine product-add" data-add="${p.id}"><span>Add to bag — ${money(p.price)}</span>${icon('plus')}</button>`;
+    ? `<button class="button blue product-add" data-claim="${p.id}"><span>Claim your size</span>${icon('arrow')}</button><p class="quick-claim-note">No payment today. Your claim opens an email to SUL.</p>`
+    : `<button class="button blue product-add" data-add="${p.id}"><span>Add to bag — ${money(p.price)}</span>${icon('plus')}</button>`;
   document.getElementById('quick-content').innerHTML = `<div class="quick-body">${media}<section class="quick-summary" data-detail="${p.id}"><h3>${escape(p.name)}</h3><div class="product-price-row"><strong>${money(p.price)}</strong><span class="color-name">${escape(p.color)}${p.quantity ? ` · ${p.quantity} sets made` : ''}</span></div><p class="product-description">${escape(p.description)}</p>${p.id === 'full-kit' ? '<p class="quick-image-note">Hoodie + joggers + tee. Hoodie shown.</p>' : ''}<fieldset class="size-fieldset"><legend class="sr-only">Select your size</legend><div class="size-head"><span>Select your size</span><button type="button" class="size-guide-link" data-size-guide="${p.id}" aria-haspopup="dialog">Size guide</button></div><div class="size-options" role="group" aria-label="Size for ${escape(p.name)}">${p.sizes.map((s) => `<button data-size="${escape(s)}" aria-pressed="${p.sizes.length === 1}">${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status"></p></fieldset>${action}<a class="text-link" href="${p.id}.html">View the details${icon('arrow')}</a></section></div>`;
   openDialog('quick-dialog');
 }
@@ -183,9 +189,9 @@ document.addEventListener('click', (event) => {
     const item = bag[index];
     if (!item) return;
     const change = Number(button.dataset.change);
-    item.quantity = Math.max(1, Math.min(99, item.quantity + change));
+    item.quantity = Math.max(1, Math.min(maxQuantity(byId.get(item.id), item.size), item.quantity + change));
     saveBag();
-    document.querySelector(`[data-quantity="${index}"][data-change="${change}"]:not(:disabled)`)?.focus();
+    (document.querySelector(`[data-quantity="${index}"][data-change="${change}"]:not(:disabled)`) || document.querySelector(`[data-quantity="${index}"]:not(:disabled)`))?.focus();
     return;
   }
   if (button.hasAttribute('data-remove')) {
@@ -202,9 +208,11 @@ document.addEventListener('click', (event) => {
     const emailed = Number(preview.dataset.emailed);
     const notes = [];
     if (paid) notes.push(`Secure card payment by Stripe${paid > 1 ? ', one payment per style' : ''}. Set the same quantity on the Stripe page; your sizes are sent with the payment.`);
-    if (emailed) notes.push(`${paid ? 'Pieces without card payment yet are' : 'Your order is'} sent to SUL by email. SUL replies to confirm payment and shipping.`);
+    if (emailed) notes.push(`${paid ? 'Pieces without card payment yet are' : 'Your order is'} sent to SUL by email. SUL replies to confirm payment and shipping. No email app? Write to ${drop.email}.`);
     document.getElementById('bag-note').textContent = notes.join(' ');
-    preview.querySelector('a')?.focus();
+    const links = preview.querySelectorAll('a');
+    links[0]?.focus();
+    if (links.length === 1) links[0].click(); // One destination: go straight there. The link stays visible as a fallback.
     return;
   }
   if (button.dataset.filter) { applyFilter(button.closest('[data-shop]'), button.dataset.filter); return; }
@@ -228,11 +236,17 @@ document.addEventListener('click', (event) => {
     const enlarge = document.querySelector('.gallery-enlarge');
     enlarge.dataset.enlarge = button.dataset.gallery;
     enlarge.dataset.alt = button.dataset.galleryAlt;
+    const concept = button.dataset.galleryConcept === 'true';
+    enlarge.dataset.concept = concept;
+    const tag = document.getElementById('gallery-tag');
+    if (tag) tag.hidden = !concept;
+    if (button.dataset.galleryNote) document.getElementById('gallery-note').textContent = button.dataset.galleryNote;
     return;
   }
   if (button.dataset.enlarge) {
     const image = document.getElementById('enlarged-image');
     image.src = imagePath(button.dataset.enlarge);
+    document.getElementById('enlarged-note').hidden = button.dataset.concept !== 'true';
     image.alt = button.dataset.alt;
     openDialog('image-dialog');
     return;
@@ -269,3 +283,36 @@ document.getElementById('sort-products')?.addEventListener('change', (event) => 
 window.addEventListener('storage', (event) => { if (event.key === storageKey) { bag = loadBag(); renderBag(); } });
 bag = loadBag();
 renderBag();
+
+// The header stays reachable: during the homepage flight it tucks away on the way down and returns on the way up.
+const siteHeader = document.querySelector('.site-header');
+const worldAct = document.querySelector('.ring-act');
+let lastScroll = window.scrollY;
+let scrollQueued = false;
+window.addEventListener('scroll', () => {
+  if (scrollQueued) return;
+  scrollQueued = true;
+  requestAnimationFrame(() => {
+    const y = window.scrollY;
+    if (Math.abs(y - lastScroll) > 6) {
+      // Only the 3D flight hides the header. Everywhere else the bag stays in reach.
+      const flying = worldAct && document.documentElement.classList.contains('world') && worldAct.getBoundingClientRect().bottom > innerHeight * 0.5;
+      siteHeader.classList.toggle('is-tucked', Boolean(flying) && y > lastScroll && y > 320);
+      lastScroll = y;
+    }
+    scrollQueued = false;
+  });
+}, { passive: true });
+
+// On phones the buy action stays in reach whenever the page's own button is off screen.
+const buyBarNode = document.getElementById('buy-bar');
+const mainAdd = document.querySelector('main .product-add');
+if (buyBarNode && mainAdd && 'IntersectionObserver' in window) {
+  const inView = new Set();
+  const watcher = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => { if (entry.isIntersecting) inView.add(entry.target); else inView.delete(entry.target); });
+    buyBarNode.hidden = inView.size > 0;
+  });
+  [mainAdd, document.querySelector('.site-footer')].forEach((node) => watcher.observe(node));
+  document.getElementById('buy-bar-action').addEventListener('click', () => mainAdd.click());
+}
