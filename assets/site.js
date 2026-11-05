@@ -1,4 +1,4 @@
-import { catalog, drop, dropLive, imagePath, money, claimLink, sizeGuideFor, measuringNotes } from './catalog.js';
+import { catalog, drop, dropLive, imagePath, money, claimLink, sizeGuideFor, measuringNotes, isLiveCheckout, stripeLink, orderEmailLink } from './catalog.js';
 
 const byId = new Map(catalog.map((product) => [product.id, product]));
 const escape = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -68,15 +68,18 @@ function renderBag() {
   document.getElementById('preview-checkout').disabled = !bag.length;
   const preview = document.getElementById('preview-links');
   preview.hidden = true;
-  preview.innerHTML = [...new Set(bag.map((item) => item.id))].map((id) => {
+  const ids = [...new Set(bag.map((item) => item.id))];
+  const paid = ids.filter((id) => isLiveCheckout(byId.get(id).checkout));
+  const emailed = bag.filter((item) => !isLiveCheckout(byId.get(item.id).checkout)).map((item) => ({ p: byId.get(item.id), item }));
+  preview.innerHTML = paid.map((id) => {
     const p = byId.get(id);
-    if (!p.checkout) {
-      const size = bag.find((item) => item.id === id)?.size;
-      return `<a href="${claimLink(p, size)}">${escape(p.name)} — order by email${icon('diagonal')}</a>`;
-    }
-    return `<a href="${p.checkout}" target="_blank" rel="noopener noreferrer">${escape(p.name)} — test checkout${icon('diagonal')}</a>`;
-  }).join('');
-  document.getElementById('bag-note').textContent = 'Payments are in test mode. Your bag is saved on this device.';
+    const items = bag.filter((item) => item.id === id);
+    const summary = items.map((item) => `${item.size} × ${item.quantity}`).join(', ');
+    return `<a href="${stripeLink(p, items)}" target="_blank" rel="noopener noreferrer">Pay for ${escape(p.name)} (${escape(summary)}) — card via Stripe${icon('diagonal')}</a>`;
+  }).join('') + (emailed.length ? `<a href="${orderEmailLink(emailed)}">${paid.length ? 'Order the rest' : 'Send your order'} by email${icon('diagonal')}</a>` : '');
+  preview.dataset.paid = String(paid.length);
+  preview.dataset.emailed = String(emailed.length);
+  document.getElementById('bag-note').textContent = 'Your bag is saved on this device.';
 }
 function addProduct(button) {
   const p = byId.get(button.dataset.add);
@@ -193,9 +196,15 @@ document.addEventListener('click', (event) => {
     return;
   }
   if (button.id === 'preview-checkout') {
-    document.getElementById('preview-links').hidden = false;
-    document.getElementById('bag-note').textContent = 'These existing Stripe links are for testing individual products. Bag sizes and quantities are not passed to Stripe. No live order will be placed.';
-    document.querySelector('#preview-links a')?.focus();
+    const preview = document.getElementById('preview-links');
+    preview.hidden = false;
+    const paid = Number(preview.dataset.paid);
+    const emailed = Number(preview.dataset.emailed);
+    const notes = [];
+    if (paid) notes.push(`Secure card payment by Stripe${paid > 1 ? ', one payment per style' : ''}. Set the same quantity on the Stripe page; your sizes are sent with the payment.`);
+    if (emailed) notes.push(`${paid ? 'Pieces without card payment yet are' : 'Your order is'} sent to SUL by email. SUL replies to confirm payment and shipping.`);
+    document.getElementById('bag-note').textContent = notes.join(' ');
+    preview.querySelector('a')?.focus();
     return;
   }
   if (button.dataset.filter) { applyFilter(button.closest('[data-shop]'), button.dataset.filter); return; }

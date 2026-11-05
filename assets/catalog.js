@@ -61,14 +61,22 @@ export const products = [
   }
 ];
 
-// Women's first drop. Flip `status` to 'live' once the shipment is received and inspected.
+// Women's first drop. Live since 2026-11-05 at the owner's instruction (was 'coming-soon').
 // Prices and colorways come from the owner's launch plan (2026-10-31); pieces and the per-size run
 // (`stock`) from the owner's inventory list (2026-10-31). `sizes` is derived from sizes with stock.
 // Photos are crops of the owner's campaign image (assets/images/womens-drop.webp); `tile` colors
 // remain as the fallback swatch.
 export const drop = {
-  id: 'drop', name: 'Women’s collection', status: 'coming-soon', totalSets: 27,
+  id: 'drop', name: 'Women’s collection', status: 'live', totalSets: 27,
   email: 'sulcollective@gmail.com', instagram: 'https://www.instagram.com/snoozeulose/'
+};
+// Live Stripe Payment Links for the sets (https://buy.stripe.com/...). Paste one per set from the
+// Stripe dashboard in live mode, then rebuild. A set without a live link is ordered by email instead.
+export const setCheckout = {
+  'olive-set': '',
+  'navy-cream-set': '',
+  'black-set': '',
+  'pink-set': ''
 };
 const sizesWithStock = (stock) => Object.keys(stock).filter((size) => stock[size] > 0);
 export const sets = [
@@ -112,7 +120,7 @@ export const sets = [
     description: 'The softest colorway in the drop and the smallest run. A blush pink sweatshirt with the S.U.L crown across the chest, a pink pleated skirt with built-in shorts, and cream and pink leg warmers. Five sets made for the first drop, one per size.',
     details: [['Set', 'Blush pink sweatshirt, pink pleated skirt with built-in shorts, cream/pink leg warmers'], ['Colorway', 'Blush pink'], ['Run', '5 sets in the first drop'], ['Details', 'Crown crest on chest and skirt']]
   }
-].map((set) => ({ ...set, sizes: sizesWithStock(set.stock), details: [...set.details, ['Sizes made', Object.entries(set.stock).filter(([, n]) => n > 0).map(([size, n]) => `${size} ${n}`).join(' · ')]] }));
+].map((set) => ({ ...set, checkout: setCheckout[set.id] || '', sizes: sizesWithStock(set.stock), details: [...set.details, ['Sizes made', Object.entries(set.stock).filter(([, n]) => n > 0).map(([size, n]) => `${size} ${n}`).join(' · ')]] }));
 export const catalog = [...sets, ...products];
 export const dropLive = drop.status === 'live';
 
@@ -145,9 +153,24 @@ export const sizeGuideFor = (p) => {
 
 export const imagePath = (name) => `assets/images/${name}.webp`;
 export const money = (amount) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: Number.isInteger(amount) ? 0 : 2, maximumFractionDigits: Number.isInteger(amount) ? 0 : 2 }).format(amount);
-// Claims and orders for the drop go to SUL by email until a live checkout exists.
+// Only live Stripe Payment Links take payment; test-mode links (buy.stripe.com/test_...) are never shown
+// to customers. Anything without a live link is ordered by email to SUL.
+export const isLiveCheckout = (url) => /^https:\/\/buy\.stripe\.com\/(?!test_)[A-Za-z0-9_]+$/.test(url || '');
+// The bag's sizes and quantities ride along as client_reference_id (letters, digits, - and _ only),
+// shown on the payment in the Stripe dashboard, e.g. "olive-set_M-1_L-2".
+export const stripeLink = (p, items) => {
+  const ref = `${p.id}_${items.map((item) => `${item.size}-${item.quantity}`).join('_')}`.replace(/[^A-Za-z0-9_-]/g, '').slice(0, 200);
+  return `${p.checkout}?client_reference_id=${encodeURIComponent(ref)}`;
+};
 export const claimLink = (set, size) => {
   const subject = `${dropLive ? 'Order' : 'Claim'}: ${set.name}${size ? `, size ${size}` : ''}`;
-  const body = `Hi SUL,\n\nI’d like to ${dropLive ? 'order' : 'claim'} the ${set.name} (${set.colorway}) in size ${size || '[your size]'} at ${money(set.price)}.\n\nName:\nCity:\nInstagram:\n`;
+  const body = `Hi SUL,\n\nI’d like to ${dropLive ? 'order' : 'claim'} the ${set.name} (${set.colorway || set.color}) in size ${size || '[your size]'} at ${money(set.price)}.\n\nName:\nCity:\nInstagram:\n`;
   return `mailto:${drop.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+};
+// One email for every bag item that has no live payment link.
+export const orderEmailLink = (lines) => {
+  const total = lines.reduce((sum, { p, item }) => sum + p.price * item.quantity, 0);
+  const list = lines.map(({ p, item }) => `- ${p.name} (${p.colorway || p.color}), size ${item.size} × ${item.quantity} — ${money(p.price * item.quantity)}`).join('\n');
+  const body = `Hi SUL,\n\nI’d like to order:\n${list}\n\nSubtotal: ${money(total)}\n\nName:\nShipping address:\nPhone:\nInstagram:\n`;
+  return `mailto:${drop.email}?subject=${encodeURIComponent(`Order: ${lines.map(({ p, item }) => `${p.name} ${item.size}`).join(', ')}`)}&body=${encodeURIComponent(body)}`;
 };
