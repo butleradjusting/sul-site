@@ -101,8 +101,10 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     await page.keyboard.press('Escape');
 
     await page.goto(`${base}/blackout-hoodie.html`);
-    await page.locator('[data-gallery]').nth(1).click();
+    assert(await page.locator('#gallery-tag').isVisible());
+    await page.locator('[data-gallery]').nth(2).click();
     await page.waitForFunction(() => document.querySelector('#gallery-image').src.endsWith('hoodie-scene.webp'));
+    assert(!(await page.locator('#gallery-tag').isVisible()));
     await page.locator('.gallery-enlarge').click();
     assert(await page.locator('#image-dialog').isVisible());
     await page.keyboard.press('Escape');

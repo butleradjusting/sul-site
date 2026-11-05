@@ -175,6 +175,10 @@
     "*-set-studio.webp, womens-lineup.webp": {
       "origin": "Higgsfield nano_banana_2 edits of the owner's campaign image, sources in site-photos/share-generated/.",
       "transformation": "Background and lighting replaced and neighboring models removed. Labeled as AI-edited on the page. Prints compared by eye against the campaign image. Cropped and encoded by scripts/share/build_share_assets.cjs."
+    },
+    "*-model.webp": {
+      "origin": "Higgsfield nano_banana_2, from the existing product photos, sources in site-photos/share-generated/.",
+      "transformation": "AI model wearing the pictured garment on a dark studio background. Labeled as AI on the page. Prints compared by eye against the product photos."
     }
   },
   "fonts": {

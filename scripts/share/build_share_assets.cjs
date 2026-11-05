@@ -42,6 +42,11 @@ function photos() {
     ffmpeg('-i', `${GENERATED}/${id}.jpg`, '-frames:v', '1', '-vf', 'crop=1536:2304:160:0,scale=1000:1500:flags=lanczos', frame);
     execFileSync('cwebp', ['-quiet', '-q', '84', frame, '-o', `assets/images/${id}-studio.webp`]);
   }
+  for (const id of ['blackout-hoodie', 'lion-sweater', 'new-era-hat', 'full-kit']) {
+    const frame = path.join(tmp, `${id}.png`);
+    ffmpeg('-i', `${GENERATED}/${id}.jpg`, '-frames:v', '1', '-vf', 'crop=1536:2304:160:0,scale=1000:1500:flags=lanczos', frame);
+    execFileSync('cwebp', ['-quiet', '-q', '84', frame, '-o', `assets/images/${id}-model.webp`]);
+  }
   execFileSync('cwebp', ['-quiet', '-q', '84', '-resize', '1600', '0', `${GENERATED}/womens-drop.jpg`, '-o', 'assets/images/womens-lineup.webp']);
   // The homepage and shop page show all four colorways. Cropped from the top so no head is cut.
   ffmpeg('-i', `${GENERATED}/womens-drop.jpg`, '-frames:v', '1', '-vf', 'crop=iw:iw*630/1200:0:0,scale=1200:630:flags=lanczos', '-q:v', '3', `${OUT}/womens-drop.jpg`);
