@@ -6,6 +6,9 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
 (async () => {
   const browser = await chromium.launch({ headless: true, ...(process.env.SUL_PLAYWRIGHT_CHANNEL ? { channel: process.env.SUL_PLAYWRIGHT_CHANNEL } : {}) });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+  // Checkout clicks its email link when that is the only destination. In real Chrome that opens a Mail
+  // window per run, so email links stop here. The test still reads each link's address and body.
+  await page.addInitScript(() => document.addEventListener('click', (event) => { if (event.target.closest?.('a[href^="mailto:"]')) event.preventDefault(); }, true));
   const errors = [];
   const failures = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -56,9 +59,9 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     await page.keyboard.press('Escape');
 
     await page.goto(`${base}/olive-set.html`);
-    assert((await page.locator('#gallery-image').getAttribute('src')).endsWith('olive-render-front.webp'));
-    assert.match(await page.locator('#gallery-note').innerText(), /AI concept image/);
-    assert.equal(await page.locator('[data-gallery]').count(), 5);
+    assert((await page.locator('#gallery-image').getAttribute('src')).endsWith('olive-set-studio.webp'));
+    assert.match(await page.locator('#gallery-note').innerText(), /AI-edited/);
+    assert.equal(await page.locator('[data-gallery]').count(), 6);
     assert(await page.locator('#gallery-tag').isVisible());
     await page.getByRole('button', { name: 'Set view', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('#gallery-image').src.endsWith('olive-set.webp'));
