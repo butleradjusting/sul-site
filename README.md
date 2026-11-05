@@ -1,6 +1,6 @@
 # SUL — Snooze U Lose
 
-Static streetwear storefront for snoozeulose.com. The current local redesign uses charcoal, silver, and royal blue, with an interactive design studio, printed-set gallery, five product pages, and a persistent shopping bag.
+Static streetwear storefront for snoozeulose.com. The current design is a 3D liquid-chrome world in near-black and royal blue, with an interactive design studio, printed-set gallery, five product pages, and a persistent shopping bag.
 
 ## Run locally
 
@@ -8,7 +8,7 @@ Static streetwear storefront for snoozeulose.com. The current local redesign use
 npm run dev
 ```
 
-Open http://127.0.0.1:4173. The pages are ordinary HTML and require no application server, dependencies, or compilation to serve.
+Open http://127.0.0.1:4173. The published pages are ordinary HTML with no application server. Editing them takes `npm install` once, then `npm run build`, which bundles `src/` into `assets/` and regenerates the HTML. The bundles are committed because GitHub Pages does not build.
 
 ## Edit and rebuild
 

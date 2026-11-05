@@ -44,6 +44,10 @@ On 2026-10-31 the owner supplied a launch plan for 27 women’s matching sets in
 
 The owner launched the women’s drop and asked for Stripe payments. The drop is live with add-to-bag. Live Stripe Payment Links are still needed from the owner’s Stripe account; until each one is added, that item is ordered by email and SUL confirms payment and shipping. Test-mode links are no longer shown to customers.
 
+## 3D Direction — 2026-11-05
+
+The owner rejected the flat, square design (“this blocky design idk if i like”) and asked for something “incredibly amazing, 3d, wow like no other.” The storefront now opens with a real-time 3D chrome SUL logo and shows the four colorways on a curved 3D wall. Shopping must keep working when the 3D does not run, and garment photos stay true to color. Nothing from this direction is published until the owner has reviewed it.
+
 ## Open Decisions
 
 The owner selected building a working website directly, without a mockup round. On 2026-10-03 the owner supplied 16 additional images: three chrome/blue technical garment boards, ten printed shirt/shorts images, a production planning board, a black/gold lion hoodie image, and a charcoal crown hoodie sample. The production board remains outside the public website. New pieces are shown as studio previews until availability and pricing are confirmed. Owner confirmation of final creative direction, commerce integration, pricing, fulfillment policies, and audience remains open. This initial product record uses explicit user instructions and repository evidence after an optional clarification probe; inferred facts are labeled above.
