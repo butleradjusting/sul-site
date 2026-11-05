@@ -6,6 +6,9 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
 (async () => {
   const browser = await chromium.launch({ headless: true, ...(process.env.SUL_PLAYWRIGHT_CHANNEL ? { channel: process.env.SUL_PLAYWRIGHT_CHANNEL } : {}) });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+  // Checkout clicks its email link when that is the only destination. In real Chrome that opens a Mail
+  // window per run, so email links stop here. The test still reads each link's address and body.
+  await page.addInitScript(() => document.addEventListener('click', (event) => { if (event.target.closest?.('a[href^="mailto:"]')) event.preventDefault(); }, true));
   const errors = [];
   const failures = [];
   page.on('pageerror', (error) => errors.push(error.message));
