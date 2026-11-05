@@ -18,6 +18,10 @@ The Bomber Jacket is shelved (2026-11-01): its entry sits in `shelved` in `asset
 
 Every size selector (product pages, set pages, quick view) has a Size guide link beside its label. It opens the shared `#size-dialog`, filled by `openSizeGuide` in `assets/site.js` from each style’s `fit`/`fitNote` in the catalog and the `sizeCharts` there. The fit notes are the owner’s (2026-11-01): sweatshirts relaxed and oversized, the olive fitted set close and stretchy, skirt outfits sized by waist and hip. The olive and skirt charts (`sizeCharts.olive`, `sizeCharts.skirt`, chosen by each set’s `sizeChart`) are the owner’s numbers of 2026-11-01, body measurements plus the skirt’s own length; the unisex chart for the older pieces is standard US sizing until those garments are measured.
 
+## Drop Launch and Checkout — 2026-11-05
+
+The owner launched the women’s drop (`drop.status` is `'live'`). Sets show Available now and add to the bag. Checkout in the bag gives one Stripe link per style that has a **live** Payment Link, with sizes and quantities passed as `client_reference_id` (for example `black-set_2XL-1_L-2`), and one prefilled email order to sulcollective@gmail.com for everything else. Test-mode links (`buy.stripe.com/test_…`) are never shown to customers; `isLiveCheckout` in `assets/catalog.js` decides. Set links go in `setCheckout`, older products in their `checkout` field; rebuild after pasting. No live Stripe link has been supplied yet, so every order currently goes by email. Stock is not decremented automatically: set a size to 0 in `stock` and rebuild when it sells out.
+
 ## Brand Overview
 - **Brand Name:** SUL (Snooze U Lose)
 - **Owner:** Kev (butleradjusting@gmail.com)
