@@ -1,0 +1,21 @@
+{
+  "name": "SUL — Snooze U Lose",
+  "short_name": "SUL",
+  "description": "Don’t sleep on style.",
+  "start_url": "/",
+  "display": "minimal-ui",
+  "background_color": "#05070d",
+  "theme_color": "#05070d",
+  "icons": [
+    {
+      "src": "assets/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
