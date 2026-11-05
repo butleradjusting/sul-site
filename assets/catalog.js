@@ -51,6 +51,7 @@ export const products = [
     id: 'full-kit', name: 'The Full Kit', price: 160, category: 'Sets',
     color: 'Black / White', image: 'hoodie-scene', scene: 'hoodie',
     alt: 'Blackout Hoodie styled with a cap on a store mannequin; hoodie is part of the Full Kit',
+    shareAlt: 'Model wearing the Blackout Hoodie with white SUL sleeve lettering and matching black joggers',
     sceneAlt: 'Blackout Hoodie, included in the SUL Full Kit',
     gallery: ['hoodie-scene', 'hoodie'], sizes: ['S', 'M', 'L', 'XL', '2XL'],
     fit: 'Relaxed, oversized fit', fitNote: 'The hoodie, joggers, and tee are cut for a relaxed, oversized fit. Choose your usual size for the look as shown.',

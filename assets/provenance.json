@@ -120,10 +120,6 @@
       "origin": "Higgsfield Nano Banana Pro edit of the owner's mannequin sample photos, job a50e0db7, 2026-11-02",
       "transformation": "AI generated, then resized to 1100px wide, WebP quality 84. Labeled as a concept image on the page."
     },
-    "og-womens-drop.jpg": {
-      "origin": "Owner supplied campaign image, site-photos/campaign-womens-collection.webp",
-      "transformation": "JPEG re-encode, quality 86, for link previews. No other change."
-    },
     "sul-wordmark.png": {
       "origin": "Repository supplied asset: site-photos/sul-logo-modern-white.png",
       "transformation": "Copied without visual changes."
@@ -159,6 +155,22 @@
     "sul-chrome-poster.webp": {
       "origin": "Screenshot of the live 3D logo in src/world.js, captured by scripts/3d/capture_poster.cjs",
       "transformation": "WebP, quality 84. First paint and the fallback when the 3D does not run."
+    },
+    "share/*.jpg": {
+      "origin": "Higgsfield nano_banana_2 images made from the owner's campaign image and product photos, sources in site-photos/share-generated/.",
+      "transformation": "Women's sets and lineup: background and lighting replaced and neighboring models removed. Older products: AI models wearing the pictured garment. Prints compared by eye against the source photos, then cropped by scripts/share/build_share_assets.cjs for link previews."
+    },
+    "share/sul-film.mp4": {
+      "origin": "Screen recording of the homepage 3D scene, ending on the Higgsfield lineup image above",
+      "transformation": "Encoded by scripts/share/build_share_assets.cjs for link previews."
+    },
+    "*-look.webp": {
+      "origin": "Higgsfield nano_banana_2, from the owner's sample photos of each printed shirt and shorts.",
+      "transformation": "AI model wearing both pieces on a dark studio background. Labeled as AI on the page. Prints compared by eye against the sample photos."
+    },
+    "*-shirt-studio.webp, *-shorts-studio.webp": {
+      "origin": "Higgsfield nano_banana_2, from the owner's sample photos of each printed shirt and shorts.",
+      "transformation": "Factory table replaced with a charcoal surface. Some garment edges cut off in the sample photos were filled in by the model. Labeled as AI on the page."
     }
   },
   "fonts": {
