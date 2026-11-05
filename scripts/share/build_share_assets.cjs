@@ -18,17 +18,17 @@ const ffmpeg = (...args) => execFileSync('ffmpeg', ['-y', '-loglevel', 'error', 
 
 // Crop rectangles are in the source image's pixels. Messages shows tall photos large, and Apple
 // advises against text in preview images, so these stay photographic. The sets come from
-// site-photos/share-generated/: Higgsfield (nano_banana_2) edits of the campaign crops that keep the
-// real garments and only change the background and lighting. Compare the prints before replacing one.
+// site-photos/share-generated/: Higgsfield (nano_banana_2) images made from the campaign crops and
+// product photos, with prompts to keep the real garments. Compare the prints before replacing one.
 const PHOTOS = {
   'olive-set': { src: `${GENERATED}/olive-set.jpg`, x: 6, y: 0, w: 1843 },
   'navy-cream-set': { src: `${GENERATED}/navy-cream-set.jpg`, x: 6, y: 0, w: 1843 },
   'black-set': { src: `${GENERATED}/black-set.jpg`, x: 6, y: 0, w: 1843 },
   'pink-set': { src: `${GENERATED}/pink-set.jpg`, x: 6, y: 0, w: 1843 },
-  'blackout-hoodie': { src: 'assets/images/hoodie.webp', x: 76, y: 200, w: 680 },
-  'lion-sweater': { src: 'assets/images/sweater.webp', x: 66, y: 180, w: 700 },
-  'new-era-hat': { src: 'assets/images/hat.webp', x: 150, y: 335, w: 520 },
-  'full-kit': { src: 'assets/images/hoodie-scene.webp', x: 0, y: 120, w: 784 },
+  'blackout-hoodie': { src: `${GENERATED}/blackout-hoodie.jpg`, x: 6, y: 0, w: 1843 },
+  'lion-sweater': { src: `${GENERATED}/lion-sweater.jpg`, x: 6, y: 0, w: 1843 },
+  'new-era-hat': { src: `${GENERATED}/new-era-hat.jpg`, x: 6, y: 0, w: 1843 },
+  'full-kit': { src: `${GENERATED}/full-kit.jpg`, x: 6, y: 0, w: 1843 },
 };
 
 function photos() {

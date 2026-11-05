@@ -219,14 +219,14 @@ main h1,main h2,.footer-top h2{color:var(--chalk)}
 .print-grid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(245px,25%);gap:clamp(12px,1.4vw,20px);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--blue) transparent;padding:6px 2px 22px}
 .print-card{min-width:0;scroll-snap-align:start}
 .print-image{padding:0;width:100%;aspect-ratio:4/5;display:block}
-.print-image img{width:100%;height:100%;object-fit:cover;object-position:center 40%;transform:scale(1.1);transform-origin:center 38%;transition:transform .9s var(--ease),opacity .3s var(--ease)}
-.print-image:hover img{transform:scale(1.14)}
+.print-image img{width:100%;height:100%;object-fit:cover;object-position:center 30%;transform-origin:center 38%;transition:transform .9s var(--ease),opacity .3s var(--ease)}
+.print-image:hover img{transform:scale(1.04)}
 .print-image>svg{position:absolute;right:10px;bottom:10px;background:#f2f4f9e6;color:#0a1330;padding:11px;width:44px;height:44px;border-radius:50%}
 .print-info{padding-top:13px}
 .print-info h3{font-size:15px}
 .print-info>span{font-size:14px;color:var(--muted);display:block;margin-top:3px}
 .print-controls{display:flex;gap:6px;margin-top:8px}
-.print-controls button{font-size:14px;font-weight:600;min-height:44px;min-width:44px;padding:0 14px;color:var(--silver);border-radius:var(--pill);box-shadow:inset 0 0 0 1px var(--line)}
+.print-controls button{font-size:14px;font-weight:600;min-height:44px;min-width:44px;padding:0 12px;white-space:nowrap;color:var(--silver);border-radius:var(--pill);box-shadow:inset 0 0 0 1px var(--line)}
 .print-controls button[aria-pressed=true]{background:var(--chalk);color:var(--void);box-shadow:none}
 
 /* ---------- campaign + manifesto ---------- */
@@ -564,5 +564,4 @@ dialog[open]{animation:dialog-in .5s var(--ease)}
   html:not(.lenis){scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .product-image-link:hover img,.print-image:hover img{transform:none}
-  .print-image img{transform:scale(1.1)}
 }
