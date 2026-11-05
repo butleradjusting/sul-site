@@ -10,20 +10,21 @@ const path = require('node:path');
 
 const BASE = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
 const OUT = 'assets/share';
-const CAMPAIGN = 'site-photos/campaign-womens-collection.webp';
+const GENERATED = 'site-photos/share-generated';
 const wanted = process.argv.slice(2);
 const want = (name) => !wanted.length || wanted.includes(name);
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'sul-share-'));
 const ffmpeg = (...args) => execFileSync('ffmpeg', ['-y', '-loglevel', 'error', ...args]);
 
 // Crop rectangles are in the source image's pixels. Messages shows tall photos large, and Apple
-// advises against text in preview images, so these stay photographic. Campaign crops start below
-// the words printed at the top of the campaign image.
+// advises against text in preview images, so these stay photographic. The sets come from
+// site-photos/share-generated/: Higgsfield (nano_banana_2) edits of the campaign crops that keep the
+// real garments and only change the background and lighting. Compare the prints before replacing one.
 const PHOTOS = {
-  'olive-set': { src: CAMPAIGN, x: 15, y: 205, w: 325 },
-  'navy-cream-set': { src: CAMPAIGN, x: 310, y: 205, w: 338 },
-  'black-set': { src: CAMPAIGN, x: 636, y: 205, w: 340 },
-  'pink-set': { src: CAMPAIGN, x: 950, y: 205, w: 304 },
+  'olive-set': { src: `${GENERATED}/olive-set.jpg`, x: 6, y: 0, w: 1843 },
+  'navy-cream-set': { src: `${GENERATED}/navy-cream-set.jpg`, x: 6, y: 0, w: 1843 },
+  'black-set': { src: `${GENERATED}/black-set.jpg`, x: 6, y: 0, w: 1843 },
+  'pink-set': { src: `${GENERATED}/pink-set.jpg`, x: 6, y: 0, w: 1843 },
   'blackout-hoodie': { src: 'assets/images/hoodie.webp', x: 76, y: 200, w: 680 },
   'lion-sweater': { src: 'assets/images/sweater.webp', x: 66, y: 180, w: 700 },
   'new-era-hat': { src: 'assets/images/hat.webp', x: 150, y: 335, w: 520 },
@@ -33,12 +34,10 @@ const PHOTOS = {
 function photos() {
   for (const [id, r] of Object.entries(PHOTOS)) {
     const h = Math.round((r.w * 5) / 4);
-    // Soft edges hide the neighboring model's sleeve in the campaign crops.
-    const edge = r.src === CAMPAIGN ? ",format=rgb24,geq=r='r(X,Y)*E(X)':g='g(X,Y)*E(X)':b='b(X,Y)*E(X)'".replaceAll('E(X)', "min(1,0.55+0.45*min(X,W-X)/(W*0.09))") : '';
-    ffmpeg('-i', r.src, '-frames:v', '1', '-vf', `crop=${r.w}:${h}:${r.x}:${r.y},scale=1000:1250:flags=lanczos,unsharp=5:5:0.55${edge}`, '-q:v', '3', `${OUT}/${id}.jpg`);
+    ffmpeg('-i', r.src, '-frames:v', '1', '-vf', `crop=${r.w}:${h}:${r.x}:${r.y},scale=1000:1250:flags=lanczos`, '-q:v', '3', `${OUT}/${id}.jpg`);
   }
-  // The homepage and shop page show all four colorways. No printed words, no site name.
-  ffmpeg('-i', CAMPAIGN, '-frames:v', '1', '-vf', 'crop=1254:658:0:205,scale=1200:630:flags=lanczos,unsharp=5:5:0.35', '-q:v', '3', `${OUT}/womens-drop.jpg`);
+  // The homepage and shop page show all four colorways. Cropped from the top so no head is cut.
+  ffmpeg('-i', `${GENERATED}/womens-drop.jpg`, '-frames:v', '1', '-vf', 'crop=iw:iw*630/1200:0:0,scale=1200:630:flags=lanczos', '-q:v', '3', `${OUT}/womens-drop.jpg`);
 }
 
 async function icons(browser) {

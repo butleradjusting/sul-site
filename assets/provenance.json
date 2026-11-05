@@ -157,11 +157,11 @@
       "transformation": "WebP, quality 84. First paint and the fallback when the 3D does not run."
     },
     "share/*.jpg": {
-      "origin": "Owner supplied campaign image and existing product photos, cropped by scripts/share/build_share_assets.cjs",
-      "transformation": "Crop, upscale, light sharpening, and softly darkened side edges on campaign crops, for link previews. Garment colors unchanged."
+      "origin": "Set and lineup images: Higgsfield nano_banana_2 edits of the owner's campaign image, sources in site-photos/share-generated/. Other products: existing product photos.",
+      "transformation": "The edits replace the background and lighting and remove neighboring models, with prompts to keep the garments and prints unchanged. Prints compared by eye against the campaign image. Then cropped by scripts/share/build_share_assets.cjs for link previews."
     },
     "share/sul-film.mp4": {
-      "origin": "Screen recording of the homepage 3D scene, ending on the owner supplied campaign image",
+      "origin": "Screen recording of the homepage 3D scene, ending on the Higgsfield lineup image above",
       "transformation": "Encoded by scripts/share/build_share_assets.cjs for link previews."
     }
   },
