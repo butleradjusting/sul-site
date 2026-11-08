@@ -73,7 +73,7 @@ export const products = [
 // remain as the fallback swatch.
 export const drop = {
   id: 'drop', name: 'Women’s collection', status: 'live', totalSets: 27,
-  email: 'sulcollective@gmail.com', instagram: 'https://www.instagram.com/snoozeulose/'
+  email: 'sulcollective@gmail.com', instagram: 'https://www.instagram.com/thesulcollective/'
 };
 // Live Stripe Payment Links for the sets (https://buy.stripe.com/...). Paste one per set from the
 // Stripe dashboard in live mode, then rebuild. A set without a live link is ordered by email instead.
