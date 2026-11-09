@@ -133,6 +133,21 @@ export const sets = [
   }
 ].map((set) => ({ ...set, checkout: setCheckout[set.id] || '', sizes: sizesWithStock(set.stock) }));
 export const catalog = [...sets, ...products];
+
+// Homepage headliner (owner's request, 2026-11-09). Real photos the owner supplied the same day.
+// No price or sizes confirmed yet, so the action is an email inquiry. Add a `price` to show it.
+export const headliner = {
+  id: 'crown-set', name: 'The Charcoal Crown Set', pieces: 'Hoodie + joggers', color: 'Charcoal wash / Chrome blue',
+  price: null,
+  description: 'Washed charcoal fleece, the SUL crown on the chest and the leg, and the full chrome crest across the back. Snooze U Lose, est. 2020.',
+  photos: [
+    { image: 'crown-set-front', alt: 'Man wearing the SUL Charcoal Crown Set, a washed charcoal hoodie and joggers with a small crown logo on the chest and leg, on a fall street' },
+    { image: 'crown-set-print', alt: 'Close-up of the back of the charcoal hoodie: a large chrome and royal blue SUL crown crest above the words Snooze U Lose, est. 2020' },
+    { image: 'crown-set-back', alt: 'Back view of the Charcoal Crown Set, hood up, showing the chrome crown print and the joggers' },
+    { image: 'crown-set-hood', alt: 'Man pulling up the hood of the charcoal SUL hoodie, joggers and blue sneakers, autumn trees behind' }
+  ]
+};
+export const headlinerLink = () => `mailto:${drop.email}?subject=${encodeURIComponent(`Crown Set: size [your size]`)}&body=${encodeURIComponent(`Hi SUL,\n\nI want the Charcoal Crown Set (hoodie + joggers).\n\nSize:\nName:\nCity:\nInstagram:\n`)}`;
 // Sets are limited runs, so a bag can never hold more of a size than were made.
 export const maxQuantity = (p, size) => (p.stock ? p.stock[size] || 0 : 99);
 export const dropLive = drop.status === 'live';

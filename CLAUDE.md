@@ -162,3 +162,7 @@ Photos in `site-photos/` should be named descriptively using the `product-` pref
 - Create pitch deck for retail partnerships
 - SEO optimization
 - Unhide Lookbook and Brand Values sections when content is ready
+
+## Crown Set Headliner — 2026-11-09
+
+The owner sent real photos of the Charcoal Crown Set (washed charcoal hoodie and joggers, chrome crown crest on the back) and asked to make it the headliner. It sits in `#crown`, right after the 3D wall and before the women's sets, and the hero button points to it. Its data is `headliner` in `assets/catalog.js`, and its photos are `assets/images/crown-set-*.webp`. No price or sizes are confirmed, so it shows "Ask SUL" and the action is an email. Add `price` and rebuild to show one. The photos arrived at 565px wide, so swap in the full-size originals when they come.
