@@ -281,6 +281,10 @@ document.getElementById('sort-products')?.addEventListener('change', (event) => 
   cards.forEach((card) => { grid.insertBefore(card, cta); });
 });
 window.addEventListener('storage', (event) => { if (event.key === storageKey) { bag = loadBag(); renderBag(); } });
+// Back and Forward can bring this page back from memory without running this script again. Safari sends no
+// storage event for what changed meanwhile, so the bag is read again. Without it, the page showed the old
+// bag and the next add saved over whatever was added on the page in between.
+window.addEventListener('pageshow', (event) => { if (event.persisted) { bag = loadBag(); renderBag(); } });
 bag = loadBag();
 renderBag();
 

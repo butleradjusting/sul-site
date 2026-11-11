@@ -107,11 +107,19 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     assert(!(await page.locator('#gallery-tag').isVisible()));
     await page.locator('.gallery-enlarge').click();
     assert(await page.locator('#image-dialog').isVisible());
+    await page.waitForFunction(() => { const image = document.getElementById('enlarged-image'); return image.src.endsWith('hoodie-scene.webp') && image.complete && image.naturalWidth > 0; });
     await page.keyboard.press('Escape');
     await page.getByRole('button', { name: /Open shopping bag/ }).click();
     while (await page.locator('[data-remove]').count()) await page.locator('[data-remove]').first().click();
     assert.match(await page.locator('.bag-empty').innerText(), /a little empty/i);
     await page.keyboard.press('Escape');
+    // A page brought back by Back or Forward reads the bag again. Safari sends it no storage event, so
+    // without this the next add saves over whatever was added on the page in between.
+    const restore = (items) => page.evaluate((saved) => { localStorage.setItem('sul-bag-v1', JSON.stringify(saved)); window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true })); }, items);
+    await restore([{ id: 'olive-set', size: 'M', quantity: 1 }]);
+    assert.equal(await page.locator('.bag-count').innerText(), '(1)');
+    await restore([]);
+    assert.equal(await page.locator('.bag-count').innerText(), '(0)');
 
     await page.goto(base);
     await page.getByRole('button', { name: 'After-hours essentials', exact: true }).click();
@@ -121,6 +129,15 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     await page.waitForFunction(() => document.querySelector('.print-card img').src.endsWith('snooze-shorts-studio.webp'));
     await page.getByRole('button', { name: 'Off the clock', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('#campaign-image').src.endsWith('outdoor.webp'));
+    // Without the 3D wall, "Women’s drop" links land on the sets, not on the headliner above them.
+    await page.goto(`${base}/collections.html`);
+    await page.locator('.desktop-nav a', { hasText: 'Women’s drop' }).click();
+    await page.waitForURL(/#drop$/);
+    await page.waitForFunction(() => { const top = document.getElementById('sets').getBoundingClientRect().top; return top >= 0 && top < innerHeight / 2; });
+    // The skip link stays out of sight until the keyboard reaches it.
+    assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.skip-link')).opacity), '0');
+    await page.locator('.skip-link').focus();
+    assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector('.skip-link')).opacity), '1');
     await page.setViewportSize({ width: 390, height: 844 });
     await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
     assert(await page.locator('#menu-dialog').isVisible());
@@ -139,7 +156,7 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     assert.deepEqual(errors, []);
     assert.deepEqual(failures, []);
     fs.mkdirSync('.impeccable/review', { recursive: true });
-    fs.writeFileSync('.impeccable/review/smoke-report.json', JSON.stringify({ passed: true, checks: ['Category filters and counts', 'Price sorting', 'Studio and styled photography', 'Size validation', 'Add to bag', 'Quantity and subtotal', 'Email order fallback, no test links', 'Escape and dialog behavior', 'Cross-page persisted bag', 'Remove and empty bag', 'Product gallery and enlarged image', 'Studio board switch', 'Shirt and shorts switch', 'Lookbook switch', 'Mobile menu', 'Women’s drop live: add to bag, order link, quick view', '72 route and viewport checks'], javascriptErrors: errors, httpErrors: failures }, null, 2));
+    fs.writeFileSync('.impeccable/review/smoke-report.json', JSON.stringify({ passed: true, checks: ['Category filters and counts', 'Price sorting', 'Studio and styled photography', 'Size validation', 'Add to bag', 'Quantity and subtotal', 'Email order fallback, no test links', 'Escape and dialog behavior', 'Cross-page persisted bag', 'Remove and empty bag', 'Product gallery and enlarged image', 'Studio board switch', 'Shirt and shorts switch', 'Lookbook switch', 'Mobile menu', 'Women’s drop live: add to bag, order link, quick view', 'Bag reread after Back', 'Women’s drop link without the 3D wall', 'Skip link hidden until focused', '72 route and viewport checks'], javascriptErrors: errors, httpErrors: failures }, null, 2));
     console.log('Passed: shopping flows, persistence, gallery controls, mobile menu, the live women’s drop, and 72 route/viewport checks. No JavaScript or HTTP errors.');
   } finally { await browser.close(); }
 })().catch((error) => { console.error(error); process.exitCode = 1; });

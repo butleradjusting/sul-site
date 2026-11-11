@@ -45,8 +45,9 @@ h1{font-size:clamp(64px,7vw,104px)}h2{font-size:clamp(44px,5.8vw,92px)}h3{font-s
 :focus-visible{outline:2px solid var(--blue-mist);outline-offset:4px;border-radius:6px}
 [hidden]{display:none!important}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.skip-link{position:fixed;top:12px;left:12px;padding:12px 20px;background:var(--chalk);color:var(--void);border-radius:var(--pill);z-index:40;transform:translateY(-160%)}
-.skip-link:focus{transform:none}
+/* Safari on iOS 26 draws the page under the status bar, so moving the link above the screen is not enough to hide it. */
+.skip-link{position:fixed;top:12px;left:12px;padding:12px 20px;background:var(--chalk);color:var(--void);border-radius:var(--pill);z-index:40;transform:translateY(-160%);opacity:0}
+.skip-link:focus{transform:none;opacity:1}
 .shell{padding-inline:var(--page);max-width:1800px;margin-inline:auto}
 .small-label{font-size:13px;font-weight:600;line-height:1.5;letter-spacing:.09em;text-transform:uppercase}
 .muted{color:var(--muted)}
@@ -120,6 +121,10 @@ main h1,main h2,.footer-top h2{color:var(--chalk)}
 
 /* ---------- the wall of colorways ---------- */
 .ring-act{display:none}
+/* #drop is where every "Women's drop" link lands: the sets grid, or the top of the wall while the 3D runs. */
+.drop-flow{position:relative}
+.drop-anchor{display:block}
+.world .drop-anchor{position:absolute;top:0}
 .world #drop{scroll-margin-top:-110px}
 .world .ring-act{display:block;height:340lvh;position:relative}
 .ring-stage{position:sticky;top:0;height:100svh;cursor:default}

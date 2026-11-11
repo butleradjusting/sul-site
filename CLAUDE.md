@@ -166,3 +166,15 @@ Photos in `site-photos/` should be named descriptively using the `product-` pref
 ## Crown Set Headliner — 2026-11-09
 
 The owner sent real photos of the Charcoal Crown Set (washed charcoal hoodie and joggers, chrome crown crest on the back) and asked to make it the headliner. It sits in `#crown`, right after the 3D wall and before the women's sets, and the hero button points to it. Its data is `headliner` in `assets/catalog.js`, and its photos are `assets/images/crown-set-*.webp`. No price or sizes are confirmed, so it shows "Ask SUL" and the action is an email. Add `price` and rebuild to show one. The photos arrived at 565px wide, so swap in the full-size originals when they come.
+
+## Reliability Pass — 2026-11-10
+
+Found by using the site on iPhone Safari (iOS 26.5 simulator) and with the 3D off. All covered by `scripts/smoke.cjs`.
+
+- **Bag after Back.** Safari brings a page back from memory on Back without rerunning `assets/site.js` and sends it no `storage` event. Add a set, tap Back, and the page showed the old bag; the next add then saved over the first item. `site.js` now rereads the bag on `pageshow`. Chrome does deliver the `storage` event, so only Safari shows this.
+- **“Women’s drop” links.** `#drop` is now an empty `.drop-anchor` just above `#sets`, and CSS moves it to the top of the wall while `html.world` is set. Since the Crown Set went in above the sets, those links landed on it whenever the 3D was off.
+- **Skip link.** iOS 26 draws the page under the status bar, so the link showed behind the clock. It is now also transparent until focused.
+- **404.** GitHub Pages serves `404.html` at the address asked for, and one folder deep its relative links break (no styles, dead buttons). The page now moves such addresses to `/404.html` and is `noindex`.
+- The enlarge window’s placeholder photo loads lazily (it was 70 KB on every page), printed-set photos carry the AI note when enlarged, and the phone buy bar is an `<aside>`.
+
+Testing notes: Playwright turns the back/forward cache off unless launched with `ignoreDefaultArgs: ['--disable-back-forward-cache']`. Safari keeps using scripts from `python3 -m http.server` for hours because that server sends no cache headers, so check a changed script in Safari on a port it has not loaded before.
