@@ -140,11 +140,21 @@ export const headliner = {
   id: 'crown-set', name: 'The Charcoal Crown Set', pieces: 'Hoodie + joggers', color: 'Charcoal wash / Chrome blue',
   price: null,
   description: 'Washed charcoal fleece, the SUL crown on the chest and the leg, and the full chrome crest across the back. Snooze U Lose, est. 2020.',
+  // AI images made in the owner's Higgsfield account (nano_banana_flash, 2026-11-10) from the real photos below.
+  // The owner asked for them on the section on 2026-11-11. The first leads; all are labeled on the page.
+  // Full-size sources: site-photos/crown-generated/.
   photos: [
-    { image: 'crown-set-front', alt: 'Man wearing the SUL Charcoal Crown Set, a washed charcoal hoodie and joggers with a small crown logo on the chest and leg, on a fall street' },
-    { image: 'crown-set-print', alt: 'Close-up of the back of the charcoal hoodie: a large chrome and royal blue SUL crown crest above the words Snooze U Lose, est. 2020' },
-    { image: 'crown-set-back', alt: 'Back view of the Charcoal Crown Set, hood up, showing the chrome crown print and the joggers' },
-    { image: 'crown-set-hood', alt: 'Man pulling up the hood of the charcoal SUL hoodie, joggers and blue sneakers, autumn trees behind' }
+    { image: 'crown-set-night-front', size: [1400, 1738], label: 'Night street, front', alt: 'AI-edited photo of the same man in the SUL Charcoal Crown Set, now on a wet city street at night with royal blue neon light behind him' },
+    { image: 'crown-set-crest', size: [1000, 1242], label: 'Crest close-up', alt: 'AI close-up of the chrome and royal blue SUL crown crest on the back of the charcoal hoodie, above the words Snooze U Lose, est. 2020' },
+    { image: 'crown-set-night-back', size: [1000, 1242], label: 'Night street, back', alt: 'AI image of the Charcoal Crown Set from behind, hood up, on a rainy street at night, showing the crown crest across the back' },
+    { image: 'crown-set-flatlay', size: [1000, 1242], label: 'Flat lay', alt: 'AI flat lay of the charcoal hoodie, back side up with the crown crest, beside the matching joggers on dark concrete' }
+  ],
+  // The owner's real photos (2026-11-09), unedited. They show the true color and print.
+  real: [
+    { image: 'crown-set-front', label: 'Real photo, front', alt: 'Man wearing the SUL Charcoal Crown Set, a washed charcoal hoodie and joggers with a small crown logo on the chest and leg, on a fall street' },
+    { image: 'crown-set-print', label: 'Real photo, crest', alt: 'Close-up of the back of the charcoal hoodie: a large chrome and royal blue SUL crown crest above the words Snooze U Lose, est. 2020' },
+    { image: 'crown-set-back', label: 'Real photo, back', alt: 'Back view of the Charcoal Crown Set, hood up, showing the chrome crown print and the joggers' },
+    { image: 'crown-set-hood', label: 'Real photo, hood up', alt: 'Man pulling up the hood of the charcoal SUL hoodie, joggers and blue sneakers, autumn trees behind' }
   ]
 };
 export const headlinerLink = () => `mailto:${drop.email}?subject=${encodeURIComponent(`Crown Set: size [your size]`)}&body=${encodeURIComponent(`Hi SUL,\n\nI want the Charcoal Crown Set (hoodie + joggers).\n\nSize:\nName:\nCity:\nInstagram:\n`)}`;

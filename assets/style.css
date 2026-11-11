@@ -235,7 +235,7 @@ main h1,main h2,.footer-top h2{color:var(--chalk)}
 .print-controls button{font-size:14px;font-weight:600;min-height:44px;min-width:44px;padding:0 12px;white-space:nowrap;color:var(--silver);border-radius:var(--pill);box-shadow:inset 0 0 0 1px var(--line)}
 .print-controls button[aria-pressed=true]{background:var(--chalk);color:var(--void);box-shadow:none}
 
-/* ---------- campaign + manifesto ---------- */
+/* ---------- campaign ---------- */
 .campaign{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(12px,1.4vw,22px);max-width:1800px;margin:auto;padding-inline:var(--page)}
 .campaign-image{overflow:hidden;position:relative;min-height:660px;border-radius:var(--r-l);box-shadow:inset 0 0 0 1px var(--line)}
 .campaign-image>img{width:100%;height:100%;position:absolute;object-fit:cover;object-position:center 40%;transition:opacity .3s var(--ease)}
@@ -249,11 +249,62 @@ main h1,main h2,.footer-top h2{color:var(--chalk)}
 .campaign-link{display:flex;gap:16px;align-items:center;min-height:44px;color:var(--chalk);font-size:14px;font-weight:600}
 .campaign-link svg{transition:transform .4s var(--ease)}
 .campaign-link:hover svg{transform:translateX(6px)}
-.manifesto{padding-top:clamp(80px,10vw,170px);padding-bottom:clamp(70px,8vw,130px);display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(30px,6vw,90px)}
-.manifesto h2{font-size:clamp(58px,8vw,140px);max-width:12ch}
-.manifesto-copy{max-width:44ch;align-self:end}
-.manifesto-copy p{color:var(--silver);font-size:16px;line-height:1.8;margin-bottom:22px}
-.manifesto-copy strong{font-weight:600;color:var(--chalk)}
+
+/* ---------- the wake-up call: an alarm clock on the visitor's own time (assets/alarm.js) ---------- */
+.wake{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.24fr);align-items:center;gap:clamp(30px,5vw,90px);padding-top:clamp(80px,10vw,170px);padding-bottom:clamp(70px,8vw,130px)}
+.wake-label{display:block;color:var(--blue-mist);margin-bottom:18px}
+.wake-copy h2{font-size:clamp(58px,7.2vw,128px);max-width:9ch}
+.wake-copy p{color:var(--silver);font-size:16px;line-height:1.8;max-width:42ch;margin-top:22px}
+.wake-copy strong{font-weight:600;color:var(--chalk)}
+.wake-copy .text-link{margin-top:26px}
+/* The clock is a shell with a glass face set into it. */
+.alarm{--pad:clamp(10px,1.1vw,16px);position:relative;isolation:isolate;padding:var(--pad);border-radius:calc(var(--r-l) + 6px);background:linear-gradient(168deg,#1b2540 0%,#0d1322 38%,#070a13 100%);box-shadow:inset 0 0 0 1px var(--line-strong),inset 0 1px 0 #ffffff47,0 70px 140px -70px #2c5cff,0 30px 60px -40px #000;transition:box-shadow .9s var(--ease)}
+.alarm[data-state=awake]{box-shadow:inset 0 0 0 1px #ffffff5c,inset 0 1px 0 #ffffff66,0 70px 150px -56px #4d7dff,0 30px 60px -40px #000}
+.alarm::before,.alarm::after{content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;box-shadow:0 0 0 1px var(--blue-hi);opacity:0;pointer-events:none}
+.alarm-status{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:8px 12px 14px;color:var(--silver);font-size:12px;font-variant-numeric:tabular-nums}
+.alarm-status>span:first-child{display:inline-flex;align-items:center;gap:10px}
+.alarm .live-dot{transition:background .5s var(--ease),box-shadow .5s var(--ease)}
+.alarm[data-state=snoozed] .live-dot{background:var(--muted);box-shadow:none;animation:none}
+.alarm-face{container-type:inline-size;position:relative;overflow:hidden;border-radius:calc(var(--r-l) + 6px - var(--pad));padding:clamp(40px,4.2vw,62px) clamp(18px,3vw,48px) clamp(14px,1.6vw,22px);background:radial-gradient(120% 90% at 50% 0%,#0c1634 0%,#04060c 62%);box-shadow:inset 0 0 0 1px #ffffff14,inset 0 1px 0 #ffffff1f,inset 0 -40px 80px -50px #2c5cff66}
+.alarm-face::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(112deg,#ffffff12 0%,#ffffff05 24%,transparent 24.2%)}
+/* A band of light that only shows where it crosses lit metal. It travels as the clock moves through the screen. */
+.alarm-face::after{content:'';position:absolute;inset:-20% -60%;pointer-events:none;background:linear-gradient(100deg,transparent 43%,#fff 50%,transparent 57%);mix-blend-mode:overlay;opacity:.6;transform:translateX(-22%)}
+.alarm-meridiem{position:absolute;left:clamp(16px,2vw,28px);top:clamp(14px,1.5vw,20px);display:flex;gap:12px;font-size:12px;font-weight:700;letter-spacing:.14em}
+.alarm-meridiem span{color:#ffffff2e;transition:color .3s var(--ease),text-shadow .3s var(--ease)}
+.alarm-meridiem .on{color:var(--chalk);text-shadow:0 0 12px #4d7dffcc}
+.alarm-display{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 0 18px #2c5cff8c);transition:opacity .35s var(--ease),filter .7s var(--ease)}
+.alarm-display polygon{opacity:.055;transition:opacity .1s linear}
+.alarm-display .on{opacity:1}
+.alarm[data-state=snoozed] .alarm-display{filter:drop-shadow(0 0 10px #2c5cff40) saturate(.5) brightness(.72)}
+.alarm[data-state=awake] .alarm-display{filter:drop-shadow(0 0 26px #4d7dffd9)}
+.alarm-seconds{--s:0;position:relative;height:8px;margin-top:clamp(2px,.6vw,8px);background:linear-gradient(90deg,#ffffff24 0 34%,transparent 34%) 0 0/calc(100% / 60) 100%;transition:opacity .35s var(--ease)}
+.alarm-seconds::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--blue-mist) 0 34%,transparent 34%) 0 0/calc(100% / 60) 100%;clip-path:inset(0 calc(100% - var(--s) * 100% / 60) 0 0)}
+.alarm-slam{position:absolute;inset:0;z-index:2;display:grid;place-items:center;margin:0;pointer-events:none;opacity:0;transform:rotate(-5deg)}
+.alarm-slam span{font-family:Barlow,sans-serif;font-weight:800;text-transform:uppercase;font-size:23cqw;line-height:.8;letter-spacing:-.02em;white-space:nowrap;color:#fff;padding:.1em .3em .14em;border-radius:.12em;background:linear-gradient(90deg,var(--blue-deep),var(--blue) 50%,var(--blue-deep));box-shadow:inset 0 1px 0 #ffffff47,0 30px 80px -20px #2c5cffcc}
+.alarm.is-slammed .alarm-slam{opacity:1}
+.alarm.is-slammed .alarm-display,.alarm.is-slammed .alarm-seconds{opacity:.16}
+.alarm-message{font-family:Barlow,sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(26px,2.5vw,40px);line-height:1.04;color:var(--chalk);text-wrap:balance;padding:clamp(18px,1.9vw,28px) 12px 0;min-height:calc(2.08em + clamp(18px,1.9vw,28px))}
+.alarm-controls,.alarm-next{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding:clamp(16px,1.8vw,24px) 12px 10px}
+.alarm-controls .button{flex:1 1 0;min-width:0}
+.alarm-controls .button.light{flex-grow:1.35}
+.alarm-controls small{font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.alarm-controls .button:disabled{background:none;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line);transform:none}
+.alarm-reset{min-height:44px;margin-left:auto;font-size:14px;font-weight:600;color:var(--muted);text-decoration:underline;text-underline-offset:4px;transition:color .25s var(--ease)}
+.alarm-reset:hover{color:#fff}
+@media(prefers-reduced-motion:no-preference){
+  /* It rings three times when it comes on screen and after each snooze, then waits. */
+  .alarm.is-live[data-state=ringing]{animation:alarm-shake 2.6s var(--ease) 3}
+  .alarm.is-live[data-state=ringing]::before{animation:alarm-ring 2.6s ease-out 3}
+  .alarm.is-live[data-state=ringing]::after{animation:alarm-ring 2.6s ease-out .28s 3}
+  .alarm.is-live .alarm-colon{animation:alarm-blink 1s steps(1) infinite}
+  .alarm.is-slammed .alarm-slam{animation:alarm-slam 1.5s var(--ease) both}
+  @supports(animation-timeline:view()){.alarm-face::after{animation:alarm-sheen linear both;animation-timeline:view();animation-range:entry 10% exit 90%}}
+}
+@keyframes alarm-shake{0%,24%,100%{transform:none}3%{transform:rotate(-.9deg)}6%{transform:rotate(.9deg)}9%{transform:rotate(-.8deg)}12%{transform:rotate(.7deg)}15%{transform:rotate(-.5deg)}18%{transform:rotate(.4deg)}21%{transform:rotate(-.2deg)}}
+@keyframes alarm-ring{0%{opacity:.8;transform:scale(1)}42%,100%{opacity:0;transform:scale(1.06,1.1)}}
+@keyframes alarm-blink{50%{opacity:.12}}
+@keyframes alarm-slam{0%{opacity:0;transform:rotate(-5deg) scale(1.7)}14%,78%{opacity:1;transform:rotate(-5deg) scale(1)}100%{opacity:0;transform:rotate(-5deg) scale(.97)}}
+@keyframes alarm-sheen{from{transform:translateX(-34%)}to{transform:translateX(34%)}}
 
 /* ---------- footer ---------- */
 .site-footer{position:relative;z-index:var(--layer-page);padding-top:clamp(40px,5vw,70px);padding-bottom:calc(18px + env(safe-area-inset-bottom));overflow:clip;border-top:1px solid var(--line);background:linear-gradient(180deg,#0a0f1c,var(--void))}
@@ -438,7 +489,8 @@ dialog[open]{animation:dialog-in .5s var(--ease)}
   .desktop-nav a{padding:0 11px}
   .hero-foot{grid-template-columns:minmax(0,1fr) auto}
   .hero-foot>p:first-child{display:none}
-  .manifesto{gap:40px}
+  .wake{grid-template-columns:1fr;gap:40px}
+  .alarm{order:-1;width:100%;max-width:760px}
   .campaign-image{min-height:560px}
   .product-layout:has(.set-summary){grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
   .collection-page .product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -508,9 +560,12 @@ dialog[open]{animation:dialog-in .5s var(--ease)}
   .campaign-image{min-height:0;aspect-ratio:4/5;border-radius:var(--r-m)}
   .campaign-copy{padding:36px 22px;border-radius:var(--r-m)}
   .campaign-copy h2{font-size:clamp(58px,18vw,84px)}
-  .manifesto{grid-template-columns:1fr;gap:24px}
-  .manifesto h2{font-size:clamp(58px,18vw,90px)}
-  .manifesto-copy p{font-size:15px}
+  .wake{gap:34px}
+  .wake-copy h2{font-size:clamp(58px,18vw,90px);max-width:none}
+  .wake-copy p{font-size:15px}
+  .alarm-controls{gap:8px}
+  .alarm-controls .button{padding-inline:20px;gap:10px}
+  #alarm-snooze{flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;padding-block:9px}
   .footer-top{flex-direction:column;gap:14px}
   .footer-wordmark{gap:16px}
   .footer-logo{max-width:58%}
@@ -575,8 +630,13 @@ dialog[open]{animation:dialog-in .5s var(--ease)}
 /* ---------- headliner: the Charcoal Crown Set ---------- */
 .headliner{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(12px,1.4vw,22px);padding-top:clamp(70px,8vw,130px);padding-bottom:clamp(20px,3vw,40px);scroll-margin-top:90px}
 .headliner-main{position:relative;overflow:hidden;border-radius:var(--r-l);box-shadow:inset 0 0 0 1px var(--line),0 40px 120px -50px var(--glow-blue);min-height:560px;background:var(--raise)}
-.headliner-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%}
-.headliner-tag{position:absolute;left:18px;bottom:18px;padding:7px 13px;border-radius:var(--pill);background:#070b16cc;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:13px;font-weight:600}
+.headliner-photo{position:relative;display:block;width:100%;padding:0;overflow:hidden;border-radius:var(--r-m);background:var(--raise);box-shadow:inset 0 0 0 1px var(--line);cursor:zoom-in}
+.headliner-photo img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+.headliner-photo:hover img{transform:scale(1.04)}
+.headliner-main .headliner-photo{position:absolute;inset:0;height:100%;border-radius:inherit;box-shadow:none}
+.headliner-main .headliner-photo img{object-position:center 30%}
+.headliner-chip{position:absolute;left:10px;top:10px;padding:4px 10px;border-radius:var(--pill);background:#070b16d9;color:var(--chalk);font-size:12px;font-weight:600;line-height:1.5;pointer-events:none}
+.headliner-tag{pointer-events:none;position:absolute;left:18px;bottom:18px;padding:7px 13px;border-radius:var(--pill);background:#070b16cc;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:13px;font-weight:600}
 .headliner-side{display:grid;grid-template-rows:auto minmax(0,1fr);gap:clamp(12px,1.4vw,22px)}
 .headliner-copy{padding:clamp(28px,3.6vw,60px);border-radius:var(--r-l);background:linear-gradient(160deg,var(--raise),var(--ink));box-shadow:inset 0 0 0 1px var(--line)}
 .headliner-label{display:inline-flex;align-items:center;gap:10px;color:var(--blue-mist);margin-bottom:18px}
@@ -591,12 +651,22 @@ dialog[open]{animation:dialog-in .5s var(--ease)}
 .headliner-facts dd{margin:0;font-weight:700;font-size:15px;line-height:1.35}
 .headliner-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
 .headliner-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.2vw,18px)}
-.headliner-grid img{width:100%;height:100%;min-height:220px;aspect-ratio:3/4;object-fit:cover;border-radius:var(--r-m);box-shadow:inset 0 0 0 1px var(--line)}
+.headliner-grid .headliner-photo{height:100%;min-height:220px;aspect-ratio:3/4}
+/* The owner's unedited photos sit under the AI images, so the true color and print are always one glance away. */
+.headliner-real{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.3fr) repeat(4,minmax(0,1fr));gap:clamp(10px,1.2vw,18px)}
+.headliner-real .headliner-photo{aspect-ratio:3/4}
+.headliner-real-note{display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(20px,2.4vw,34px);border-radius:var(--r-m);background:linear-gradient(160deg,var(--raise),var(--ink));box-shadow:inset 0 0 0 1px var(--line)}
+.headliner-real-note .headliner-label{margin-bottom:14px}
+.headliner-real-note h3{font-family:Barlow,sans-serif;font-weight:800;text-transform:uppercase;font-size:clamp(28px,2.7vw,44px);line-height:.98;letter-spacing:-.01em;max-width:11ch}
+.headliner-real-note p{margin-top:14px;color:var(--silver);font-size:14px;line-height:1.7;max-width:34ch}
 @media(max-width:900px){
   .headliner{grid-template-columns:1fr}
   .headliner-main{min-height:0;aspect-ratio:3/4}
   .headliner-facts{grid-template-columns:1fr 1fr}
   .headliner-facts div:last-child{grid-column:span 2}
   .headliner-actions .button{width:100%}
-  .headliner-grid img{min-height:0}
+  .headliner-grid .headliner-photo{min-height:0}
+  .headliner-real{grid-template-columns:1fr 1fr}
+  .headliner-real-note{grid-column:1/-1}
+  .headliner-real-note h3{max-width:none}
 }
