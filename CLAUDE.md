@@ -185,7 +185,8 @@ The owner asked to be surprised with a design: an alarm clock that runs on each 
 
 - Wide screens: the time sits beside “Don’t sleep on style.” as the headline’s timestamp, in the same chrome, and reflects on the hero’s floor line. Its status pill mirrors the “Available now” pill opposite.
 - Portrait phones and tablets: the clock sits at the top of the screen, above the 3D logo, like a lock screen. It shrinks on short phones so it clears the logo.
-- The clock itself is the snooze button. Each tap runs it nine minutes ahead and stamps “U LOSE.”; after three it is spent and shows “Wake up”. The third line quotes `drop.totalSets` from the catalog, so it stays true.
+- The clock itself is the snooze button. The hint reads “Snooze if you dare” (the owner thought “Hit snooze” told people to snooze). After three snoozes it says “Out of snoozes · Wake up”. The third message, read out to screen readers, quotes `drop.totalSets` from the catalog, so it stays true.
+- The owner asked for “something dope” on the tap (2026-11-11). Each snooze blows the lit segments apart (`shards` in `alarm.js`), sends two rings of light across the hero (`.alarm-wave`), shakes the hero, slams “U LOSE.” down, and puts the digits back nine minutes later. It also fires `sul:snooze`, and `src/world.js` answers it: the 3D logo spins one full turn, its metal ripples, the type band turns once the other way, and the camera shakes. Each snooze hits harder (`power`). With reduced motion only the time and the stamp change.
 - Any link to `#drop` wakes it: the clock rewinds to the real time behind the link and can be snoozed again.
 - The status pill shows the visitor’s time zone, not a city, because the zone’s city is often not theirs.
 - The digits are SVG polygons the build draws twice: once upright, once mirrored for the floor reflection. `alarm.js` lights both sets. The AM/PM lamps are drawn by CSS, since the time is read out from `#alarm-time`.

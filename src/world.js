@@ -377,6 +377,13 @@ document.querySelector('.ring-stage')?.addEventListener('click', (e) => {
   if (hit?.object.userData.href) location.href = hit.object.userData.href;
 });
 
+// ---------------------------------------------------------------- snooze
+// The hero clock (assets/alarm.js) sends sul:snooze. The logo takes the hit: a full spin, a punch in the metal,
+// and a short camera shake. Harder each time (detail.power).
+let kickAt = -1e9, kickPower = 1;
+addEventListener('sul:snooze', (e) => { kickAt = performance.now(); kickPower = e.detail?.power || 1; start(); });
+const easeOut = (t) => 1 - (1 - t) ** 4;
+
 // ---------------------------------------------------------------- frame
 let last = performance.now();
 let heroP = 0, ringP = 0, prevRing = 0, vel = 0, activeAmount = 0, activeIndex = -1, ripple = 0, logoVisible = true;
@@ -440,17 +447,25 @@ function frame(now) {
   logo.rotation.y = lerp(-0.2 + sway * 0.13 + pointerSmooth.x * 0.3, 0, align);
   logo.rotation.x = lerp(-0.1 + Math.cos(liquid.uTime.value * 0.33) * 0.05 - pointerSmooth.y * 0.2, 0, align);
   logo.rotation.z = lerp(Math.sin(liquid.uTime.value * 0.27) * 0.015, 0, align);
+  const kt = (now - kickAt) / 1000;
+  const hit = kt < 1.3 ? (1 - kt / 1.3) ** 2 * (1 - align) : 0;
+  if (kt < 1.15) logo.rotation.y += easeOut(kt / 1.15) * Math.PI * 2 * (1 - align); // lands back where it started
+  logo.scale.setScalar(1 + (kt < 0.7 ? Math.sin(Math.min(kt / 0.7, 1) * Math.PI * 2) * Math.exp(-kt * 4) * 0.16 * kickPower * (1 - align) : 0));
+  if (hit) {
+    camera.position.x += (Math.random() - 0.5) * 0.14 * hit * kickPower;
+    camera.position.y += (Math.random() - 0.5) * 0.1 * hit * kickPower;
+  }
   logoVisible = heroP < 0.995;
   logo.visible = logoVisible;
   // Touch or pointer sends a slow ripple through the metal.
   const active = performance.now() - pointerSeen < 900 ? 1 : 0;
   ripple = damp(ripple, active, 2.4, dt);
-  liquid.uRipple.value.set(pointerSmooth.x * 2.2, pointerSmooth.y * 1.2, ripple);
-  liquid.uLiquid.value = damp(liquid.uLiquid.value, 0.42 + rush * 0.9 + ripple * 0.45, 4, dt);
+  liquid.uRipple.value.set(pointerSmooth.x * 2.2, pointerSmooth.y * 1.2, Math.max(ripple, hit * 3 * kickPower));
+  liquid.uLiquid.value = damp(liquid.uLiquid.value, 0.42 + rush * 0.9 + ripple * 0.45 + hit * 1.6 * kickPower, hit ? 14 : 4, dt);
 
   const band = bandGroup.userData.band;
   if (band) {
-    band.rotation.y = -liquid.uTime.value * 0.13 - heroP * 3;
+    band.rotation.y = -liquid.uTime.value * 0.13 - heroP * 3 + (kt < 1.6 ? easeOut(kt / 1.6) * Math.PI * 2 : 0); // one full turn the other way
     bandMat.opacity = 0.5 * (1 - smooth(0.2, 0.55, heroP));
     bandGroup.visible = !bare && heroP < 0.58;
     const s = 1 + rush * 1.5;
