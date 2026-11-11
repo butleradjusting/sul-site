@@ -115,7 +115,7 @@ Soft radii and pills replace the square vocabulary. Depth is real here: inner ha
 - **Phones.** A fixed glass buy bar on product pages, hidden while the page's own add button or the footer is on screen. Targets are at least 44px.
 - **Marquee.** A slightly tilted royal-blue band of moving type between the wall and the set grid.
 - **Logo marks.** Header and footer use the traced vector as a mask over a chrome gradient, so they stay crisp at any size.
-- **The wake-up call.** The brand name as an object: an alarm clock in the homepage’s “Our world” section that runs on the visitor’s own time. Chrome seven-segment digits lean like the wordmark and reflect on a floor like the wall panels. Snooze runs the clock nine minutes ahead and stamps “U LOSE.” on a royal-blue band, three times at most. Wake up rewinds to now and offers the drop and the Crown Set. It rings three times when it comes on screen, then waits. Lime stays the status dot only.
+- **The wake-up call.** The brand name as an object: a live alarm clock in the homepage hero, on the visitor’s own time. Chrome seven-segment digits lean like the wordmark and reflect on the hero’s floor line. On wide screens the time is the headline’s timestamp; on portrait screens it sits at the top like a lock screen. The clock is the snooze button: each tap runs it nine minutes ahead and stamps U LOSE. Any link to the drop wakes it.
 
 ## Motion
 
