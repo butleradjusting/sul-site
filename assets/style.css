@@ -635,8 +635,6 @@ dialog[open]{animation:dialog-in .5s var(--ease)}
 .headliner-photo:hover img{transform:scale(1.04)}
 .headliner-main .headliner-photo{position:absolute;inset:0;height:100%;border-radius:inherit;box-shadow:none}
 .headliner-main .headliner-photo img{object-position:center 30%}
-.headliner-chip{position:absolute;left:10px;top:10px;padding:4px 10px;border-radius:var(--pill);background:#070b16d9;color:var(--chalk);font-size:12px;font-weight:600;line-height:1.5;pointer-events:none}
-.headliner-tag{pointer-events:none;position:absolute;left:18px;bottom:18px;padding:7px 13px;border-radius:var(--pill);background:#070b16cc;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font-size:13px;font-weight:600}
 .headliner-side{display:grid;grid-template-rows:auto minmax(0,1fr);gap:clamp(12px,1.4vw,22px)}
 .headliner-copy{padding:clamp(28px,3.6vw,60px);border-radius:var(--r-l);background:linear-gradient(160deg,var(--raise),var(--ink));box-shadow:inset 0 0 0 1px var(--line)}
 .headliner-label{display:inline-flex;align-items:center;gap:10px;color:var(--blue-mist);margin-bottom:18px}
