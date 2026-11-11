@@ -107,7 +107,7 @@ if (root) {
     root.classList.toggle('is-live', on);
     if (on) tick();
   };
-  write(message, 'Hit snooze');
+  write(message, 'Snooze if you dare');
   setSnoozable(true);
   render();
   if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => run(entry.isIntersecting && !document.hidden), { threshold: 0.35 }).observe(root);
