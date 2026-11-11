@@ -129,35 +129,37 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     await page.waitForFunction(() => document.querySelector('.print-card img').src.endsWith('snooze-shorts-studio.webp'));
     await page.getByRole('button', { name: 'Off the clock', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('#campaign-image').src.endsWith('outdoor.webp'));
-    // Crown Set: four AI images on top, the owner's four real photos beneath. Each opens larger; only AI ones carry the note.
-    assert.equal(await page.locator('#crown .headliner-photo').count(), 8);
+    // Crown Set: the four AI images, no tags on the tiles, and no real-photo row. Each opens larger with the AI note.
+    assert.equal(await page.locator('#crown .headliner-photo').count(), 4);
+    assert.equal(await page.locator('#crown .headliner-real, #crown .headliner-chip, #crown .headliner-tag').count(), 0);
     await page.locator('#crown .headliner-photo').first().click();
     assert(await page.locator('#image-dialog').isVisible());
     assert(await page.locator('#enlarged-note').isVisible());
     await page.keyboard.press('Escape');
-    await page.locator('#crown .headliner-real .headliner-photo').first().click();
-    await page.waitForFunction(() => { const image = document.getElementById('enlarged-image'); return image.src.endsWith('crown-set-front.webp') && image.naturalWidth > 0; });
-    assert(!(await page.locator('#enlarged-note').isVisible()));
-    await page.keyboard.press('Escape');
-    // The wake-up call: the clock reads the visitor's time, takes three snoozes, then wakes and points to the drop.
+    // The wake-up call sits in the hero. The clock reads the visitor's time and is the snooze button: three taps and
+    // it's spent, then any link to the drop wakes it. "Our world" is words only again.
+    assert.equal(await page.locator('#story #alarm').count(), 0);
+    assert.equal(await page.locator('.hero-copy #alarm').count(), 1);
     const alarmText = (id) => page.locator(id).textContent();
+    await page.evaluate(() => scrollTo(0, 0));
     assert.match(await alarmText('#alarm-time'), /^\d{1,2}:\d{2} (AM|PM)$/);
     assert.match(await alarmText('#alarm-label'), /^Your time/);
+    assert.equal(await alarmText('#alarm-message'), 'Hit snooze');
     await page.locator('#alarm-snooze').click();
-    assert.match(await alarmText('#alarm-message'), /^9 minutes gone/);
+    assert.equal(await alarmText('#alarm-message'), 'You don’t get them back.');
     assert.equal(await alarmText('#alarm-label'), '9 min later');
     await page.locator('#alarm-snooze').click();
     await page.locator('#alarm-snooze').click();
     assert(await page.locator('#alarm-snooze').isDisabled());
-    assert.match(await alarmText('#alarm-message'), /^27 minutes gone\. \d+ sets made/);
+    assert.equal(await alarmText('#alarm-message'), 'Out of snoozes.');
+    assert.equal(await alarmText('#alarm-label'), '27 min later');
+    assert(await page.locator('#alarm-wake').isVisible());
     await page.locator('#alarm-wake').click();
+    await page.waitForURL(/#drop$/);
     assert.match(await alarmText('#alarm-message'), /^You’re up/);
     assert.equal(await alarmText('#alarm-label'), 'Right on time');
-    assert(await page.locator('#alarm-next a[href="#drop"]').isVisible());
-    assert(!(await page.locator('#alarm-controls').isVisible()));
-    await page.locator('#alarm-reset').click();
     assert(await page.locator('#alarm-snooze').isEnabled());
-    assert.match(await alarmText('#alarm-label'), /^Your time/);
+    assert(!(await page.locator('#alarm-wake').isVisible()));
     // Without the 3D wall, "Women’s drop" links land on the sets, not on the headliner above them.
     await page.goto(`${base}/collections.html`);
     await page.locator('.desktop-nav a', { hasText: 'Women’s drop' }).click();
@@ -185,7 +187,7 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     assert.deepEqual(errors, []);
     assert.deepEqual(failures, []);
     fs.mkdirSync('.impeccable/review', { recursive: true });
-    fs.writeFileSync('.impeccable/review/smoke-report.json', JSON.stringify({ passed: true, checks: ['Category filters and counts', 'Price sorting', 'Studio and styled photography', 'Size validation', 'Add to bag', 'Quantity and subtotal', 'Email order fallback, no test links', 'Escape and dialog behavior', 'Cross-page persisted bag', 'Remove and empty bag', 'Product gallery and enlarged image', 'Studio board switch', 'Shirt and shorts switch', 'Lookbook switch', 'Mobile menu', 'Women’s drop live: add to bag, order link, quick view', 'Bag reread after Back', 'Women’s drop link without the 3D wall', 'Skip link hidden until focused', 'Wake-up call: live time, three snoozes, wake, reset', 'Crown Set photos: AI and real, enlarge, labels', '72 route and viewport checks'], javascriptErrors: errors, httpErrors: failures }, null, 2));
+    fs.writeFileSync('.impeccable/review/smoke-report.json', JSON.stringify({ passed: true, checks: ['Category filters and counts', 'Price sorting', 'Studio and styled photography', 'Size validation', 'Add to bag', 'Quantity and subtotal', 'Email order fallback, no test links', 'Escape and dialog behavior', 'Cross-page persisted bag', 'Remove and empty bag', 'Product gallery and enlarged image', 'Studio board switch', 'Shirt and shorts switch', 'Lookbook switch', 'Mobile menu', 'Women’s drop live: add to bag, order link, quick view', 'Bag reread after Back', 'Women’s drop link without the 3D wall', 'Skip link hidden until focused', 'Wake-up call in the hero: live time, three snoozes, wake by the drop link', 'Crown Set photos: four AI images, no tags, enlarge with the AI note', '72 route and viewport checks'], javascriptErrors: errors, httpErrors: failures }, null, 2));
     console.log('Passed: shopping flows, persistence, gallery controls, mobile menu, the live women’s drop, and 72 route/viewport checks. No JavaScript or HTTP errors.');
   } finally { await browser.close(); }
 })().catch((error) => { console.error(error); process.exitCode = 1; });

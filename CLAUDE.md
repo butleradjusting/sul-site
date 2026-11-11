@@ -179,18 +179,20 @@ Found by using the site on iPhone Safari (iOS 26.5 simulator) and with the 3D of
 
 Testing notes: Playwright turns the back/forward cache off unless launched with `ignoreDefaultArgs: ['--disable-back-forward-cache']`. Safari keeps using scripts from `python3 -m http.server` for hours because that server sends no cache headers, so check a changed script in Safari on a port it has not loaded before.
 
-## The Wake-Up Call — 2026-11-10
+## The Wake-Up Call — 2026-11-10, moved to the hero 2026-11-11
 
-The owner asked to be surprised with a design. The homepage’s “Our world” section (`#story`) kept its words and gained an alarm clock that runs on each visitor’s own time. `wakeSection` in `scripts/build.mjs` writes it, `assets/alarm.js` drives it (homepage only), and its styles sit under “the wake-up call” in `assets/style.css`.
+The owner asked to be surprised with a design: an alarm clock that runs on each visitor’s own time. On 2026-11-11 the owner asked to “put clock at top, integrate it in a dope way,” so it now lives in the homepage hero and “Our world” (`#story`) is words only again (`storySection`). `heroClock` in `scripts/build.mjs` writes it, `assets/alarm.js` drives it (homepage only), and its styles sit under “the wake-up call” in `assets/style.css`.
 
-- Snooze runs the display nine minutes ahead, stamps “U LOSE.”, and changes the line under the clock. After three snoozes the button is spent. The third line quotes `drop.totalSets` from the catalog, so it stays true.
-- Wake up rewinds to the real time and shows links to `#drop` and `#crown`. “Set it again” starts over.
-- The line under the clock changes with the hour (six greetings in `alarm.js`). The label shows the visitor’s time zone, not a city, because the zone’s city is often not theirs.
-- The digits are SVG polygons the build draws twice: once upright, once mirrored for the floor reflection. `alarm.js` lights both sets.
-- Without JavaScript the clock rests at 6:00 and “Wake up” is a plain link to the drop. With reduced motion nothing shakes or rolls. The clock only ticks while it is on screen.
+- Wide screens: the time sits beside “Don’t sleep on style.” as the headline’s timestamp, in the same chrome, and reflects on the hero’s floor line. Its status pill mirrors the “Available now” pill opposite.
+- Portrait phones and tablets: the clock sits at the top of the screen, above the 3D logo, like a lock screen. It shrinks on short phones so it clears the logo.
+- The clock itself is the snooze button. Each tap runs it nine minutes ahead and stamps “U LOSE.”; after three it is spent and shows “Wake up”. The third line quotes `drop.totalSets` from the catalog, so it stays true.
+- Any link to `#drop` wakes it: the clock rewinds to the real time behind the link and can be snoozed again.
+- The status pill shows the visitor’s time zone, not a city, because the zone’s city is often not theirs.
+- The digits are SVG polygons the build draws twice: once upright, once mirrored for the floor reflection. `alarm.js` lights both sets. The AM/PM lamps are drawn by CSS, since the time is read out from `#alarm-time`.
+- Without JavaScript the clock rests at 6:00 and does nothing. With reduced motion nothing shakes or rolls. The clock only ticks while it is on screen.
 
 ## Crown Set Photos — 2026-11-11
 
-The owner asked for “the new photos on the new fit page.” The new photos are four AI images of the Charcoal Crown Set made in the owner’s Higgsfield account on 2026-11-10 (`nano_banana_flash`, from the real photos): night street front (an edit of the real front photo), night street back, crest close-up, and flat lay. They now lead the `#crown` section: `headliner.photos` in `assets/catalog.js`, files `assets/images/crown-set-night-front|night-back|crest|flatlay.webp`, sources in `site-photos/crown-generated/`. The owner’s four real photos moved to `headliner.real` and sit in a labeled row underneath, because the night lighting makes the charcoal read darker and bluer than it is. Every tile opens larger on tap. The owner had the “AI image” and “Real photo” tags taken off the tiles on 2026-11-11; the AI images still say so in the enlarged view, and the note beside the real photos still names which shots are AI.
+The owner asked for “the new photos on the new fit page.” The new photos are four AI images of the Charcoal Crown Set made in the owner’s Higgsfield account on 2026-11-10 (`nano_banana_flash`, from the real photos): night street front (an edit of the real front photo), night street back, crest close-up, and flat lay. They now lead the `#crown` section: `headliner.photos` in `assets/catalog.js`, files `assets/images/crown-set-night-front|night-back|crest|flatlay.webp`, sources in `site-photos/crown-generated/`. The owner’s four real photos moved to `headliner.real` and sit in a labeled row underneath, because the night lighting makes the charcoal read darker and bluer than it is. Every tile opens larger on tap. On 2026-11-11 the owner had the “AI image” and “Real photo” tags taken off the tiles, then the real-photo row (“The set as the camera saw it”) taken off the page. The four real photos stay in `headliner.real` in the catalog, unused; the AI images still say so in the enlarged view.
 
 Seven JPGs in Downloads from the same evening are family photos, not SUL. Fourteen images uploaded to Higgsfield on 2026-11-11 are Instagram slides with printed text, not site photos.
