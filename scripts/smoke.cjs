@@ -144,7 +144,7 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     await page.evaluate(() => scrollTo(0, 0));
     assert.match(await alarmText('#alarm-time'), /^\d{1,2}:\d{2} (AM|PM)$/);
     assert.match(await alarmText('#alarm-label'), /^Your time/);
-    assert.equal(await alarmText('#alarm-message'), 'Hit snooze');
+    assert.equal(await alarmText('#alarm-message'), 'Snooze if you dare');
     await page.locator('#alarm-snooze').click();
     assert.equal(await alarmText('#alarm-message'), 'You don’t get them back.');
     assert.equal(await alarmText('#alarm-label'), '9 min later');
