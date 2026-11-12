@@ -17,3 +17,4 @@ exclude:
   - src
   - assets/provenance.json
   - "assets/images/*.json"
+  - "assets/stories/*.json"
