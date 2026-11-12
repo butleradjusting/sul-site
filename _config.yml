@@ -18,3 +18,4 @@ exclude:
   - assets/provenance.json
   - "assets/images/*.json"
   - "assets/stories/*.json"
+  - "assets/posts/*.json"
