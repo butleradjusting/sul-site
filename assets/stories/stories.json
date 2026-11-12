@@ -1,0 +1,106 @@
+[
+  {
+    "id": "crown-set",
+    "title": "The Crown Set is on the site.",
+    "image": "https://snoozeulose.com/assets/stories/crown-set.jpg",
+    "link": "https://snoozeulose.com/crown-set.html",
+    "ai": true,
+    "alt": "The Crown Set is on the site. Washed charcoal hoodie + joggers, with the chrome crest across the back. The Charcoal Crown Set, $160."
+  },
+  {
+    "id": "crown-set-crest",
+    "title": "Chrome on charcoal.",
+    "image": "https://snoozeulose.com/assets/stories/crown-set-crest.jpg",
+    "link": "https://snoozeulose.com/crown-set.html",
+    "ai": true,
+    "alt": "Chrome on charcoal. The Charcoal Crown Set, $160."
+  },
+  {
+    "id": "crown-set-back",
+    "title": "Hood up. Crown out.",
+    "image": "https://snoozeulose.com/assets/stories/crown-set-back.jpg",
+    "link": "https://snoozeulose.com/crown-set.html",
+    "ai": true,
+    "alt": "Hood up. Crown out. Hoodie + joggers, sold together as one set. The Charcoal Crown Set, $160."
+  },
+  {
+    "id": "crown-set-flatlay",
+    "title": "Two pieces. One set.",
+    "image": "https://snoozeulose.com/assets/stories/crown-set-flatlay.jpg",
+    "link": "https://snoozeulose.com/crown-set.html",
+    "ai": true,
+    "alt": "Two pieces. One set. Crown on the chest and the leg. The crest takes the whole back. The Charcoal Crown Set, $160."
+  },
+  {
+    "id": "womens-drop",
+    "title": "27 sets. Four colorways.",
+    "image": "https://snoozeulose.com/assets/stories/womens-drop.jpg",
+    "link": "https://snoozeulose.com/collections.html",
+    "ai": true,
+    "alt": "27 sets. Four colorways. Limited runs. When a size is gone, it’s gone."
+  },
+  {
+    "id": "olive-set",
+    "title": "Olive. Four pieces.",
+    "image": "https://snoozeulose.com/assets/stories/olive-set.jpg",
+    "link": "https://snoozeulose.com/olive-set.html",
+    "ai": true,
+    "alt": "Olive. Four pieces. Fitted tank, leggings, knit cardigan, and cream leg warmers. Olive 4-Piece, $149.99."
+  },
+  {
+    "id": "navy-cream-set",
+    "title": "Deep navy. Against cream.",
+    "image": "https://snoozeulose.com/assets/stories/navy-cream-set.jpg",
+    "link": "https://snoozeulose.com/navy-cream-set.html",
+    "ai": true,
+    "alt": "Deep navy. Against cream. Crown sweatshirt, pleated skirt with built-in shorts, leg warmers. Navy / Cream 3-Piece, $129.99."
+  },
+  {
+    "id": "black-set",
+    "title": "All black. Head to toe.",
+    "image": "https://snoozeulose.com/assets/stories/black-set.jpg",
+    "link": "https://snoozeulose.com/black-set.html",
+    "ai": true,
+    "alt": "All black. Head to toe. Crown sweatshirt, pleated skirt with built-in shorts, leg warmers. All Black 3-Piece, $129.99."
+  },
+  {
+    "id": "pink-set",
+    "title": "Blush pink. One per size.",
+    "image": "https://snoozeulose.com/assets/stories/pink-set.jpg",
+    "link": "https://snoozeulose.com/pink-set.html",
+    "ai": true,
+    "alt": "Blush pink. One per size. The softest colorway in the drop. Sweatshirt, pleated skirt, leg warmers. Blush Pink 3-Piece, $129.99."
+  },
+  {
+    "id": "blackout-hoodie",
+    "title": "All black. All SUL.",
+    "image": "https://snoozeulose.com/assets/stories/blackout-hoodie.jpg",
+    "link": "https://snoozeulose.com/blackout-hoodie.html",
+    "ai": true,
+    "alt": "All black. All SUL. Heavyweight fleece with white SUL lettering down both sleeves. Blackout Hoodie, $85."
+  },
+  {
+    "id": "lion-sweater",
+    "title": "The lion takes its place.",
+    "image": "https://snoozeulose.com/assets/stories/lion-sweater.jpg",
+    "link": "https://snoozeulose.com/lion-sweater.html",
+    "ai": true,
+    "alt": "The lion takes its place. A heavyweight knit crewneck with the embroidered lion crest. Lion Sweater, $95."
+  },
+  {
+    "id": "full-kit",
+    "title": "One look. Three pieces.",
+    "image": "https://snoozeulose.com/assets/stories/full-kit.jpg",
+    "link": "https://snoozeulose.com/full-kit.html",
+    "ai": true,
+    "alt": "One look. Three pieces. The Blackout Hoodie, matching joggers, and the SUL tee. The Full Kit, $160."
+  },
+  {
+    "id": "new-era-hat",
+    "title": "Finish the look.",
+    "image": "https://snoozeulose.com/assets/stories/new-era-hat.jpg",
+    "link": "https://snoozeulose.com/new-era-hat.html",
+    "ai": true,
+    "alt": "Finish the look. Black mesh trucker, raised SUL embroidery, adjustable snapback. New Era Trucker Hat, $45."
+  }
+]
