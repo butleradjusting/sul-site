@@ -145,6 +145,19 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     assert(await page.locator('#image-dialog').isVisible());
     assert(await page.locator('#enlarged-note').isVisible());
     await page.keyboard.press('Escape');
+    // The Crown Set sells right in the section: $160, S–XL, size first, then the bag pays by Stripe (or email without a link).
+    assert.equal(await page.locator('#crown a[href^="mailto:"]').count(), 0);
+    assert.equal(await page.locator('#crown [data-size]').count(), 4);
+    await page.locator('#crown [data-add="crown-set"]').click();
+    assert.match(await page.locator('#crown .inline-error').innerText(), /Choose a size/);
+    await page.locator('#crown [data-size="L"]').click();
+    await page.locator('#crown [data-add="crown-set"]').click();
+    assert.equal(await page.locator('#bag-total').innerText(), '$160');
+    await page.locator('#preview-checkout').click();
+    if (liveLink('crown-set')) assert.deepEqual(await checkoutHrefs(), [`${liveLink('crown-set')}?client_reference_id=crown-set_L-1`]);
+    else assert.match((await checkoutHrefs())[0], /The Charcoal Crown Set \(Charcoal wash \/ Chrome blue\), size L × 1/);
+    await page.locator('.bag-item:has-text("Crown Set") [data-remove]').click();
+    await page.keyboard.press('Escape');
     // The wake-up call sits in the hero. The clock reads the visitor's time and is the snooze button. It never runs
     // out: after three snoozes the Wake up link shows, and any link to the drop wakes it. "Our world" is words only.
     assert.equal(await page.locator('#story #alarm').count(), 0);

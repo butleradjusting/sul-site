@@ -1,5 +1,5 @@
 import { writeFile } from 'node:fs/promises';
-import { products, sets, catalog, drop, dropLive, imagePath, money, claimLink, isLiveCheckout, headliner, headlinerLink } from '../assets/catalog.js';
+import { products, sets, catalog, drop, dropLive, imagePath, money, claimLink, isLiveCheckout, headliner } from '../assets/catalog.js';
 
 const escape = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const iconPaths = {
@@ -18,9 +18,10 @@ const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${iconPaths[
 const look = (shirt) => shirt.replace('-shirt', '-look');
 const lookAlt = (name, alt) => `AI preview of a model wearing the ${name} shirt and shorts. ${alt}`;
 const img = (name, alt, attrs = '') => `<img src="${imagePath(name)}" alt="${escape(alt)}" width="832" height="1248" ${attrs}>`;
+const cardTags = { 'full-kit': 'Three-piece set', 'crown-set': 'Hoodie + joggers' };
 const card = (p) => `<article class="product-card" data-product="${p.id}" data-category="${p.category}" data-price="${p.price}">
   <div class="product-image-link" style="view-transition-name:p-${p.id}"><a href="${p.id}.html" aria-label="View ${escape(p.name)}">${img(p.image, p.alt, 'loading="lazy" class="card-main-image"')}${img(p.scene, p.sceneAlt, 'loading="lazy" class="hover-image"')}</a>
-    ${p.id === 'full-kit' ? '<span class="product-card-tag">Three-piece set</span>' : ''}
+    ${cardTags[p.id] ? `<span class="product-card-tag">${cardTags[p.id]}</span>` : ''}
     <button class="card-add" data-quick="${p.id}" aria-label="Choose size for ${escape(p.name)}">${icon('plus')}</button>
   </div>
   <div class="card-info"><div><h3><a href="${p.id}.html">${escape(p.name)}</a></h3><p>${escape(p.color)}</p></div><span class="card-price">${money(p.price)}</span></div>
@@ -93,7 +94,10 @@ const marqueeWords = ['Snooze U Lose', 'Don’t sleep on style', 'Wear your own 
 // The owner's real photos stay in `headliner.real` in the catalog but are not shown (owner, 2026-11-11).
 const hPhoto = (ph, ai) => `<button class="headliner-photo" type="button" data-enlarge="${ph.image}" data-alt="${escape(ph.alt)}"${ai ? ' data-concept="true"' : ''} aria-label="Enlarge: ${escape(ph.label)}"><img src="${imagePath(ph.image)}" alt="${escape(ph.alt)}" width="${ph.size?.[0] || 565}" height="${ph.size?.[1] || 753}" loading="lazy"></button>`;
 const [hLead, ...hMore] = headliner.photos;
-const crownSection = `<section id="crown" class="headliner shell" aria-labelledby="crown-title"><div class="headliner-main">${hPhoto(hLead, true)}</div><div class="headliner-side"><div class="headliner-copy"><span class="small-label headliner-label">New · Headliner</span><h2 id="crown-title">The crown<br>goes on<br>the back.</h2><p class="headliner-name">${escape(headliner.name)} <span>${escape(headliner.pieces)}</span></p><p>${escape(headliner.description)}</p><dl class="headliner-facts"><div><dt>Pieces</dt><dd>${escape(headliner.pieces)}</dd></div><div><dt>Color</dt><dd>${escape(headliner.color)}</dd></div><div><dt>Price</dt><dd>${headliner.price ? money(headliner.price) : 'Ask SUL'}</dd></div></dl><div class="headliner-actions"><a class="button blue" href="${escape(headlinerLink())}">Get yours by email${icon('arrow')}</a><a class="text-link" href="${drop.instagram}" target="_blank" rel="noopener noreferrer">See it on Instagram${icon('diagonal')}</a></div></div><div class="headliner-grid">${hMore.map((ph) => hPhoto(ph, true)).join('')}</div></div></section>`;
+// Since 2026-11-11 the Crown Set sells like any product ($160, S–XL): sizes and Add to bag right here, a card and page in the collection.
+const crown = products.find((p) => p.id === 'crown-set');
+const crownBuy = `<div class="headliner-buy" data-detail="${crown.id}"><fieldset class="size-fieldset"><legend class="sr-only">Select your size</legend><div class="size-head"><span>Select your size</span><button type="button" class="size-guide-link" data-size-guide="${crown.id}" aria-haspopup="dialog">Size guide</button></div><div class="size-options" role="group" aria-label="Size for ${escape(crown.name)}">${crown.sizes.map((s) => `<button type="button" data-size="${escape(s)}" aria-pressed="false">${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status"></p></fieldset><button class="button blue product-add" data-add="${crown.id}"><span>Add to bag — ${money(crown.price)}</span>${icon('plus')}</button><p class="headliner-pay">${isLiveCheckout(crown.checkout) ? 'Secure card payment by Stripe at checkout.' : 'Checkout sends your order to SUL by email. SUL confirms payment and shipping.'}</p><div class="headliner-actions"><a class="text-link" href="${crown.id}.html">Full details${icon('arrow')}</a><a class="text-link" href="${drop.instagram}" target="_blank" rel="noopener noreferrer">See it on Instagram${icon('diagonal')}</a></div></div>`;
+const crownSection = `<section id="crown" class="headliner shell" aria-labelledby="crown-title"><div class="headliner-main">${hPhoto(hLead, true)}</div><div class="headliner-side"><div class="headliner-copy"><span class="small-label headliner-label">New · Headliner</span><h2 id="crown-title">The crown<br>goes on<br>the back.</h2><p class="headliner-name">${escape(headliner.name)} <span>${escape(headliner.pieces)}</span></p><p>${escape(headliner.description)}</p><dl class="headliner-facts"><div><dt>Pieces</dt><dd>${escape(headliner.pieces)}</dd></div><div><dt>Color</dt><dd>${escape(headliner.color)}</dd></div><div><dt>Price</dt><dd>${money(crown.price)}</dd></div></dl>${crownBuy}</div><div class="headliner-grid">${hMore.map((ph) => hPhoto(ph, true)).join('')}</div></div></section>`;
 // The wake-up call: a seven-segment alarm clock in the hero that runs on the visitor's own time, driven by
 // assets/alarm.js. It rests at 6:00 until the script starts. The reflection is a second set of digits,
 // mirrored and lit in step, so only lit segments show on the floor.
@@ -129,7 +133,8 @@ const collection = `<main id="main" class="collection-page"><section class="coll
 const sizeOptions = (p) => `<fieldset class="size-fieldset"><legend class="sr-only">Select your size</legend><div class="size-head"><span>Select your size</span><button type="button" class="size-guide-link" data-size-guide="${p.id}" aria-haspopup="dialog">Size guide</button></div><div class="size-options" role="group" aria-label="Size for ${escape(p.name)}">${p.sizes.map((s) => `<button type="button" data-size="${escape(s)}" aria-pressed="${p.sizes.length === 1}"${p.sizes.length === 1 ? ' class="selected"' : ''}>${escape(s)}</button>`).join('')}</div><p class="inline-error" role="status" id="size-error"></p></fieldset>`;
 // `image` is an AI model shot and `photo` the earlier product photo. A product without `photo`, like the shelved bomber, shows `image` unlabeled.
 const modelNote = 'AI image made from the product photo. The final piece may vary.';
-const productGallery = (p) => [
+const photosNote = 'AI image made from photos of the real set. The final piece may vary.';
+const productGallery = (p) => p.photos ? p.photos.map((ph) => ({ image: ph.image, alt: ph.alt, concept: true, note: photosNote, label: ph.label })) : [
   { image: p.image, alt: p.alt, concept: !!p.photo, note: p.photo ? modelNote : p.imageNote || 'Product view.', label: p.photo ? 'On model' : 'Studio view' },
   ...(p.photo ? [{ image: p.photo, alt: p.photoAlt, note: p.imageNote || 'Product view.', label: 'Product photo' }] : []),
   { image: p.scene, alt: p.sceneAlt, note: p.imageNote || 'Alternate view.', label: 'Alternate view' }
