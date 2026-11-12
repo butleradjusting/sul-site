@@ -49,7 +49,6 @@ let renderer;
 try {
   renderer = new WebGLRenderer({ canvas, antialias: !strong, powerPreference: 'high-performance', stencil: false });
 } catch { fallback(); throw new Error('WebGL unavailable'); }
-canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); fallback(); });
 renderer.toneMapping = NoToneMapping; // garment photos must keep their true color
 renderer.outputColorSpace = SRGBColorSpace;
 const voidColor = new Color('#05070d');
@@ -197,9 +196,10 @@ dustGeo.setAttribute('position', new BufferAttribute(dustPos, 3));
 dustGeo.setAttribute('seed', new BufferAttribute(dustSeed, 1));
 const dustMat = new ShaderMaterial({
   transparent: true, depthWrite: false, blending: AdditiveBlending,
-  uniforms: { uTime: liquid.uTime, uTint: { value: new Color('#7f9fff') }, uPx: { value: 1 } },
-  vertexShader: `attribute float seed; uniform float uTime; uniform float uPx; varying float vA;
+  uniforms: { uTime: liquid.uTime, uTint: { value: new Color('#7f9fff') }, uPx: { value: 1 }, uBurst: { value: 0 } },
+  vertexShader: `attribute float seed; uniform float uTime; uniform float uPx; uniform float uBurst; varying float vA;
     void main(){ vec3 p = position; p.y += sin(uTime*.2+seed*40.)*.25; p.x += cos(uTime*.16+seed*30.)*.25;
+      p += normalize(p + vec3(.001)) * uBurst * (.4 + seed * 1.3);
       vec4 mv = modelViewMatrix*vec4(p,1.); gl_Position = projectionMatrix*mv;
       gl_PointSize = uPx*(1.+seed*3.2)*(9./max(.6,-mv.z)); vA = (.25+seed*.75)*smoothstep(.2,1.4,-mv.z)*(.65+.35*sin(uTime*(.6+seed)+seed*20.)); }`,
   fragmentShader: `uniform vec3 uTint; varying float vA;
@@ -378,16 +378,23 @@ document.querySelector('.ring-stage')?.addEventListener('click', (e) => {
 });
 
 // ---------------------------------------------------------------- snooze
-// The hero clock (assets/alarm.js) sends sul:snooze. The logo takes the hit: a full spin, a punch in the metal,
-// and a short camera shake. Harder each time (detail.power).
-let kickAt = -1e9, kickPower = 1;
-addEventListener('sul:snooze', (e) => { kickAt = performance.now(); kickPower = e.detail?.power || 1; start(); });
+// The hero clock (assets/alarm.js) sends sul:snooze. The logo takes the hit: a full spin (two on the third snooze),
+// a punch in the metal, the chrome flaring white, the void flashing blue, the dust blown outward, the camera
+// punching in and shaking. Harder each time (detail.power).
+const FINALE = 1.75;
+let kickAt = -1e9, kickPower = 1, flareAt = -1e9;
+addEventListener('sul:snooze', (e) => {
+  kickAt = performance.now();
+  kickPower = e.detail?.power || 1;
+  if (kickAt - flareAt > 1000) flareAt = kickAt; // the flash never comes more than once a second, however fast the taps
+  start();
+});
 const easeOut = (t) => 1 - (1 - t) ** 4;
 
 // ---------------------------------------------------------------- frame
 let last = performance.now();
 let heroP = 0, ringP = 0, prevRing = 0, vel = 0, activeAmount = 0, activeIndex = -1, ripple = 0, logoVisible = true;
-let frames = 0, frameSum = 0, stage = 0, ready = false, running = false, rafId = 0;
+let frames = 0, frameSum = 0, ready = false, running = false, rafId = 0, lost = false, lostTimer = 0;
 const glowTarget = new Color();
 const lookAt = new Vector3();
 const U = new Vector3(0.2, 0.22, 0); // the gap in the U
@@ -423,6 +430,14 @@ function frame(now) {
   prevRing = ringP;
   pointerSmooth.lerp(pointer, 1 - Math.exp(-5 * dt));
 
+  // The snooze hit, fading as the camera leaves the logo.
+  const align = smooth(0.02, 0.45, heroP);
+  const kt = (now - kickAt) / 1000;
+  const hit = kt < 1.3 ? (1 - kt / 1.3) ** 2 * (1 - align) : 0;
+  const ft = (now - flareAt) / 1000;
+  const flare = ft < 0.7 ? (1 - ft / 0.7) ** 3 * (1 - align) : 0;
+  const punch = kt < 0.55 ? Math.sin((kt / 0.55) * Math.PI) * (1 - kt / 0.55) * 4.5 * kickPower * (1 - align) : 0;
+
   // Camera path: hold on the logo, then rush through the U, then settle facing the wall.
   const fly = smooth(0.06, 0.92, heroP);
   const rush = fly * fly * (3 - 2 * fly);
@@ -438,19 +453,23 @@ function frame(now) {
   camera.position.y += pointerSmooth.y * lerp(0.06, 0.05, settle);
   lookAt.set(lerp(U.x * rush, wallShiftX, settle), lerp(lerp(heroShiftY, U.y, rush), wallShiftY, settle), camera.position.z - 6);
   camera.lookAt(lookAt);
-  camera.fov = lerp(lerp(FOV_HERO(), 62, smooth(0.45, 0.85, heroP)), FOV_WALL, settle);
+  camera.fov = lerp(lerp(FOV_HERO(), 62, smooth(0.45, 0.85, heroP)), FOV_WALL, settle) - punch;
   camera.updateProjectionMatrix();
 
   // Logo: alive under the pointer, flattens as we line up with the gap.
-  const align = smooth(0.02, 0.45, heroP);
   const sway = Math.sin(liquid.uTime.value * 0.42);
   logo.rotation.y = lerp(-0.2 + sway * 0.13 + pointerSmooth.x * 0.3, 0, align);
   logo.rotation.x = lerp(-0.1 + Math.cos(liquid.uTime.value * 0.33) * 0.05 - pointerSmooth.y * 0.2, 0, align);
   logo.rotation.z = lerp(Math.sin(liquid.uTime.value * 0.27) * 0.015, 0, align);
-  const kt = (now - kickAt) / 1000;
-  const hit = kt < 1.3 ? (1 - kt / 1.3) ** 2 * (1 - align) : 0;
-  if (kt < 1.15) logo.rotation.y += easeOut(kt / 1.15) * Math.PI * 2 * (1 - align); // lands back where it started
+  const turns = kickPower >= FINALE ? 2 : 1;
+  const spin = turns === 2 ? 1.5 : 1.15;
+  if (kt < spin) {
+    logo.rotation.y += easeOut(kt / spin) * Math.PI * 2 * turns * (1 - align); // lands back where it started
+    logo.rotation.z += Math.sin((kt / spin) * Math.PI) * 0.1 * kickPower * (1 - align); // leans into the spin
+  }
   logo.scale.setScalar(1 + (kt < 0.7 ? Math.sin(Math.min(kt / 0.7, 1) * Math.PI * 2) * Math.exp(-kt * 4) * 0.16 * kickPower * (1 - align) : 0));
+  chrome.envMapIntensity = 1.25 + flare * 2.2 * kickPower;
+  dustMat.uniforms.uBurst.value = kt < 2.2 ? Math.sin(Math.min(kt / 0.22, 1) * Math.PI * 0.5) * Math.exp(-kt * 2) * 1.5 * kickPower * (1 - align) : 0;
   if (hit) {
     camera.position.x += (Math.random() - 0.5) * 0.14 * hit * kickPower;
     camera.position.y += (Math.random() - 0.5) * 0.1 * hit * kickPower;
@@ -476,7 +495,7 @@ function frame(now) {
   scene.environmentRotation.x = pointerSmooth.y * 0.22;
 
   // The rush floods the world with royal blue, then clears to the wall.
-  const flood = smooth(0.6, 0.76, heroP) * (1 - smooth(0.78, 0.93, heroP)) * 0.92;
+  const flood = Math.max(smooth(0.6, 0.76, heroP) * (1 - smooth(0.78, 0.93, heroP)) * 0.92, Math.min(0.5, flare * 0.28 * kickPower));
   scene.background.copy(voidColor).lerp(floodColor, flood);
   scene.fog.color.copy(scene.background);
   renderer.setClearColor(scene.background, 1);
@@ -522,7 +541,7 @@ function frame(now) {
   canvas.style.opacity = smooth(innerHeight * 0.25, innerHeight * 0.95, ringBottom).toFixed(3);
 
   if (composer && bloomOn) {
-    bloom.strength = 0.14 + rush * 0.1 + flood * 0.12;
+    bloom.strength = 0.14 + rush * 0.1 + flood * 0.12 + flare * 0.5 * kickPower;
     composer.render(dt);
   } else renderer.render(scene, camera);
 
@@ -532,17 +551,19 @@ function frame(now) {
     last = performance.now();
     return;
   }
-  // Keep it smooth: step quality down, and give up on the 3D rather than make shopping lag.
+  // Keep it smooth: step quality down as far as it goes, and give up on the 3D only if the page itself would lag.
+  // Slow means under about 24 fps; a phone in Low Power Mode holds 30 and keeps full quality.
   if (!force && document.visibilityState === 'visible' && raw < 400) {
     frames += 1; frameSum += raw;
     if (frames >= 80) {
       const avg = frameSum / frames;
       frames = 0; frameSum = 0;
-      if (avg > 37) {
-        stage += 1;
-        if (stage === 1 && bloomOn) { bloomOn = false; }
-        else if (stage <= 2) { dprCap = 1; W = 0; resize(); }
-        else if (avg > 55) fallback();
+      if (avg > 42) {
+        if (bloomOn) bloomOn = false;
+        else if (dprCap > 1) { dprCap = 1; W = 0; resize(); }
+        else if (dprCap > 0.75) { dprCap = 0.75; W = 0; resize(); }
+        else if (dust.visible) dust.visible = false;
+        else if (avg > 85) fallback(); // under 12 fps even at the lowest quality
       }
     }
   }
@@ -551,11 +572,38 @@ const floodColor = new Color('#1b46c4');
 const tintBlue = new Color('#7f9fff');
 
 function start() {
-  if (running || !alive) return;
+  if (running || !alive || lost) return;
   running = true;
   last = performance.now();
   rafId = requestAnimationFrame(frame);
 }
+
+// A phone can take the GPU back (memory pressure, a long spell in the background). Show the poster, wait for the
+// context to come back, and carry on. The page goes static only if it stays lost while the page is on screen.
+function giveUp() {
+  clearTimeout(lostTimer);
+  lostTimer = setTimeout(() => { if (!lost) return; if (document.hidden) giveUp(); else fallback(); }, 6000);
+}
+canvas.addEventListener('webglcontextlost', (e) => {
+  e.preventDefault();
+  lost = true;
+  running = false;
+  cancelAnimationFrame(rafId);
+  ready = false;
+  root.classList.remove('world-ready');
+  giveUp();
+});
+canvas.addEventListener('webglcontextrestored', () => {
+  clearTimeout(lostTimer);
+  lost = false;
+  if (!alive) return;
+  const old = scene.environment;
+  scene.environment = buildEnvironment(); // the baked reflections lived on the GPU
+  old?.dispose();
+  W = 0;
+  resize();
+  start();
+});
 addEventListener('scroll', () => { if (!running && scrollY <= ringEnd) start(); }, { passive: true });
 document.addEventListener('visibilitychange', () => { if (!document.hidden) start(); });
 addEventListener('resize', resize, { passive: true });

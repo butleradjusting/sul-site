@@ -100,6 +100,7 @@ main h1,main h2,.footer-top h2{color:var(--chalk)}
 
 .act-stage{position:relative;overflow:clip}
 .hero-act .act-stage{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-top:calc(var(--header) + 30px)}
+.hero-act{touch-action:manipulation} /* tapping the clock fast must not double-tap zoom the page; pinch still zooms */
 .world .hero-act{height:250lvh}
 .world .hero-act .act-stage{position:sticky;top:0;height:100svh}
 .world-ready .hero-poster{opacity:0}
@@ -291,6 +292,8 @@ main h1,main h2,.footer-top h2{color:var(--chalk)}
 .hero-clock.is-slammed .alarm-slam{opacity:1}
 .alarm-slam span{text-shadow:.035em 0 #ff3b6b99,-.035em 0 #3be0ff99}
 /* The snooze shockwave (assets/alarm.js): a ring of light from the clock across the hero, under the words. */
+.alarm-flash{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--x) var(--y),#eef3ff 0,#6f95ffb3 8%,#2c5cff4d 28%,transparent 62%);mix-blend-mode:screen}
+.alarm-sparks{position:absolute;inset:0;z-index:3;width:100%;height:100%;pointer-events:none}
 .alarm-wave{position:absolute;z-index:1;width:100px;height:100px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,#4d7dff2e 0,transparent 52%,#cfd9f2 61%,#4d7dff80 65%,transparent 70%);mix-blend-mode:screen}
 @media(prefers-reduced-motion:reduce){.hero-clock.is-slammed .alarm-display{opacity:.16}}
 @media(prefers-reduced-motion:no-preference){
