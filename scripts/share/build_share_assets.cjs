@@ -29,6 +29,7 @@ const PHOTOS = {
   'lion-sweater': { src: `${GENERATED}/lion-sweater.jpg`, x: 6, y: 0, w: 1843 },
   'new-era-hat': { src: `${GENERATED}/new-era-hat.jpg`, x: 6, y: 0, w: 1843 },
   'full-kit': { src: `${GENERATED}/full-kit.jpg`, x: 6, y: 0, w: 1843 },
+  'crown-set': { src: 'site-photos/crown-generated/crown-set-night-front.jpg', x: 6, y: 0, w: 1843 },
 };
 
 function photos() {

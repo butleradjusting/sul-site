@@ -651,6 +651,8 @@ dialog[open]{animation:dialog-in .5s var(--ease)}
 .headliner-facts dt{font-size:13px;color:var(--muted)}
 .headliner-facts dd{margin:0;font-weight:700;font-size:15px;line-height:1.35}
 .headliner-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+.headliner-buy .product-add{margin-bottom:12px}
+.headliner-pay{margin:0 0 20px;font-size:14px;line-height:1.6;color:var(--muted)}
 .headliner-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.2vw,18px)}
 .headliner-grid .headliner-photo{height:100%;min-height:220px;aspect-ratio:3/4}
 /* The owner's unedited photos sit under the AI images, so the true color and print are always one glance away. */
