@@ -6,9 +6,12 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
 (async () => {
   const browser = await chromium.launch({ headless: true, ...(process.env.SUL_PLAYWRIGHT_CHANNEL ? { channel: process.env.SUL_PLAYWRIGHT_CHANNEL } : {}) });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
-  // Checkout clicks its email link when that is the only destination. In real Chrome that opens a Mail
-  // window per run, so email links stop here. The test still reads each link's address and body.
-  await page.addInitScript(() => document.addEventListener('click', (event) => { if (event.target.closest?.('a[href^="mailto:"]')) event.preventDefault(); }, true));
+  // Checkout clicks its link when that is the only destination. In real Chrome an email link opens a Mail
+  // window per run and a Stripe link opens the live payment page, so both stop here. The test still reads each link.
+  await page.addInitScript(() => document.addEventListener('click', (event) => { if (event.target.closest?.('a[href^="mailto:"], a[href^="https://buy.stripe.com/"]')) event.preventDefault(); }, true));
+  const { stripeLinks } = await import('../assets/stripe-links.js');
+  const liveLink = (id) => (stripeLinks[id]?.active ? stripeLinks[id].url : '');
+  const checkoutHrefs = () => page.locator('#preview-links a').evaluateAll((links) => links.map((a) => decodeURIComponent(a.getAttribute('href'))));
   const errors = [];
   const failures = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -37,9 +40,14 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     await page.locator('[data-change="1"]').click();
     assert.equal(await page.locator('#bag-total').innerText(), '$170');
     await page.locator('#preview-checkout').click();
-    assert.match(await page.locator('#bag-note').innerText(), /sent to SUL by email/);
     assert.equal(await page.locator('#preview-links a[href*="stripe.com/test_"]').count(), 0);
-    assert.match(decodeURIComponent(await page.locator('#preview-links a').getAttribute('href')), /Blackout Hoodie \(Black \/ White\), size L × 2/);
+    if (liveLink('blackout-hoodie')) {
+      assert.deepEqual(await checkoutHrefs(), [`${liveLink('blackout-hoodie')}?client_reference_id=blackout-hoodie_L-2`]);
+      assert.match(await page.locator('#bag-note').innerText(), /Set the same quantity on the Stripe page/);
+    } else {
+      assert.match(await page.locator('#bag-note').innerText(), /sent to SUL by email/);
+      assert.match((await checkoutHrefs())[0], /Blackout Hoodie \(Black \/ White\), size L × 2/);
+    }
     await page.keyboard.press('Escape');
     assert(!(await page.locator('#bag-dialog').isVisible()));
     await page.reload();
@@ -76,7 +84,8 @@ const base = process.env.SUL_PREVIEW_URL || 'http://127.0.0.1:4173';
     assert(await page.locator('#bag-dialog').isVisible());
     assert.equal(await page.locator('#bag-total').innerText(), '$319.99');
     await page.locator('#preview-checkout').click();
-    assert.match(decodeURIComponent(await page.locator('#preview-links a').getAttribute('href')), /Olive 4-Piece \(Olive\), size M × 1/);
+    if (liveLink('olive-set')) assert((await checkoutHrefs()).includes(`${liveLink('olive-set')}?client_reference_id=olive-set_M-1`));
+    else assert((await checkoutHrefs()).some((href) => /Olive 4-Piece \(Olive\), size M × 1/.test(href)));
     await page.keyboard.press('Escape');
     assert.equal(await page.locator('.related .set-card').count(), 3);
     await page.getByRole('button', { name: 'Size guide', exact: true }).click();

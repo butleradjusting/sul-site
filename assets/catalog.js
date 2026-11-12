@@ -1,3 +1,14 @@
+import { stripeLinks } from './stripe-links.js';
+
+// Checkout for a style: a live link pasted into the catalog wins, then the live link the build made
+// (assets/stripe-links.js, owner's request 2026-11-11), then whatever was pasted (test links stay hidden).
+// `manualCheckout` keeps the pasted link so scripts/stripe-links.mjs can tell the two apart.
+function withCheckout(p, pasted = '') {
+  const made = stripeLinks[p.id];
+  const checkout = /^https:\/\/buy\.stripe\.com\/(?!test_)/.test(pasted) ? pasted : made?.active ? made.url : pasted;
+  return { ...p, manualCheckout: pasted, checkout };
+}
+
 // Shelved on the owner's instruction (2026-11-01): off the site for now, price under review.
 // Move an entry back into `products` and rebuild to relist it.
 export const shelved = [
@@ -63,7 +74,7 @@ export const products = [
     imageNote: 'Blackout Hoodie shown. The kit also includes joggers and a tee.',
     checkout: 'https://buy.stripe.com/test_cNi7sN53K74E3KpcUp1kA04'
   }
-];
+].map((p) => withCheckout(p, p.checkout));
 
 // Women's first drop. Live since 2026-11-05 at the owner's instruction (was 'coming-soon').
 // Prices and colorways come from the owner's launch plan (2026-10-31); pieces and the per-size run
@@ -75,8 +86,8 @@ export const drop = {
   id: 'drop', name: 'Women’s collection', status: 'live', totalSets: 27,
   email: 'sulcollective@gmail.com', instagram: 'https://www.instagram.com/thesulcollective/'
 };
-// Live Stripe Payment Links for the sets (https://buy.stripe.com/...). Paste one per set from the
-// Stripe dashboard in live mode, then rebuild. A set without a live link is ordered by email instead.
+// The build makes each set's live Stripe Payment Link by itself (assets/stripe-links.js). Paste a link here
+// only to use one made by hand instead; it then wins. A set with no live link is ordered by email.
 export const setCheckout = {
   'olive-set': '',
   'navy-cream-set': '',
@@ -131,7 +142,7 @@ export const sets = [
     description: 'The softest colorway in the drop and the smallest run. A blush pink sweatshirt with the S.U.L crown across the chest, a pink pleated skirt with built-in shorts, and cream and pink leg warmers. Five sets made for the first drop, one per size.',
     details: [['Set', 'Blush pink sweatshirt, pink pleated skirt with built-in shorts, cream/pink leg warmers'], ['Colorway', 'Blush pink'], ['Details', 'Crown crest on chest and skirt']]
   }
-].map((set) => ({ ...set, checkout: setCheckout[set.id] || '', sizes: sizesWithStock(set.stock) }));
+].map((set) => withCheckout({ ...set, sizes: sizesWithStock(set.stock) }, setCheckout[set.id]));
 export const catalog = [...sets, ...products];
 
 // Homepage headliner (owner's request, 2026-11-09). Real photos the owner supplied the same day.

@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "bundle": "esbuild src/motion.js src/world.js --bundle --minify --format=esm --target=es2022 --outdir=assets",
-    "build": "npm run bundle && node scripts/build.mjs",
+    "build": "npm run bundle && node scripts/stripe-links.mjs --build && node scripts/build.mjs",
+    "stripe": "node scripts/stripe-links.mjs",
     "dev": "python3 -m http.server 4173 --bind 127.0.0.1"
   },
   "devDependencies": {
