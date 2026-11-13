@@ -7,8 +7,8 @@
 // Needs Chrome and Playwright. Usage: SUL_PLAYWRIGHT_PATH=... npm run posts [-- post-id ...]
 import fs from 'node:fs';
 import path from 'node:path';
-import { catalog, headliner, money } from '../../assets/catalog.js';
-import { ROOT, SITE, GENERATED, CROWN, FONTS, CHROME, LOGO, numberWord, escape, inStock, sizeRange, runCount, studio } from './kit.mjs';
+import { catalog, headliner, money, sizeCharts, measuringNotes } from '../../assets/catalog.js';
+import { ROOT, SITE, GENERATED, CROWN, FONTS, CHROME, LOGO, ORDER, numberWord, escape, inStock, sizeRange, runCount, studio } from './kit.mjs';
 
 const OUT = 'assets/posts';
 const womenTags = (extra) => `#matchingset #womensstreetwear ${extra} #sulcollective #snoozeulose`;
@@ -43,6 +43,57 @@ const lastCall = () => ['When it’s gone,', 'it’s gone.'];
 // The second slide is the cover photo again, closer and without the headline over the outfit: from
 // the chin down to the hem. The three skirt sets share one pose, so one crop works for each.
 const skirtLook = { at: '50% 48%', zoom: 1.45, shade: 1010, words: ['Crown on the chest.', 'Crown on the skirt.'] };
+
+// "The Full Kit" is "Full Kit"; on charts and fit notes a set goes by its colorway ("Navy / Cream").
+const plain = (p) => p.name.replace(/^The /, '');
+const short = (p) => plain(p).replace(/ \d-Piece$/, '');
+const names = (list) => list.map(plain).join(', ');
+
+// The gift guide: everything on the site in price bands, a tile per style. The older pieces use their
+// product photos rather than the AI model shots their own carousel already showed.
+const TIERS = [[50, 'Under $50'], [100, 'Under $100'], [150, 'Under $150'], [Infinity, null]];
+const tile = (p) => {
+  const flat = (file) => ({ photo: `assets/images/${file}.webp`, alt: p.photoAlt });
+  const look = { 'new-era-hat': flat('hat'), 'blackout-hoodie': flat('hoodie'), 'lion-sweater': flat('sweater'), 'crown-set': { photo: `${CROWN}/crown-set-flatlay.jpg`, alt: crownAlt('crown-set-flatlay') } }[p.id];
+  return { name: p.stock ? short(p) : plain(p), price: money(p.price), at: look ? '50% 50%' : '50% 30%', ...(look || { photo: `${GENERATED}/${p.id}.jpg`, alt: p.alt }) };
+};
+const tiers = (list) => {
+  const sorted = [...list].sort((a, b) => a.price - b.price);
+  return TIERS.map(([limit, label], i) => {
+    const band = sorted.filter((p) => p.price < limit && (i === 0 || p.price >= TIERS[i - 1][0]));
+    const prices = band.map((p) => p.price);
+    return { label: label || `${money(Math.min(...prices))}${Math.min(...prices) === Math.max(...prices) ? '' : '+'}`, band };
+  }).filter((tier) => tier.band.length);
+};
+
+// The size guide: the owner's fit notes, how to measure, and each chart with the sizes still for sale.
+const CHART = { skirt: 'Skirt sets', olive: 'Olive set', unisex: 'Unisex' };
+const chartSlide = (key, styles) => {
+  const chart = sizeCharts[key];
+  const sizes = ORDER.filter((size) => chart.rows[size] && styles.some((p) => p.sizes.includes(size)));
+  // A size not every style comes in gets a line under the chart: "2XL: All Black only."
+  const partial = sizes.flatMap((size) => {
+    const have = styles.filter((p) => p.sizes.includes(size));
+    const missing = styles.filter((p) => !p.sizes.includes(size));
+    if (!missing.length) return [];
+    return [missing.length < have.length ? `${size}: not in the ${names(missing)}.` : `${size}: ${names(have)} only.`];
+  });
+  return { type: 'chart', kicker: 'Size guide', name: CHART[key] || key, sub: names(styles), columns: chart.columns, rows: sizes.map((size) => [size, ...chart.rows[size]]), note: [chart.note, ...partial].join(' ') };
+};
+const fitGroups = (list) => Object.values(list.reduce((groups, p) => {
+  (groups[p.fit] ||= { fit: p.fit, list: [] }).list.push(p);
+  return groups;
+}, {}));
+
+// The printed sets are studio previews with no price, so they are not in the catalog. Their names,
+// colors, and photos are the "Make some noise" section of scripts/build.mjs.
+const PRINTS = [
+  ['snooze', 'Snooze U Lose', 'White / Red / Black', 'White short sleeve SUL button-up shirt with repeating red and black lettering'],
+  ['time', 'Time is money', 'White / Black / Gold', 'White short sleeve shirt with clock artwork and Stop Wasting lettering'],
+  ['abstract', 'Outside the lines', 'Blue / Grey / White', 'SUL short sleeve shirt with blue and grey abstract line artwork'],
+  ['alarm', 'Wake-up call', 'Charcoal / Lime', 'Charcoal short sleeve shirt with repeating lime digital alarm clock artwork'],
+  ['money', 'Make your move', 'Black / Multicolor', 'Black SUL short sleeve shirt with banknote graphics and lettering']
+].map(([id, name, colors, shirt]) => ({ id, name, colors, photo: `assets/images/${id}-look.webp`, alt: `AI studio preview of a model wearing the ${name} printed set: ${shirt.replace(/^[A-Z](?=[a-z])/, (c) => c.toLowerCase())} and matching printed shorts` }));
 
 // The order here is the posting order. Every photo used is a Higgsfield image, so every post is `ai`.
 const POSTS = [
@@ -103,15 +154,59 @@ const POSTS = [
     opener: (p) => `Blush pink.${onePerSize(p) ? ' One per size.' : ''}`,
     body: () => 'The softest colorway in the drop and the smallest run. Blush pink sweatshirt with the S.U.L crown across the chest, pink pleated skirt with built-in shorts, cream and pink leg warmers.',
     tag: '#pleatedskirt'
-  })
+  }),
+  // Made 2026-11-13 for the weeks after the first six, when none of those may run again yet.
+  { id: 'gift-guide', products: catalog.map((p) => p.id),
+    build: (list) => {
+      const bands = tiers(list);
+      const hoodie = find('blackout-hoodie');
+      const prices = list.map((p) => p.price);
+      return {
+        slides: [
+          // The store wall behind the mannequin is already covered in SUL, so this cover goes without the logo.
+          { type: 'cover', photo: 'assets/images/hoodie-scene.webp', at: '50% 40%', alt: hoodie.sceneAlt, shade: 560, mark: false, pill: 'Gift guide · Everything on the site', head: ['For them.', 'Or for you.'], cue: 'Swipe by price' },
+          ...bands.map(({ label, band }) => ({ type: 'tier', kicker: 'Gift guide', name: label, tiles: band.map(tile) })),
+          { type: 'cta', head: ['Don’t sleep', 'on it.'], sub: `${numberWord(list.length)} styles from ${money(Math.min(...prices))} to ${money(Math.max(...prices))}. The women’s sets are limited runs.` }
+        ],
+        caption: `For them. Or for you. 🎁\n\nEverything on the site, by price:\n\n${bands.map(({ label, band }) => `${label}: ${band.map((p) => `${plain(p)} ${money(p.price)}`).join(' · ')}`).join('\n')}\n\nThe women’s sets are limited runs, and some sizes exist only once. Link in bio.\n\n#giftguide #holidaygifts #streetwear #sulcollective #snoozeulose`
+      };
+    } },
+  { id: 'size-guide', products: catalog.map((p) => p.id),
+    build: (list) => {
+      const charted = list.filter((p) => p.sizes.length > 1);
+      const keys = [...new Set(charted.map((p) => p.sizeChart || 'unisex'))];
+      const lineup = find('olive-set');
+      const fits = fitGroups(list);
+      return {
+        slides: [
+          { type: 'band', photo: 'assets/images/womens-lineup.webp', alt: lineup.sceneAlt, pill: 'Size guide · Save this one', head: ['Find', 'your size.'], cue: 'Swipe for the charts' },
+          { type: 'list', kicker: 'Size guide', name: 'How it fits', labelled: true, items: fits.map(({ fit, list: styles }) => ({ main: fit.replace(/ fit$/, ''), note: names(styles) })) },
+          { type: 'list', kicker: 'Size guide', name: 'How to measure', labelled: true, items: measuringNotes.map(([main, note]) => ({ main, note })) },
+          ...keys.map((key) => chartSlide(key, charted.filter((p) => (p.sizeChart || 'unisex') === key))),
+          { type: 'cta', head: ['Measure.', 'Then order.'], sub: 'The size guide is on every product page too.' }
+        ],
+        caption: `Find your size before you order. Save this one. 📏\n\n${fits.map(({ fit, list: styles }) => `${fit}: ${styles.map(plain).join(', ')}`).join('\n')}\n\nMeasure around the fullest part of your chest or bust and hips, and around your natural waist. Every chart is in inches, and the size guide is on every product page too. Link in bio.\n\n#sizeguide #matchingset #streetwear #sulcollective #snoozeulose`
+      };
+    } },
+  { id: 'print-preview', link: `${SITE}/#print-edit`,
+    build: () => ({
+      slides: [
+        { type: 'cover', photo: PRINTS[0].photo, at: '50% 20%', alt: PRINTS[0].alt, shade: 600, pill: 'Studio preview · Not for sale yet', head: ['Make', 'some noise.'], cue: `Swipe all ${numberWord(PRINTS.length).toLowerCase()}` },
+        // The first set is also the cover, so its own slide moves in on the print.
+        ...PRINTS.map((print, i) => ({ type: 'card', photo: print.photo, alt: print.alt, ...(i ? { at: '50% 30%' } : { at: '50% 59%', zoom: 1.6 }), shade: 700, name: print.name, sub: `${print.colors} · Shirt + shorts` })),
+        { type: 'cta', head: ['Pick', 'your print.'], sub: `${numberWord(PRINTS.length)} printed sets in the studio. Availability and pricing to be announced.`, button: 'Tell us in the comments' }
+      ],
+      caption: `Make some noise. 🔊\n\n${numberWord(PRINTS.length)} printed sets in the SUL studio, shirt + shorts: ${PRINTS.slice(0, -1).map((print) => print.name).join(', ')}, and ${PRINTS.at(-1).name}.\n\nThese are studio previews, made with AI from photos of the real samples. Not for sale yet: availability and pricing to be announced.\n\nWhich one would you wear? Tell us in the comments 👇\n\n#streetwear #printedshirt #matchingset #sulcollective #snoozeulose`
+    }) }
 ];
 
 function posts() {
   return POSTS.flatMap((spec) => {
-    const list = spec.products.map(find).filter((p) => p && inStock(p));
-    if (!list.length) return [];
+    // A post with no `products` (the studio preview) sells nothing, so it never sells out.
+    const list = (spec.products || []).map(find).filter((p) => p && inStock(p));
+    if (spec.products && !list.length) return [];
     const built = spec.build(list);
-    return [{ id: spec.id, list, ai: true, ...built }];
+    return [{ id: spec.id, list, link: spec.link, ai: true, ...built }];
   });
 }
 
@@ -121,20 +216,31 @@ const photo = (s) => `<div class="frame"><img src="${s.photo}" alt="" style="obj
 const lines = (list) => list.map((line) => `<span>${escape(line)}</span>`).join('');
 const factsRow = (list) => `<div class="facts">${list.map(([value, label]) => `<p><b>${escape(value)}</b>${escape(label)}</p>`).join('')}</div>`;
 const SLIDES = {
-  cover: (s) => `${photo(s)}<div class="shade" style="--from:${s.shade || 480}px"></div>${mark()}<div class="copy"><p class="pill"><i class="dot${s.live ? ' live' : ''}"></i>${escape(s.pill)}</p><h1 class="chrome" data-fit data-min="96">${lines(s.head)}</h1><p class="cue">${escape(s.cue)} <span>→</span></p></div>`,
+  cover: (s) => `${photo(s)}<div class="shade" style="--from:${s.shade || 480}px"></div>${s.mark === false ? '' : mark()}<div class="copy"><p class="pill"><i class="dot${s.live ? ' live' : ''}"></i>${escape(s.pill)}</p><h1 class="chrome" data-fit data-min="96">${lines(s.head)}</h1><p class="cue">${escape(s.cue)} <span>→</span></p></div>`,
   photo: (s) => `${photo(s)}<div class="shade" style="--from:${s.shade || 760}px"></div>${mark()}<div class="copy"><h2 data-fit data-min="56">${lines(s.words)}</h2></div>`,
-  card: (s) => `${photo(s)}<div class="shade" style="--from:${s.shade || 560}px"></div>${mark()}<div class="copy"><h2 class="name" data-fit data-min="64">${lines([s.name])}</h2><p class="sub">${escape(s.sub)}</p>${factsRow(s.facts)}</div>`,
-  list: (s) => `<div class="night"></div>${mark()}<div class="copy list"><p class="kicker">${escape(s.kicker)}</p><h2 class="name chrome" data-fit data-min="64">${lines([s.name])}</h2><ol>${s.items.map((item, i) => `<li><i>${String(i + 1).padStart(2, '0')}</i><b>${escape(item.main)}${item.note ? `<small>${escape(item.note)}</small>` : ''}</b></li>`).join('')}</ol>${factsRow(s.facts)}</div>`,
-  cta: (s) => `<div class="night"></div><div class="center">${mark('big')}<h1 class="chrome" data-fit data-min="84">${lines(s.head)}</h1><p class="sub">${escape(s.sub)}</p><p class="button">Shop at snoozeulose.com</p></div>`
+  card: (s) => `${photo(s)}<div class="shade" style="--from:${s.shade || 560}px"></div>${mark()}<div class="copy"><h2 class="name" data-fit data-min="64">${lines([s.name])}</h2><p class="sub">${escape(s.sub)}</p>${s.facts ? factsRow(s.facts) : ''}</div>`,
+  list: (s) => `<div class="night"></div>${mark()}<div class="copy list"><p class="kicker">${escape(s.kicker)}</p><h2 class="name chrome" data-fit data-min="64">${lines([s.name])}</h2><ol>${s.items.map((item, i) => `<li><i>${String(i + 1).padStart(2, '0')}</i><b>${escape(item.main)}${item.note ? `<small>${escape(item.note)}</small>` : ''}</b></li>`).join('')}</ol>${s.facts ? factsRow(s.facts) : ''}</div>`,
+  cta: (s) => `<div class="night"></div><div class="center">${mark('big')}<h1 class="chrome" data-fit data-min="84">${lines(s.head)}</h1><p class="sub">${escape(s.sub)}</p><p class="button">${escape(s.button || 'Shop at snoozeulose.com')}</p></div>`,
+  // A wide photo (the women's lineup) as a band across a cover, the headline under it.
+  band: (s) => `<div class="night"></div><div class="band"><img src="${s.photo}" alt=""></div>${mark()}<div class="copy"><p class="pill"><i class="dot"></i>${escape(s.pill)}</p><h1 class="chrome" data-fit data-min="96">${lines(s.head)}</h1><p class="cue">${escape(s.cue)} <span>→</span></p></div>`,
+  tier: (s) => `<div class="night"></div>${mark()}<div class="copy top"><p class="kicker">${escape(s.kicker)}</p><h2 class="name chrome" data-fit data-min="64">${lines([s.name])}</h2><div class="tiles n${s.tiles.length}">${s.tiles.map((t) => `<figure><div class="tile"><img src="${t.photo}" alt="" style="object-position:${t.at}"></div><figcaption><b>${escape(t.name)}</b>${escape(t.price)}</figcaption></figure>`).join('')}</div></div>`,
+  chart: (s) => `<div class="night"></div>${mark()}<div class="copy list"><p class="kicker">${escape(s.kicker)}</p><h2 class="name chrome" data-fit data-min="64">${lines([s.name])}</h2><p class="sub">${escape(s.sub)}</p><table><thead><tr>${s.columns.map((c) => `<th>${escape(c)}</th>`).join('')}</tr></thead><tbody>${s.rows.map((row) => `<tr>${row.map((cell) => `<td>${escape(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table><p class="note">${escape(s.note)}</p></div>`
 };
 // What a screen reader gets for a slide: the words printed on it, then what the photo shows.
 const words = (s) => [
   s.pill, (s.head || s.words || []).join(' '), s.kicker, s.name, s.sub,
-  (s.items || []).map((item) => `${item.main}${item.note ? ` ${item.note}` : ''}`).join(', '),
+  // A set's pieces read as one phrase ("skirt with built-in shorts"); fit notes and measuring tips as "label: note".
+  (s.items || []).map((item) => `${item.main}${item.note ? `${s.labelled ? ': ' : ' '}${item.note.replace(/\.$/, '')}` : ''}`).join(s.labelled ? '; ' : ', '),
   ...(s.facts || []).map(([value, label]) => `${label}: ${value}`),
-  s.type === 'cta' ? 'Shop at snoozeulose.com' : ''
+  ...(s.tiles || []).map((t) => `${t.name}, ${t.price}`),
+  (s.rows || []).map(([size, ...cells]) => `${size}: ${cells.map((cell, i) => `${s.columns[i + 1].toLowerCase()} ${cell}`).join(', ')}`).join('; '),
+  s.note,
+  s.type === 'cta' ? s.button || 'Shop at snoozeulose.com' : ''
 ].filter(Boolean).map((part) => part.replace(/[.,]$/, '')).join('. ');
-const alt = (s) => `${words(s)}.${s.alt ? ` ${s.alt}.` : ''}`;
+const alt = (s) => {
+  const photos = s.tiles ? s.tiles.map((t) => t.alt).join('. ') : s.alt;
+  return `${words(s)}.${photos ? ` ${photos}.` : ''}`;
+};
 
 const CSS = `${FONTS}
 *{box-sizing:border-box;margin:0}
@@ -174,6 +280,22 @@ li small{display:block;margin-top:10px;font:400 27px/1.2 Manrope,sans-serif;colo
 .center h1{margin-top:58px;font-size:132px}
 .center h1 span{margin:0 auto}
 .center .sub{margin-top:24px;max-width:860px;text-wrap:balance}
+.band{position:absolute;left:0;right:0;top:170px}
+.band img{display:block;width:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent),linear-gradient(transparent,#000 9%,#000 88%,transparent);-webkit-mask-composite:source-in;mask-composite:intersect}
+.copy.top{top:150px}
+.tiles{flex:1;min-height:0;width:100%;margin-top:40px;display:grid;gap:24px;grid-template-rows:minmax(0,1fr)}
+.n1{grid-template-columns:1fr}.n2{grid-template-columns:repeat(2,1fr)}.n3{grid-template-columns:repeat(3,1fr)}.n4{grid-template-columns:repeat(4,1fr)}
+.n5,.n6{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,minmax(0,1fr))}
+figure{display:flex;flex-direction:column;min-height:0}
+.tile{flex:1;min-height:0;border-radius:22px;overflow:hidden;background:#0d111c;box-shadow:0 0 0 1.5px #ffffff1f}
+.tile img{width:100%;height:100%;object-fit:cover}
+figcaption{margin-top:18px;font:600 28px/1.2 Manrope,sans-serif;color:#c8cfdd}
+figcaption b{display:block;margin-bottom:6px;font:800 40px/1 Barlow,sans-serif;text-transform:uppercase;color:#f2f4f9}
+table{width:100%;margin-top:36px;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th{padding:0 0 18px;text-align:left;font:600 24px/1 Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:#a9bff2}
+td{padding:26px 0;border-top:1.5px solid #ffffff24;font:800 56px/1 Barlow,sans-serif}
+td:first-child{width:170px;color:#a9bff2}
+.note{margin-top:26px;font-size:26px;line-height:1.4;color:#9aa3b6}
 .button{margin-top:50px;padding:30px 56px;border-radius:999px;background:linear-gradient(180deg,#3a6ce0,#2955c8);box-shadow:0 0 70px #2c5cff80,inset 0 1.5px 0 #ffffff40;font:600 37px/1 Manrope,sans-serif;color:#fff}
 `;
 const html = (slide) => (base) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><base href="${base}/"><style>${CSS}</style></head><body>${SLIDES[slide.type](slide)}</body></html>`;
@@ -199,7 +321,7 @@ const manifest = all.map((post) => ({
   caption: post.caption,
   images: post.slides.map((_, i) => `${SITE}/${file(post, i)}`),
   alt: post.slides.map(alt),
-  link: post.list.length === 1 ? `${SITE}/${post.list[0].id}.html` : `${SITE}/collections.html`,
+  link: post.link || (post.list.length === 1 ? `${SITE}/${post.list[0].id}.html` : `${SITE}/collections.html`),
   ai: post.ai
 }));
 fs.writeFileSync(path.join(ROOT, OUT, 'posts.json'), `${JSON.stringify(manifest, null, 2)}\n`);

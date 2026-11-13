@@ -1,5 +1,5 @@
-// Draws one image of a week's Instagram plan for the owner to approve: a row per item with its date,
-// the story image or every slide of the carousel. Reads the images made by `npm run stories` and
+// Draws one image of a week's Instagram plan for the owner to approve: the stories in a grid with their
+// dates, then a row per feed post with every slide. Reads the images made by `npm run stories` and
 // `npm run posts`, so run those first.
 // Usage: SUL_PLAYWRIGHT_PATH=... node scripts/social/plan_sheet.mjs <plan.json> <out.jpg>
 // plan.json is a list of { "at": "2026-11-20T12:00", "kind": "story" | "post", "id": "<story or post id>" }.
@@ -32,6 +32,8 @@ const postRows = plan.filter((item) => item.kind === 'post').map((item) => {
   const post = entry(item);
   return `<section><header><p class="kind">Feed post · ${post.images.length} slides</p><h2>${escape(post.title)}</h2><p>${escape(when(item.at))}</p></header>${post.images.map((url) => `<img src="${data(local(url))}" width="264" height="330">`).join('')}</section>`;
 });
+// Wide enough for the longest carousel on one row: the 260px header, then 274px a slide.
+const width = Math.max(1890, ...plan.filter((item) => item.kind === 'post').map((item) => 290 + entry(item).images.length * 274));
 const first = when(plan[0].at).split(',').slice(0, 2).join(',');
 const last = when(plan.at(-1).at).split(',').slice(0, 2).join(',');
 
@@ -42,7 +44,7 @@ const browser = await chromium.launch({ channel: process.env.SUL_PLAYWRIGHT_CHAN
 try {
   const page = await browser.newPage({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1 });
   await page.setContent(`<style>
-body{margin:0;padding:36px;background:#05070d;color:#f2f4f9;font:400 20px/1.35 -apple-system,Helvetica,sans-serif;width:1890px}
+body{margin:0;padding:36px;background:#05070d;color:#f2f4f9;font:400 20px/1.35 -apple-system,Helvetica,sans-serif;width:${width}px}
 h1{margin:0 0 6px;font-size:34px}h1+p{margin:0 0 26px;color:#9aa3b6}
 section{display:flex;gap:10px;margin-bottom:16px}
 header{width:260px;padding:4px 18px 0 0}
@@ -56,7 +58,7 @@ section .kind{color:#c9f24f}
 h2{margin:10px 0 8px;font-size:24px;line-height:1.15}
 header p{margin:0;color:#c8cfdd}
 img{display:block;border-radius:6px}
-</style><h1>SUL Instagram · ${escape(first)} to ${escape(last)}</h1><p>${plan.filter((i) => i.kind === 'story').length} stories, ${plan.filter((i) => i.kind === 'post').length} feed posts · Eastern time · nothing is queued until you say yes</p>${storyCards.length ? `${heading('Stories')}<div class="grid">${storyCards.join('')}</div>` : ''}${postRows.length ? `${heading('Feed posts')}${postRows.join('')}` : ''}`);
+</style><h1>SUL Instagram · ${escape(first)} to ${escape(last)}</h1><p>${[[storyCards.length, 'story', 'stories'], [postRows.length, 'feed post', 'feed posts']].filter(([n]) => n).map(([n, one, many]) => `${n} ${n === 1 ? one : many}`).join(', ')} · Eastern time · nothing is queued until you say yes</p>${storyCards.length ? `${heading('Stories')}<div class="grid">${storyCards.join('')}</div>` : ''}${postRows.length ? `${heading('Feed posts')}${postRows.join('')}` : ''}`);
   await page.locator('body').screenshot({ path: out, type: 'jpeg', quality: 86 });
 } finally {
   await browser.close();
