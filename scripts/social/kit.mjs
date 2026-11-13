@@ -19,7 +19,7 @@ export const numberWord = (n) => ['Zero', 'One', 'Two', 'Three', 'Four', 'Five',
 export const escape = (value) => String(value).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 export const inStock = (p) => p.sizes.length > 0;
 // "S–XL" only when every size in between is still there; otherwise the sizes are listed.
-const ORDER = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
+export const ORDER = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
 export const sizeRange = (p) => {
   const at = p.sizes.map((size) => ORDER.indexOf(size));
   const unbroken = p.sizes.length > 2 && !at.includes(-1) && at.at(-1) - at[0] === at.length - 1;
